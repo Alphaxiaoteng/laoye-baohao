@@ -1,7 +1,21 @@
 import type { ContentBundle } from '../src/types/content'
 
-export const DEFAULT_MODEL = 'Qwen/Qwen3-235B-A22B-Instruct-2507'
-export const UPSTREAM_URL = 'https://api-inference.modelscope.cn/v1/chat/completions'
+/** OpenAI 兼容上游：默认 OpenAI Next 的 DeepSeek V4.1 Flash，均可用环境变量覆盖 */
+export const DEFAULT_MODEL = 'deepseek-v4-1-flash-261017'
+export const DEFAULT_BASE_URL = 'https://api.openai-next.com/v1'
+
+export function llmApiKey(): string | undefined {
+  return (process.env.LLM_API_KEY || process.env.MODELSCOPE_API_KEY)?.trim() || undefined
+}
+
+export function llmModel(): string {
+  return process.env.LLM_MODEL || process.env.MODEL_ID || DEFAULT_MODEL
+}
+
+export function llmChatUrl(): string {
+  const base = (process.env.LLM_BASE_URL || DEFAULT_BASE_URL).replace(/\/+$/, '')
+  return `${base}/chat/completions`
+}
 export const MAX_QUESTION_LENGTH = 300
 export const MAX_HISTORY_MESSAGES = 12
 export const MAX_OUTPUT_CHARS = 4000

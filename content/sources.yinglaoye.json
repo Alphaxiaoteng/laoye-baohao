@@ -1,0 +1,62 @@
+[
+  {
+    "id": "S3",
+    "title": "潮汕传统“营老爷”的由来？",
+    "org": "普宁市人民政府门户网站（页面标注来源：网络）",
+    "url": "http://www.puning.gov.cn/zjpn/lytd/fsmq/content/post_602090.html",
+    "region": "普宁／潮汕（页面未限定单一村落）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S4",
+    "title": "营老爷的意趣（陈平原）",
+    "org": "人民日报",
+    "url": "http://paper.people.com.cn/rmrb/pc/content/202502/08/content_30055461.html",
+    "region": "潮州",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S5",
+    "title": "潮州“营老爷”游神活动：千年历史，祈求来年风调雨顺",
+    "org": "羊城派（羊城晚报）",
+    "url": "https://ycpai.ycwb.com/ycppad/content/2019-02/12/content_330971.html",
+    "region": "广东省潮州市潮安区江东镇元巷村",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S6",
+    "title": "您好，潮汕的神仙们（曾戈）",
+    "org": "界面新闻·正午",
+    "url": "https://www.jiemian.com/article/1309678.html",
+    "region": "汕头、潮州、揭阳部分乡镇（2017 年春节期间走访）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S7",
+    "title": "營老爺（维基百科条目）",
+    "org": "维基百科",
+    "url": "https://zh.wikipedia.org/zh-hans/%E7%87%9F%E8%80%81%E7%88%BA",
+    "region": "潮汕地区（综述条目）",
+    "accessDate": "2026-11-05",
+    "verify": "index-only",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S8",
+    "title": "游神赛会（百度百科条目）",
+    "org": "百度百科",
+    "url": "https://baike.baidu.com/item/%E6%B8%B8%E7%A5%9E%E8%B5%9B%E4%BC%9A/6055517",
+    "region": "未获取（页面返回百度安全验证，HTTP 403）",
+    "accessDate": "2026-11-05",
+    "verify": "fetch-failed",
+    "module": "yinglaoye"
+  }
+]

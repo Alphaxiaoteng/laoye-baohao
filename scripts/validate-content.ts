@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { collectionFiles } from '../server/content'
 import type {
   AudioItem,
   ContentBundle,
@@ -235,14 +236,20 @@ export async function loadAndValidate(dir = resolve(process.cwd(), 'content')): 
   const missing: string[] = []
 
   for (const { key, file } of FILES) {
-    try {
-      const list = await readCollection(dir, file, key)
-      ;(bundle as unknown as Record<string, unknown[]>)[key] = list
-    } catch (err) {
-      missing.push(
-        `${file}: ${err instanceof Error ? err.message : String(err)}`,
-      )
+    const files = collectionFiles(dir, key)
+    if (files.length === 0) {
+      missing.push(`${file}: 找不到 ${key}.json 或 ${key}.<module>.json`)
+      continue
     }
+    const list: unknown[] = []
+    for (const f of files) {
+      try {
+        list.push(...(await readCollection(dir, f, key)))
+      } catch (err) {
+        missing.push(`${f}: ${err instanceof Error ? err.message : String(err)}`)
+      }
+    }
+    ;(bundle as unknown as Record<string, unknown[]>)[key] = list
   }
 
   return { result: validateContent(bundle), missing }

@@ -16,6 +16,7 @@ import ListenPage from './routes/Listen'
 import JournalPage from './routes/Journal'
 import SourcesPage from './routes/Sources'
 import AboutPage from './routes/About'
+import { featureRoutes } from './features/registry'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -61,6 +62,11 @@ export default function App() {
 
       <main id="main" className="mx-auto w-full max-w-content flex-1 px-4 pb-36 pt-6 sm:pb-28">
         <Routes>
+          {/* 模块专属页面（src/features/<module>/index.tsx 登记），优先于通用页 */}
+          {featureRoutes.map((r) => (
+            <Route key={r.path} path={r.path} element={r.element} />
+          ))}
+
           {/* 全站骨架：首页 / 故事线 */}
           <Route path="/" element={<Home />} />
           <Route path="/story" element={<StoryIndex />} />

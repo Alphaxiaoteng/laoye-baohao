@@ -21,9 +21,14 @@ const rawFiles = import.meta.glob('../../content/*.json', {
   import: 'default',
 }) as Record<string, unknown>
 
+/** 合并 content/<name>.json 与按模块拆分的 content/<name>.<module>.json */
 function pickFile(name: string): unknown {
-  const hit = Object.keys(rawFiles).find((p) => p.endsWith(`/content/${name}.json`))
-  return hit ? rawFiles[hit] : undefined
+  const pattern = new RegExp(`/content/${name}(\\.[\\w-]+)?\\.json$`)
+  const hits = Object.keys(rawFiles)
+    .filter((p) => pattern.test(p))
+    .sort()
+  if (hits.length === 0) return undefined
+  return hits.flatMap((p) => asArray<unknown>(rawFiles[p], name))
 }
 
 function asArray<T>(value: unknown, key: string): T[] {

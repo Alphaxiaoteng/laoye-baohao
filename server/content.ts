@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { ContentBundle } from '../src/types/content'
 
@@ -33,11 +33,25 @@ function readArray<T>(dir: string, file: string, key: string): T[] {
   }
 }
 
+/** content/<key>.json 与 content/<key>.<module>.json 都属于同一集合 */
+export function collectionFiles(dir: string, key: string): string[] {
+  const pattern = new RegExp(`^${key}(\\.[\\w-]+)?\\.json$`)
+  try {
+    return readdirSync(dir)
+      .filter((f) => pattern.test(f))
+      .sort()
+  } catch {
+    return []
+  }
+}
+
 /** 服务端只读取 content/ 用于拼提示词，不写回任何内容 */
 export function loadContent(dir: string = contentDir()): ContentBundle {
   const bundle = { entries: [], story: [], recipes: [], audio: [], sources: [], media: [] } as ContentBundle
-  for (const { key, file } of FILES) {
-    ;(bundle as unknown as Record<string, unknown[]>)[key] = readArray<unknown>(dir, file, key)
+  for (const { key } of FILES) {
+    ;(bundle as unknown as Record<string, unknown[]>)[key] = collectionFiles(dir, key).flatMap(
+      (file) => readArray<unknown>(dir, file, key),
+    )
   }
   return bundle
 }

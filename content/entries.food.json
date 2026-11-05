@@ -1,0 +1,32 @@
+[
+  {
+    "id": "food-pending-1",
+    "module": "food",
+    "title": "待定菜品 1",
+    "summary": "待补充可靠来源",
+    "body": "",
+    "region": "待定",
+    "sourceIds": [],
+    "verify": "pending-source"
+  },
+  {
+    "id": "food-pending-2",
+    "module": "food",
+    "title": "待定菜品 2",
+    "summary": "待补充可靠来源",
+    "body": "",
+    "region": "待定",
+    "sourceIds": [],
+    "verify": "pending-source"
+  },
+  {
+    "id": "food-pending-3",
+    "module": "food",
+    "title": "待定菜品 3",
+    "summary": "待补充可靠来源",
+    "body": "",
+    "region": "待定",
+    "sourceIds": [],
+    "verify": "pending-source"
+  }
+]

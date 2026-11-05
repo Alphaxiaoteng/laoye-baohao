@@ -19,10 +19,14 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",
+    "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
+    "gsap": "^3.15.1",
     "hono": "^4.6.6",
+    "minisearch": "^7.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
+    "three": "^0.187.0",
     "tsx": "^4.19.2",
     "zustand": "^4.5.5"
   },
@@ -30,6 +34,7 @@
     "@types/node": "^20.17.6",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",

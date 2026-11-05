@@ -1,0 +1,52 @@
+[
+  {
+    "id": "S9",
+    "title": "潮州话在线翻译发音器（首页）",
+    "org": "chaofayin.com",
+    "url": "https://www.chaofayin.com/",
+    "region": "页面标注潮州音、汕头音、揭阳音",
+    "accessDate": "2026-11-05",
+    "verify": "reference-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S10",
+    "title": "潮州音字典（音节索引页）",
+    "org": "czyzd.com",
+    "url": "http://www.czyzd.com/",
+    "region": "未标注",
+    "accessDate": "2026-11-05",
+    "verify": "index-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S11",
+    "title": "潮州母语 Mogher（首页）",
+    "org": "Mogher.com",
+    "url": "https://www.mogher.com/",
+    "region": "站点自述覆盖潮州、汕头、揭阳等方言点",
+    "accessDate": "2026-11-05",
+    "verify": "reference-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S12",
+    "title": "潮语拼音教程·潮汕话和汉字",
+    "org": "gatian（GitHub Pages 站点）",
+    "url": "https://kahaani.github.io/gatian/chapter1/section03.html",
+    "region": "潮州音、汕头音、澄海音、饶平音、揭阳音、潮阳音（拼音方案分列）",
+    "accessDate": "2026-11-05",
+    "verify": "reference-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S13",
+    "title": "潮汕字典（pujdict）",
+    "org": "pujdict.sourceforge.io",
+    "url": "https://pujdict.sourceforge.io/",
+    "region": "未获取（页面停留在 “Just a moment...” 验证页）",
+    "accessDate": "2026-11-05",
+    "verify": "fetch-failed",
+    "module": "tingchao"
+  }
+]

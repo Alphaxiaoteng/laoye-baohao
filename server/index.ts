@@ -10,11 +10,12 @@ import {
   buildMessages,
   createLimiter,
   createRateLimiter,
-  DEFAULT_MODEL,
   MAX_OUTPUT_CHARS,
   pendingTail,
   sanitizeAnswer,
-  UPSTREAM_URL,
+  llmApiKey,
+  llmChatUrl,
+  llmModel,
   validateAskRequest,
 } from './ask'
 import { loadContent } from './content'
@@ -76,8 +77,8 @@ app.get('/api/health', (c) =>
     service: 'laoye-baohao',
     time: new Date().toISOString(),
     ai: {
-      keyConfigured: Boolean(process.env.MODELSCOPE_API_KEY),
-      model: process.env.MODEL_ID || DEFAULT_MODEL,
+      keyConfigured: Boolean(llmApiKey()),
+      model: llmModel(),
     },
     content: {
       entries: content.entries.length,
@@ -117,7 +118,7 @@ app.post('/api/ask', async (c) => {
   }
   const request = parsed.value
 
-  const apiKey = process.env.MODELSCOPE_API_KEY?.trim()
+  const apiKey = llmApiKey()
   if (!apiKey) {
     // 无密钥也走 SSE，前端按同一套降级逻辑处理
     return streamSSE(c, async (stream) => {
@@ -150,14 +151,14 @@ app.post('/api/ask', async (c) => {
     let truncated = false
 
     try {
-      const upstream = await fetch(UPSTREAM_URL, {
+      const upstream = await fetch(llmChatUrl(), {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
           authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: process.env.MODEL_ID || DEFAULT_MODEL,
+          model: llmModel(),
           stream: true,
           temperature: 0.3,
           max_tokens: 900,
@@ -273,6 +274,6 @@ app.get('*', async (c) => {
 
 serve({ fetch: app.fetch, port: PORT, hostname: HOST }, (info) => {
   console.log(
-    `[laoye-baohao] listening on http://${HOST}:${info.port} | key=${process.env.MODELSCOPE_API_KEY ? 'configured' : 'missing'} | entries=${content.entries.length} sources=${content.sources.length}`,
+    `[laoye-baohao] listening on http://${HOST}:${info.port} | key=${llmApiKey() ? 'configured' : 'missing'} | entries=${content.entries.length} sources=${content.sources.length}`,
   )
 })
