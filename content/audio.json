@@ -1,0 +1,98 @@
+[
+  {
+    "id": "audio-greeting-1",
+    "category": "greeting",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  },
+  {
+    "id": "audio-greeting-2",
+    "category": "greeting",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  },
+  {
+    "id": "audio-tea-food-1",
+    "category": "tea-food",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  },
+  {
+    "id": "audio-tea-food-2",
+    "category": "tea-food",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  },
+  {
+    "id": "audio-courtesy-1",
+    "category": "courtesy",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  },
+  {
+    "id": "audio-courtesy-2",
+    "category": "courtesy",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  },
+  {
+    "id": "audio-culture-1",
+    "category": "culture",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  },
+  {
+    "id": "audio-culture-2",
+    "category": "culture",
+    "text": "",
+    "meaning": "",
+    "accent": "待定",
+    "pinyin": "",
+    "file": "",
+    "recorder": "",
+    "license": "",
+    "sourceIds": []
+  }
+]

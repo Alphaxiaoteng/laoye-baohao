@@ -1,0 +1,152 @@
+[
+  {
+    "id": "S1",
+    "title": "英歌舞数字博物馆（首页）",
+    "org": "wenjian.asia（站点首页未标注主办机构）",
+    "url": "http://www.wenjian.asia/",
+    "region": "未标注地区、队伍与年份",
+    "accessDate": "2026-11-05",
+    "verify": "reference-only",
+    "module": "yingge"
+  },
+  {
+    "id": "S2",
+    "title": "茶艺（潮州工夫茶艺）",
+    "org": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆",
+    "url": "https://www.ihchina.cn/project_details/15247/",
+    "region": "广东省潮州市（申报地区或单位）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "tea"
+  },
+  {
+    "id": "S3",
+    "title": "潮汕传统“营老爷”的由来？",
+    "org": "普宁市人民政府门户网站（页面标注来源：网络）",
+    "url": "http://www.puning.gov.cn/zjpn/lytd/fsmq/content/post_602090.html",
+    "region": "普宁／潮汕（页面未限定单一村落）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S4",
+    "title": "营老爷的意趣（陈平原）",
+    "org": "人民日报",
+    "url": "http://paper.people.com.cn/rmrb/pc/content/202502/08/content_30055461.html",
+    "region": "潮州",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S5",
+    "title": "潮州“营老爷”游神活动：千年历史，祈求来年风调雨顺",
+    "org": "羊城派（羊城晚报）",
+    "url": "https://ycpai.ycwb.com/ycppad/content/2019-02/12/content_330971.html",
+    "region": "广东省潮州市潮安区江东镇元巷村",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S6",
+    "title": "您好，潮汕的神仙们（曾戈）",
+    "org": "界面新闻·正午",
+    "url": "https://www.jiemian.com/article/1309678.html",
+    "region": "汕头、潮州、揭阳部分乡镇（2017 年春节期间走访）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S7",
+    "title": "營老爺（维基百科条目）",
+    "org": "维基百科",
+    "url": "https://zh.wikipedia.org/zh-hans/%E7%87%9F%E8%80%81%E7%88%BA",
+    "region": "潮汕地区（综述条目）",
+    "accessDate": "2026-11-05",
+    "verify": "index-only",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S8",
+    "title": "游神赛会（百度百科条目）",
+    "org": "百度百科",
+    "url": "https://baike.baidu.com/item/%E6%B8%B8%E7%A5%9E%E8%B5%9B%E4%BC%9A/6055517",
+    "region": "未获取（页面返回百度安全验证，HTTP 403）",
+    "accessDate": "2026-11-05",
+    "verify": "fetch-failed",
+    "module": "yinglaoye"
+  },
+  {
+    "id": "S9",
+    "title": "潮州话在线翻译发音器（首页）",
+    "org": "chaofayin.com",
+    "url": "https://www.chaofayin.com/",
+    "region": "页面标注潮州音、汕头音、揭阳音",
+    "accessDate": "2026-11-05",
+    "verify": "reference-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S10",
+    "title": "潮州音字典（音节索引页）",
+    "org": "czyzd.com",
+    "url": "http://www.czyzd.com/",
+    "region": "未标注",
+    "accessDate": "2026-11-05",
+    "verify": "index-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S11",
+    "title": "潮州母语 Mogher（首页）",
+    "org": "Mogher.com",
+    "url": "https://www.mogher.com/",
+    "region": "站点自述覆盖潮州、汕头、揭阳等方言点",
+    "accessDate": "2026-11-05",
+    "verify": "reference-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S12",
+    "title": "潮语拼音教程·潮汕话和汉字",
+    "org": "gatian（GitHub Pages 站点）",
+    "url": "https://kahaani.github.io/gatian/chapter1/section03.html",
+    "region": "潮州音、汕头音、澄海音、饶平音、揭阳音、潮阳音（拼音方案分列）",
+    "accessDate": "2026-11-05",
+    "verify": "reference-only",
+    "module": "tingchao"
+  },
+  {
+    "id": "S13",
+    "title": "潮汕字典（pujdict）",
+    "org": "pujdict.sourceforge.io",
+    "url": "https://pujdict.sourceforge.io/",
+    "region": "未获取（页面停留在 “Just a moment...” 验证页）",
+    "accessDate": "2026-11-05",
+    "verify": "fetch-failed",
+    "module": "tingchao"
+  },
+  {
+    "id": "S14",
+    "title": "浅谈潮州工艺与潮剧艺术的互融互动（郑振强）",
+    "org": "潮州日报",
+    "url": "https://www.chaozhoudaily.com/content/202504/06/c26027599.html",
+    "region": "潮州",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "opera"
+  },
+  {
+    "id": "S15",
+    "title": "潮州：看千年潮府古城的非遗特色",
+    "org": "广东省人民政府侨务办公室（来源：南方网）",
+    "url": "http://www.qb.gd.gov.cn/jrqx/content/post_301647.html",
+    "region": "潮州",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "opera"
+  }
+]

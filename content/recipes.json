@@ -1,0 +1,18 @@
+[
+  {
+    "id": "recipe-placeholder-1",
+    "name": "待定食谱（待补充可靠来源）",
+    "region": "待定",
+    "servings": "",
+    "ingredients": [],
+    "tools": [],
+    "steps": [
+      { "n": 1, "text": "待补充可靠来源" },
+      { "n": 2, "text": "待补充可靠来源", "timerSec": 60 },
+      { "n": 3, "text": "待补充可靠来源" }
+    ],
+    "safety": [],
+    "sourceIds": [],
+    "verify": "pending-source"
+  }
+]

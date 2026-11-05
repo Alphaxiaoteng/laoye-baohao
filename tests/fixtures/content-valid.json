@@ -1,0 +1,89 @@
+{
+  "sources": [
+    {
+      "id": "S1",
+      "title": "示例来源标题",
+      "org": "示例机构",
+      "url": "https://example.org/a",
+      "region": "示例地区",
+      "accessDate": "2026-11-05",
+      "verify": "fetched",
+      "module": "tea"
+    },
+    {
+      "id": "S2",
+      "title": "示例辅助索引",
+      "org": "示例索引站",
+      "url": "https://example.org/b",
+      "region": "示例地区",
+      "accessDate": "2026-11-05",
+      "verify": "index-only",
+      "module": "yingge"
+    }
+  ],
+  "entries": [
+    {
+      "id": "e1",
+      "module": "tea",
+      "title": "示例条目",
+      "summary": "示例摘要",
+      "body": "示例正文，来自示例来源。",
+      "region": "示例地区",
+      "sourceIds": ["S1"],
+      "verify": "draft-needs-local-review"
+    },
+    {
+      "id": "e2",
+      "module": "yingge",
+      "title": "待补充条目",
+      "summary": "待补充可靠来源",
+      "body": "",
+      "region": "待定",
+      "sourceIds": [],
+      "verify": "pending-source"
+    }
+  ],
+  "story": [
+    {
+      "id": "c1",
+      "order": 1,
+      "title": "第一章｜示例",
+      "fiction": true,
+      "narrative": "这是一段虚构串联。",
+      "entryIds": ["e1"],
+      "action": "pour"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "r1",
+      "name": "示例食谱",
+      "region": "示例地区",
+      "servings": "1 人份",
+      "ingredients": [{ "name": "水", "amount": "500ml" }],
+      "tools": ["锅"],
+      "steps": [
+        { "n": 1, "text": "烧水", "timerSec": 60 },
+        { "n": 2, "text": "静置" }
+      ],
+      "safety": ["注意烫伤"],
+      "sourceIds": ["S1"],
+      "verify": "draft-needs-local-review"
+    }
+  ],
+  "audio": [
+    {
+      "id": "a1",
+      "category": "greeting",
+      "text": "示例词句",
+      "meaning": "示例释义",
+      "accent": "潮州音",
+      "pinyin": "",
+      "file": "/audio/test-tone.mp3",
+      "recorder": "示例录音者",
+      "license": "示例授权",
+      "sourceIds": ["S1"]
+    }
+  ],
+  "media": []
+}

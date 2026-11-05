@@ -1,0 +1,78 @@
+{
+  "sources": [
+    {
+      "id": "S1",
+      "title": "示例来源",
+      "org": "示例机构",
+      "url": "https://example.org/a",
+      "region": "示例地区",
+      "accessDate": "2026-11-05",
+      "verify": "fetched",
+      "module": "tea"
+    },
+    {
+      "id": "S1",
+      "title": "重复 id 的来源",
+      "url": "ftp://example.org/bad",
+      "verify": "mystery"
+    }
+  ],
+  "entries": [
+    {
+      "id": "dup",
+      "module": "tea",
+      "title": "重复条目 A",
+      "body": "正文",
+      "sourceIds": ["S99"],
+      "verify": "draft-needs-local-review"
+    },
+    {
+      "id": "dup",
+      "module": "unknown-module",
+      "title": "重复条目 B",
+      "body": "",
+      "sourceIds": [],
+      "verify": "verified"
+    },
+    {
+      "id": "broken",
+      "module": "food",
+      "title": "",
+      "sourceIds": []
+    }
+  ],
+  "story": [
+    {
+      "id": "c1",
+      "title": "缺 fiction 的章节",
+      "entryIds": ["missing-entry"],
+      "action": "unknown-action"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "r1",
+      "name": "",
+      "steps": [],
+      "sourceIds": ["S404"],
+      "verify": "verified"
+    }
+  ],
+  "audio": [
+    {
+      "id": "a1",
+      "category": "unknown",
+      "text": "",
+      "file": "/audio/x.mp3",
+      "license": "",
+      "sourceIds": ["S99"]
+    }
+  ],
+  "media": [
+    {
+      "id": "m1",
+      "file": "/media/x.svg",
+      "license": ""
+    }
+  ]
+}
