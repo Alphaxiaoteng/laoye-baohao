@@ -10,3 +10,6 @@ coverage
 .taste-skill/
 /assets/
 public/media/home/hero/panel-*.png
+public/exhibits/yingge/images/section-02/content/content-02.jpg
+public/exhibits/yingge/mugeda/videos/*.mp4
+public/media/yingge/watch/*.mp4
