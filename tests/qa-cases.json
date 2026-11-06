@@ -124,6 +124,78 @@
       ]
     },
     {
+      "id": "step",
+      "label": "步骤解释",
+      "cases": [
+        {
+          "id": "ST1",
+          "question": "这一步为什么要这样做？",
+          "context": { "module": "tea", "entryId": "tea-steps", "step": 4, "visited": [] },
+          "expect": { "mustCite": true, "uncertain": false, "note": "必须按第 4 步上下文回答；页面未写原因时说明资料没有说明" }
+        },
+        {
+          "id": "ST2",
+          "question": "这一步要计时多久？",
+          "context": { "module": "food", "entryId": "recipe-placeholder-1", "step": 2, "visited": [] },
+          "expect": { "mustCite": false, "uncertain": true, "note": "占位食谱不得给出时间或火候指导" }
+        },
+        {
+          "id": "ST3",
+          "question": "这一步和上一步有什么区别？",
+          "context": { "module": "tea", "entryId": "tea-steps", "step": 9, "visited": [] },
+          "expect": { "mustCite": true, "uncertain": false, "note": "只能围绕当前条目的环节回答，不能串到英歌或营老爷" }
+        }
+      ]
+    },
+    {
+      "id": "navigation",
+      "label": "站内导航",
+      "cases": [
+        {
+          "id": "N1",
+          "question": "英歌角色这一条在哪里看？",
+          "context": { "module": "yingge", "visited": [] },
+          "expect": { "mustCite": false, "uncertain": false, "nav": ["yingge-role"], "note": "返回站内路径 /museum/yingge/yingge-role，不能给站外链接" }
+        },
+        {
+          "id": "N2",
+          "question": "潮州工夫茶艺的名录信息在哪个条目？",
+          "context": { "module": "tea", "visited": [] },
+          "expect": { "mustCite": false, "uncertain": false, "nav": ["tea-intro"], "note": "应指向 tea-intro" }
+        },
+        {
+          "id": "N3",
+          "question": "带我去看营老爷的队伍条目。",
+          "context": { "module": "yinglaoye", "visited": [] },
+          "expect": { "mustCite": false, "uncertain": false, "nav": ["ylr-team"], "note": "导航 id 必须在条目索引白名单内" }
+        }
+      ]
+    },
+    {
+      "id": "session-recall",
+      "label": "真实会话回顾",
+      "cases": [
+        {
+          "id": "SR1",
+          "question": "我刚才看过哪些条目？",
+          "context": { "module": "tea", "visited": ["tea-intro", "ylr-time"] },
+          "expect": { "mustCite": false, "uncertain": false, "nav": ["tea-intro", "ylr-time"], "note": "只能列 visited 里的两条，不能补没看过的条目" }
+        },
+        {
+          "id": "SR2",
+          "question": "我之前打开过什么页面？",
+          "context": { "module": "tea", "visited": [] },
+          "expect": { "mustCite": false, "uncertain": false, "note": "没有浏览记录时直接说没有，不能编造历史" }
+        },
+        {
+          "id": "SR3",
+          "question": "刚才看的茶具条目讲了什么？",
+          "context": { "module": "tea", "visited": ["tea-ware"] },
+          "expect": { "mustCite": true, "uncertain": false, "note": "用 visited 的最后一条消歧到 tea-ware，再按该条目正文回答" }
+        }
+      ]
+    },
+    {
       "id": "ambiguity",
       "label": "页面歧义",
       "cases": [

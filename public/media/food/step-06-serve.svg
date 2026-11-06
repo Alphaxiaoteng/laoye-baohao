@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="步骤六：装碗后两分钟内食用">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <g opacity=".5" fill="#38483a"><circle cx="206" cy="156" r="112"/></g>
+  <!-- table line -->
+  <path d="M40 258h400" stroke="#93a58f" stroke-width="4"/>
+  <!-- bowl -->
+  <path d="M84 156h232c0 56-52 92-116 92S84 212 84 156z" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="200" cy="156" rx="116" ry="26" fill="#2d3d31" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="200" cy="156" rx="94" ry="18" fill="#38483a" stroke="#93a58f" stroke-width="3"/>
+  <g fill="#38483a" stroke="#f04a3a" stroke-width="3">
+    <path d="M152 152c16-12 40-12 52 0-14 12-36 12-52 0z"/>
+    <path d="M200 148c16-12 40-12 52 0-14 12-36 12-52 0z"/>
+  </g>
+  <g fill="#e8e3d4" opacity=".75">
+    <circle cx="176" cy="144" r="3"/>
+    <circle cx="214" cy="142" r="2.5"/>
+    <circle cx="238" cy="146" r="2.5"/>
+  </g>
+  <!-- steam -->
+  <g stroke="#f04a3a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".45">
+    <path d="M160 122c-10-12 10-18 0-28"/>
+    <path d="M200 114c-10-12 10-18 0-28"/>
+    <path d="M240 122c-10-12 10-18 0-28"/>
+  </g>
+  <!-- clock 2 min -->
+  <g>
+    <circle cx="368" cy="120" r="46" fill="#3f503b" stroke="#f04a3a" stroke-width="4"/>
+    <path d="M368 120V90M368 120l22 12" stroke="#e8e3d4" stroke-width="5" stroke-linecap="round"/>
+    <g stroke="#93a58f" stroke-width="3">
+      <path d="M368 82v6M406 120h-6M368 158v-6M330 120h6"/>
+    </g>
+    <text x="342" y="192" font-family="system-ui, sans-serif" font-size="16" fill="#e8e3d4">2 分钟内</text>
+  </g>
+  <text x="86" y="286" font-family="system-ui, sans-serif" font-size="14" fill="#e8e3d4" opacity=".8">计时只是提醒：粿条泡久了会软烂</text>
+</svg>

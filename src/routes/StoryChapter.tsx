@@ -94,7 +94,7 @@ export default function StoryChapterPage() {
             第 {index + 1} / {storyChapters.length} 站
           </span>
           {current.fiction ? <span className="chip">原创虚构串联</span> : null}
-          {experienced ? <span className="chip border-ink/25 bg-ink/10 text-ink">已体验</span> : null}
+          {experienced ? <span className="chip border-coral/50 bg-coral/15 text-[#ffb0a6]">已体验</span> : null}
         </div>
         <h1 className="font-serif text-3xl leading-snug text-ink">{current.title}</h1>
         <p className="rounded-xl border border-line bg-white/60 px-3 py-2 text-xs leading-5 text-muted">

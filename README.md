@@ -38,9 +38,12 @@ PORT=7860 npm start
 
 | 变量 | 说明 |
 |---|---|
-| `MODELSCOPE_API_KEY` | 只在服务端读取；缺失时 `/api/ask` 返回 SSE `error`（code `no_key`），其余页面不受影响 |
-| `MODEL_ID` | 可选，默认 `Qwen/Qwen3-235B-A22B-Instruct-2507` |
+| `LLM_BASE_URL` | OpenAI 兼容上游，默认 `https://api.openai-next.com/v1`；也可直接写完整 `/chat/completions` 地址 |
+| `LLM_MODEL` | 默认 `deepseek-v4-1-flash-261017`；兼容旧的 `MODEL_ID` |
+| `LLM_API_KEY` | 只在服务端读取；缺失时 `/api/ask` 返回 SSE `error`（code `no_key`），其余页面不受影响；兼容旧的 `MODELSCOPE_API_KEY` |
 | `PORT` | 可选，默认 `7860`，监听 `0.0.0.0` |
+
+本地开发可在项目根目录建 `.env`（不要提交）；服务端启动时会自动读取，且不覆盖已注入的环境变量。仓库只保留 `.env.example`。
 
 ## 脚本
 
@@ -55,23 +58,26 @@ PORT=7860 npm start
 ## 目录
 
 ```
-content/                 六份内容 JSON（entries / story / recipes / audio / sources / media）
+content/                 内容 JSON；entries/recipes/audio/sources 可按模块拆成 <类型>.<模块>.json
 server/index.ts          静态托管、/api/health、/api/ask、SPA fallback
 server/ask.ts            提示词拼装、引用与导航校验、并发队列、IP 限流
+server/ask-index.ts      minisearch 内存索引、上下文加权与消歧（不引入向量库）
+server/ask-env.ts        本地 .env 读取（仅服务端，不打印值）
 server/content.ts        服务端只读取 content/ 用于问答
 scripts/validate-content.ts  内容门禁（纯函数 + CLI）
 src/types/content.ts     内容模型（前后端共用）
 src/lib/                 内容读取与兜底、本地存储、问答客户端、手记生成
 src/store/               progress / journal / askContext / audio
 src/components/          AskDrawer、AudioCard、AudioPlayerProvider、StepPager、SourceBadge、VerifyBadge、Nav、自绘 SVG
-src/routes/              首页、故事、文化馆、模块、条目、食谱、听潮、手记、来源、关于
+src/routes/              首页、故事、文化馆、通用条目、手记、来源、关于
+src/features/            各模块专属页面与路由；registry.ts 统一登记，优先于通用页
 tests/                   vitest + qa-cases.json 问答评测集
 public/audio/test-tone.mp3  程序生成的 1 秒 440Hz 纯音（播放器自检，非方言）
 ```
 
 ## 路由表
 
-路由全部集中在 `src/App.tsx`（文件内按「骨架 / 文化馆 / 独立功能 / 模块扩展位」分组）。
+通用路由集中在 `src/App.tsx`；模块专属路由在各 `src/features/<module>/index.tsx`，由 `src/features/registry.ts` 汇总并优先匹配。
 
 | 路径 | 页面文件 |
 |---|---|
@@ -88,24 +94,23 @@ public/audio/test-tone.mp3  程序生成的 1 秒 440Hz 纯音（播放器自检
 | `/about` | `src/routes/About.tsx` |
 | `*` | `src/App.tsx` 内联 404 |
 
-模块页面的入口文件（后续模块 agent 从这里接手）：
+模块专属页面：
 
-| 模块 | 模块首页 | 条目页 | 专属组件 |
-|---|---|---|---|
-| 英歌 `yingge` | `src/routes/ModulePage.tsx` | `src/routes/EntryPage.tsx` | `src/components/interactions/YinggeInteractive.tsx`、`src/components/figures/FormationDiagram.tsx` |
-| 工夫茶 `tea` | 同上 | 同上 | `src/components/interactions/TeaPour.tsx`、`src/components/figures/TeaSetDiagram.tsx` |
-| 美食 `food` | 同上 | 同上 | `src/routes/RecipePage.tsx`、`src/components/StepPager.tsx` |
-| 营老爷 `yinglaoye` | 同上 | 同上 | `src/components/figures/ProcessionDiagram.tsx` |
-| 听潮 `tingchao` | `src/routes/Listen.tsx` | — | `src/components/AudioCard.tsx`、`src/components/AudioPlayerProvider.tsx`、`src/store/audio.ts` |
-| 问一问 `ask` | 全站浮层 | — | `src/components/AskDrawer.tsx`、`src/lib/askClient.ts`、`server/ask.ts` |
+| 模块 | 路由与入口 |
+|---|---|
+| 英歌 `yingge` | `src/features/yingge/`：阵形、角色器物、影像、锣鼓等专属页 |
+| 工夫茶 `tea` | `/museum/tea`、`/museum/tea/brew`、`/museum/tea/gesture`；入口 `src/features/tea/` |
+| 美食 `food` | `/museum/food`、`/museum/food/menu`、`/recipe/:id`；入口 `src/features/food/` |
+| 营老爷 `yinglaoye` | `/museum/yinglaoye`、`/procession`、`/cases`；入口 `src/features/yinglaoye/` |
+| 听潮 | `/listen`、`/listen/:category`；入口 `src/features/listen/` |
+| 问一问 `ask` | 全站浮层：`src/components/AskDrawer.tsx`、`server/ask-index.ts` |
 
 ### 模块扩展约定（可插拔）
 
-1. 新页面放 `src/features/<module>/`（目录尚未创建，新 agent 自行新建），例如 `src/features/yingge/RolesPage.tsx`。
-2. 在 `src/App.tsx` 的 `===== 模块扩展位 =====` 注释块里加**一行** `<Route path="/museum/yingge/roles" element={<RolesPage />} />`，不要改其他路由。
-3. 页面内复用现成原语：`usePageContext`（上报问一问上下文）、`VerifyBadge` / `SourceBadges` / `SourceList`（核验与来源）、`StepPager`（分步）、`AudioCard`（播放）、`useProgressStore` / `useJournalStore`（真实进度与手记）。
-4. 文化内容仍只从 `content/*.json` 读取，组件里不写死文化事实；自绘 SVG 必须标注「示意图，非某地标准」。
-5. `npm run validate` 是内容门禁，改内容后必须跑；`npm run typecheck && npm test && npm run build` 是代码门禁。
+1. 新页面放在对应 `src/features/<module>/`，在该目录 `index.tsx` 导出路由数组；不要改其他模块。
+2. 页面内复用 `usePageContext`（上报问一问上下文）、`VerifyBadge` / `SourceList`、`useProgressStore` / `useJournalStore`。
+3. 内容写入本模块自己的 `content/<类型>.<模块>.json`，前端、服务端和内容门禁会合并读取；来源 ID 全站唯一。
+4. 改内容后必须跑 `npm run validate`；交付前跑 `npm run typecheck && npm test && npm run build`。
 
 ## 内容模型
 
@@ -140,31 +145,39 @@ public/audio/test-tone.mp3  程序生成的 1 秒 440Hz 纯音（播放器自检
 
 - `history` 最多取最近 12 条消息（6 轮）；`context` 只保留结构字段。
 - 前端只发送 `content-type`，不带 `Authorization` / `X-modelscope-*` / `X-studio-*` 头。
-- 响应为 SSE：`delta`（增量文本）、`done`（最终文本 + `citations` + `navs` + `uncertain`）、`error`（`{code, message}`）。
-- 服务端在流结束后校验：不存在的 `[S#]` 与 `[[nav:id]]` 会被删除；`citations` 只包含真实来源，`navs` 只包含真实条目（路径 `/museum/:module/:entryId`）。
+- 响应为 SSE：`delta`（增量文本）、`done`（最终文本 + `citations` + `navs` + `uncertain`，澄清/浏览回顾还会带 `clarify` / `direct`）、`error`（`{code, message}`）。
+- 检索：服务端用 `minisearch` 对 `content/` 的条目、食谱、听潮词条与故事章节建内存索引（中文按单字 + 相邻二字切分），按当前 module / entryId / step 大幅加权；当前条目优先给全文，跨模块只召回少量相关摘要或节选，不会把整站正文塞进提示词。
+- 消歧：`这个 / 这一步 / 刚才看的` 先按当前页面，再按 `history` 与真实 `visited` 解析；仍不确定时服务端直接返回澄清问题，不调用模型。
+- 会话回顾：只根据 `visited` 列真实打开过的条目，没有记录就直说没有，不编造浏览历史。
+- 服务端在流结束后校验：不存在的 `[S#]` 与 `[[nav:id]]` 会被删除；`citations` 只包含真实来源，`navs` 只包含真实条目 / 食谱（路径 `/museum/:module/:entryId`、`/recipe/:id`）；来源没有 URL 时前端只显示标题，不生成假链接。
 - 保护：全局并发 2、排队上限 10（超出 503）、按 IP 每分钟 6 次（超出 429）、上游 20 秒超时、输出上限 4000 字符。
-- 无 `MODELSCOPE_API_KEY` 时返回 `error` 事件，code `no_key`，前端提示「暂时无法回答，你仍可继续浏览」并提供重试与来源页入口。
+- 无 `LLM_API_KEY` 时返回 `error` 事件，code `no_key`，前端提示「暂时无法回答，你仍可继续浏览」并提供重试与来源页入口。
 
 ## 边界（写进产品，不只是文档）
 
-- 不下载、不热链任何外部图片/视频/音频；页面图示都是自绘 SVG，标注「示意图，非某地标准」，不画人物与神像。
-- 听潮没有授权录音时按钮禁用，不做 TTS、不做跟读评分。
+- 媒体不热链：使用的图片、视频和音频均自托管，并在页面或对应 `ASSETS.md` 登记作者、原链接与许可；示意图标注「示意图，非某地标准」。
+- 听潮使用 Wikimedia Commons 的 CC BY-SA 4.0 录音并完整署名；没有授权的文件不会上线，不做 TTS、不做跟读评分。
 - 故事为原创虚构串联，章节里的事实信息一律由条目页的来源支撑。
 - 不写运势、神谕、保平安承诺，不模拟神明发言，不使用任何 AI 人设名。
 - 密钥只在服务端环境变量；仓库只有 `.env.example`。
 
-## 容器
+## 容器与魔搭创空间
 
 ```bash
 docker build --platform linux/amd64 -t laoye-baohao .
-docker run --rm -p 7860:7860 -e MODELSCOPE_API_KEY=... laoye-baohao
+docker run --rm -p 7860:7860 \
+  -e LLM_BASE_URL=https://api.openai-next.com/v1 \
+  -e LLM_MODEL=deepseek-v4-1-flash-261017 \
+  -e LLM_API_KEY=... laoye-baohao
 ```
+
+魔搭选择 **Docker 创空间**：根目录 `Dockerfile`，服务监听 `0.0.0.0:7860`，基础镜像支持 amd64。`LLM_API_KEY` 配置为创空间「空间密钥」，不要写入 Git；前端请求不得使用 `Authorization`、`X-modelscope-*`、`X-studio-*` 头。创建 Docker 创空间前，账号需按平台要求完成阿里云绑定与实名。部署后用无痕窗口分别验证平台页和独立 `*.ms.show` 地址，并在演示前提前唤醒休眠实例。
 
 ## 已知限制
 
-- 听潮暂无授权方言录音（`audio.json` 的 `file` 为空），页面只展示词句结构与「音频待授权录制」。
-- 食谱内容为占位（`verify: pending-source`），只展示分步界面，不构成制作指导。
-- 英歌角色与阵形细节、美食菜品条目仍在等本地文化审核者补充。
-- 不提供任何实时活动、人流或票务信息。
+- 听潮已有 8 条 Wikimedia Commons CC BY-SA 4.0 录音，但尚未请潮汕母语者逐条复核词义与口音。
+- 牛肉粿条汤食谱依据 T/CZSPTXH 001-2018 整理；展馆步骤只是「了解制作」，不替代火候、熟度与食品安全判断。
+- 多数文化条目仍是 `draft-needs-local-review`，上线前需本地文化审核。
+- TeaDemo 仓库未声明 LICENSE；手势模型与wasm已自托管，发布前需复核上游 MediaPipe 模型许可。复用参考项目的内部溯源见各模块 `ASSETS.md`。
+- 不提供任何实时活动、人流或票务信息；问一问尚未做真实上游评测，未配置 `LLM_API_KEY` 时会明确降级。
 - 潮剧与工艺（P1）只在来源页列出，没有独立体验页。
-- 内容版权与媒体授权须在上线前逐项复核（`content/sources.json` 只是索引，不等于获得转载授权）。

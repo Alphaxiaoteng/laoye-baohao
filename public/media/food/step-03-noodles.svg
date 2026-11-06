@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="步骤三：粿条放进沸水锅烫熟后捞出">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <g opacity=".5" fill="#38483a"><circle cx="238" cy="156" r="116"/></g>
+  <!-- pot -->
+  <path d="M104 128h216v78c0 26-22 42-48 42h-120c-26 0-48-16-48-42z" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="212" cy="128" rx="108" ry="26" fill="#38483a" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="212" cy="128" rx="86" ry="18" fill="#2d3d31" stroke="#93a58f" stroke-width="3"/>
+  <!-- handles -->
+  <path d="M104 152h-18a12 12 0 0 0 0 24h18M320 152h18a12 12 0 0 1 0 24h-18" fill="none" stroke="#e8e3d4" stroke-width="4"/>
+  <!-- noodles in pot -->
+  <g stroke="#93a58f" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M150 132c16 10 34-4 50 4s34-4 50 4"/>
+    <path d="M146 146c16 10 34-4 50 4s34-4 50 4"/>
+    <path d="M152 160c16 10 34-4 50 4s34-4 50 4"/>
+  </g>
+  <!-- steam -->
+  <g stroke="#f04a3a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".45">
+    <path d="M176 108c-10-12 10-18 0-30"/>
+    <path d="M214 102c-10-12 10-18 0-30"/>
+    <path d="M252 108c-10-12 10-18 0-30"/>
+  </g>
+  <!-- strainer -->
+  <g>
+    <ellipse cx="372" cy="158" rx="54" ry="20" fill="none" stroke="#e8e3d4" stroke-width="4"/>
+    <path d="M318 158a54 46 0 0 0 108 0" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+    <path d="M372 176v56" stroke="#e8e3d4" stroke-width="5" stroke-linecap="round"/>
+    <g stroke="#93a58f" stroke-width="3.5" fill="none">
+      <path d="M336 150c14 8 30-4 44 4"/>
+      <path d="M340 162c14 8 30-4 44 4"/>
+    </g>
+  </g>
+  <text x="120" y="278" font-family="system-ui, sans-serif" font-size="15" fill="#e8e3d4" opacity=".8">沸水下锅，烫到粿条软而不烂</text>
+</svg>

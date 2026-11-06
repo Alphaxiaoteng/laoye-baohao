@@ -5,7 +5,6 @@ import Footer from './components/Footer'
 import StorageNotice from './components/StorageNotice'
 import AudioPlayerProvider from './components/AudioPlayerProvider'
 import AskDrawer from './components/AskDrawer'
-import Home from './routes/Home'
 import StoryIndex from './routes/StoryIndex'
 import StoryChapterPage from './routes/StoryChapter'
 import MuseumIndex from './routes/MuseumIndex'
@@ -16,12 +15,16 @@ import ListenPage from './routes/Listen'
 import JournalPage from './routes/Journal'
 import SourcesPage from './routes/Sources'
 import AboutPage from './routes/About'
+import DocsPage from './routes/Docs'
+import HomeHero from './features/home/HomeHero'
+import SkillPage from './features/agentskill/SkillPage'
 import { featureRoutes } from './features/registry'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    // 路由切换直接归零（instant），避免和故事单列的"回到原章节"互相覆盖
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [pathname])
   return null
 }
@@ -35,8 +38,8 @@ function NotFound() {
         可能是链接里的条目还没有登记，或者地址写错了。
       </p>
       <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Link to="/" className="btn-primary">
-          回到首页
+        <Link to="/museum/yingge" className="btn-primary">
+          去英歌舞
         </Link>
         <Link to="/museum" className="btn-secondary">
           去文化馆
@@ -47,6 +50,7 @@ function NotFound() {
 }
 
 export default function App() {
+  const { pathname } = useLocation()
   return (
     <div className="flex min-h-screen flex-col">
       <a
@@ -60,15 +64,23 @@ export default function App() {
       <StorageNotice />
       <Nav />
 
-      <main id="main" className="mx-auto w-full max-w-content flex-1 px-4 pb-36 pt-6 sm:pb-28">
+      <main
+        key={pathname}
+        id="main"
+        className={
+          pathname === '/'
+            ? 'route-fade mx-auto w-full max-w-none flex-1 px-0 pb-24 pt-0'
+            : 'route-fade mx-auto w-full max-w-content flex-1 px-4 pb-36 pt-6 sm:pb-28'
+        }
+      >
         <Routes>
           {/* 模块专属页面（src/features/<module>/index.tsx 登记），优先于通用页 */}
           {featureRoutes.map((r) => (
             <Route key={r.path} path={r.path} element={r.element} />
           ))}
 
-          {/* 全站骨架：首页 / 故事线 */}
-          <Route path="/" element={<Home />} />
+          {/* 首屏：Hero 拼贴大图首页（不再 redirect 到英歌）；英歌仍在 /museum/yingge */}
+          <Route path="/" element={<HomeHero />} />
           <Route path="/story" element={<StoryIndex />} />
           <Route path="/story/:chapter" element={<StoryChapterPage />} />
 
@@ -79,11 +91,13 @@ export default function App() {
           <Route path="/museum/:module/:entry" element={<EntryPage />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
 
-          {/* 独立功能页：听潮 / 手记 / 来源 / 关于 */}
+          {/* 独立功能页：听潮 / 手记 / 来源 / 关于 / 文献汇总 */}
           <Route path="/listen" element={<ListenPage />} />
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/sources" element={<SourcesPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/docs" element={<DocsPage />} />
+          <Route path="/skill" element={<SkillPage />} />
 
           {/* ===== 模块扩展位（每个模块一行，按模块分组） =====
               后续在 src/features/<module>/ 下新增页面后，只在这里加一行即可，例如：

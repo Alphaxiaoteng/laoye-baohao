@@ -1,0 +1,439 @@
+/* 文化馆：顶部模块切换（原地过滤）+ 内容单列。
+   底色、细线、珊瑚红全部沿用 src/index.css 的 8787 底座 token，这里不引入新底色。 */
+
+.museum-page {
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* ---------- 页头 ---------- */
+
+.museum-head {
+  max-width: 40rem;
+}
+
+.museum-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  color: var(--brown);
+  font-family: theme('fontFamily.mono');
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.museum-eyebrow-rule {
+  width: 1.75rem;
+  height: 1px;
+  flex: none;
+  background: var(--brown);
+}
+
+.museum-title {
+  margin: 0.8rem 0 0;
+  font-family: theme('fontFamily.serif');
+  font-size: clamp(2.3rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.museum-lead {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+
+/* ---------- 模块切换：44px 触控高度，换行不横向溢出 ---------- */
+
+.museum-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+}
+
+.museum-tab {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0 0.85rem;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 200ms var(--ease-exhibit),
+    border-color 200ms var(--ease-exhibit),
+    color 200ms var(--ease-exhibit);
+}
+
+.museum-tab:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.museum-tab[aria-pressed='true'] {
+  border-color: var(--coral);
+  background-color: var(--coral);
+  color: #fff;
+  font-weight: 600;
+}
+
+.museum-tab:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
+}
+
+/* ---------- 模块分组 ---------- */
+
+.museum-sections {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.museum-section + .museum-section {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+/* ---------- 宽展项横幅：照片为主体，文字只留标题 + 一句 ---------- */
+
+.mz-banner {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 11;
+  min-height: 168px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+  background-color: var(--deep-2);
+  color: inherit;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.mz-banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.8) contrast(1.04) brightness(1);
+  transition: transform 700ms var(--ease-exhibit);
+}
+
+.mz-banner-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(20, 30, 23, 0.9) 0%, rgba(20, 30, 23, 0.52) 48%, rgba(20, 30, 23, 0.04) 100%),
+    linear-gradient(0deg, rgba(20, 30, 23, 0.72) 0%, rgba(20, 30, 23, 0) 58%);
+}
+
+.mz-banner-copy {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1.1rem;
+  display: flex;
+  max-width: 32rem;
+  flex-direction: column;
+  gap: 0.35rem;
+  z-index: 2;
+}
+
+.mz-banner-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(242, 241, 234, 0.82);
+  font-family: theme('fontFamily.mono');
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mz-banner-no {
+  color: #ff9c90;
+}
+
+.mz-banner-title {
+  margin: 0;
+  font-family: theme('fontFamily.serif');
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.mz-banner-caption {
+  display: -webkit-box;
+  overflow: hidden;
+  color: rgba(211, 219, 207, 0.92);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.mz-banner-go {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.9rem;
+  z-index: 2;
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(24, 34, 27, 0.42);
+  color: var(--text);
+  font-size: 0.95rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    background-color 200ms var(--ease-exhibit),
+    transform 200ms var(--ease-exhibit);
+}
+
+.mz-banner:hover .mz-banner-img,
+.mz-banner:focus-visible .mz-banner-img {
+  transform: scale(1.035);
+}
+
+.mz-banner:hover .mz-banner-go {
+  background: var(--coral);
+  transform: translateX(2px);
+}
+
+.mz-banner:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
+}
+
+/* ---------- 条目单列 ---------- */
+
+.mz-list {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mz-row-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mz-row {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) 1.75rem;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 96px;
+  border-radius: 12px;
+  padding: 0.9rem 0.15rem 0.9rem 0;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 200ms var(--ease-exhibit);
+}
+
+.mz-row:hover {
+  background-color: rgba(255, 255, 255, 0.035);
+}
+
+.mz-row:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+/* 左侧图形：照片 / 自绘插画 / 编号图谱，三者同一套边框与比例 */
+.mz-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background-color: var(--deep-2);
+  transition: border-color 200ms var(--ease-exhibit);
+}
+
+.mz-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.84) brightness(0.97);
+}
+
+.mz-row:hover .mz-media {
+  border-color: rgba(240, 74, 58, 0.5);
+}
+
+.mz-media-art {
+  background-color: #f7f2e8;
+}
+
+.mz-plate {
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 255, 255, 0.035);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 22px);
+}
+
+.mz-plate-no {
+  font-family: theme('fontFamily.serif');
+  font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: rgba(242, 241, 234, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+
+.mz-plate-code {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.5rem;
+  color: rgba(190, 200, 187, 0.5);
+  font-family: theme('fontFamily.mono');
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+}
+
+.mz-plate-dot {
+  position: absolute;
+  bottom: 0.55rem;
+  left: 0.55rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--coral);
+}
+
+.mz-row-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mz-row-meta {
+  color: var(--brown);
+  font-family: theme('fontFamily.mono');
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.mz-row-title {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--text);
+  font-family: theme('fontFamily.serif');
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.mz-row-caption {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.mz-row-go {
+  justify-self: end;
+  color: rgba(242, 241, 234, 0.42);
+  font-size: 1rem;
+  transition:
+    color 200ms var(--ease-exhibit),
+    transform 200ms var(--ease-exhibit);
+}
+
+.mz-row:hover .mz-row-go {
+  color: #ff8f81;
+  transform: translateX(3px);
+}
+
+.mz-row:hover .mz-row-title {
+  color: #ffe3de;
+}
+
+.mz-empty {
+  margin: 1rem 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* ---------- 小字合规图注 ---------- */
+
+.museum-note {
+  margin: clamp(2rem, 4vw, 2.75rem) 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 1rem;
+  color: rgba(190, 200, 187, 0.72);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+
+/* ---------- 桌面：图更大、行更宽 ---------- */
+
+@media (min-width: 820px) {
+  .mz-banner {
+    aspect-ratio: 21 / 8;
+    min-height: 260px;
+  }
+
+  .mz-banner-copy {
+    bottom: 1.6rem;
+    left: 1.85rem;
+  }
+
+  .mz-banner-go {
+    top: 1.1rem;
+    right: 1.2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .mz-row {
+    grid-template-columns: 12rem minmax(0, 1fr) 2.5rem;
+    gap: 1.6rem;
+    min-height: 140px;
+    padding: 1rem 0.5rem 1rem 0;
+  }
+
+  .mz-row-title {
+    font-size: 1.15rem;
+  }
+
+  .mz-row-caption {
+    font-size: 0.875rem;
+  }
+}

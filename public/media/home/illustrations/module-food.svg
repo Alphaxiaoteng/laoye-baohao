@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420" role="img" aria-label="自绘纸质插画：一碗粿条与搁在碗沿的筷子">
+  <rect width="400" height="420" fill="#f7f4ea"/>
+  <rect x="14" y="14" width="372" height="392" fill="none" stroke="#e2dccb"/>
+  <circle cx="200" cy="212" r="126" fill="none" stroke="#ddd6c4" stroke-width="1" stroke-dasharray="2 8"/>
+
+  <!-- 筷子 -->
+  <g stroke="#2c2e2a" stroke-width="7" stroke-linecap="round">
+    <path d="M286 108 L154 214"/>
+    <path d="M300 122 L168 228"/>
+  </g>
+  <g stroke="#c9b07a" stroke-width="2" stroke-linecap="round">
+    <path d="M286 108 L154 214"/>
+    <path d="M300 122 L168 228"/>
+  </g>
+
+  <g stroke="#2c2e2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 碗身 -->
+    <path d="M104 232 Q110 342 200 348 Q290 342 296 232 Z" fill="#f2eee2"/>
+    <path d="M112 300 Q200 326 288 300" fill="none" stroke="#9aa88f" stroke-width="7"/>
+    <!-- 碗口 -->
+    <ellipse cx="200" cy="232" rx="96" ry="20" fill="#fbf9f1"/>
+
+    <!-- 汤面 -->
+    <ellipse cx="200" cy="232" rx="82" ry="14" fill="#e0d4b4"/>
+    <!-- 粿条 -->
+    <g fill="none" stroke="#c9b07a" stroke-width="4">
+      <path d="M140 230 q20 -12 40 0 q20 12 40 0 q20 -12 40 0"/>
+      <path d="M136 240 q22 -10 42 2 q20 12 42 0 q20 -12 40 -2"/>
+      <path d="M146 250 q18 -10 36 0 q20 12 40 0 q18 -10 34 0"/>
+    </g>
+    <!-- 配料 -->
+    <path d="M150 228 q18 -10 34 0 q-16 10 -34 0 Z" fill="#c08b72"/>
+    <path d="M218 226 q20 -10 36 0 q-18 10 -36 0 Z" fill="#b0563f"/>
+    <g fill="#7f8f6d">
+      <circle cx="176" cy="238" r="3"/>
+      <circle cx="198" cy="230" r="2.5"/>
+      <circle cx="234" cy="240" r="3"/>
+      <circle cx="254" cy="230" r="2.5"/>
+    </g>
+  </g>
+
+  <!-- 热气 -->
+  <g fill="none" stroke="#b9b3a1" stroke-width="2.2" stroke-linecap="round">
+    <path d="M170 198 q-10 -14 2 -26 q10 -10 2 -22"/>
+    <path d="M200 190 q-10 -14 2 -26 q10 -10 2 -22"/>
+    <path d="M230 198 q-10 -14 2 -26 q10 -10 2 -22"/>
+  </g>
+
+  <g fill="none" stroke="#bdb6a3" stroke-width="1.6" stroke-linecap="round">
+    <path d="M64 356 q-18 -14 -32 -2"/>
+    <path d="M336 356 q18 -14 32 -2"/>
+  </g>
+  <circle cx="76" cy="96" r="4" fill="#9aa88f"/>
+</svg>

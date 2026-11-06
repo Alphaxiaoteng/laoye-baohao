@@ -2,6 +2,7 @@ import type {
   AudioItem,
   ContentBundle,
   Entry,
+  GuideItem,
   Ingredient,
   MediaItem,
   Recipe,
@@ -190,6 +191,7 @@ export const content: ContentBundle = {
   audio: asArray<AudioItem>(pickFile('audio'), 'audio').map(normalizeAudio),
   sources: asArray<Source>(pickFile('sources'), 'sources').map(normalizeSource),
   media: asArray<MediaItem>(pickFile('media'), 'media'),
+  guides: asArray<GuideItem>(pickFile('guides'), 'guide'),
 }
 
 export const entries = content.entries

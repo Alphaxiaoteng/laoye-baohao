@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="步骤五：在南姜末、芹菜珠、胡椒粉、蒜头油、麻油上淋热汤">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <g opacity=".5" fill="#38483a"><circle cx="222" cy="154" r="114"/></g>
+  <!-- bowl with beef on noodles -->
+  <path d="M96 148h216c0 60-50 96-108 96S96 208 96 148z" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="204" cy="148" rx="108" ry="24" fill="#2d3d31" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="204" cy="148" rx="86" ry="16" fill="#38483a" stroke="#93a58f" stroke-width="3"/>
+  <g fill="#38483a" stroke="#f04a3a" stroke-width="3">
+    <path d="M158 144c16-14 42-14 54 0-14 12-38 12-54 0z"/>
+    <path d="M206 140c16-14 42-14 54 0-14 12-38 12-54 0z"/>
+  </g>
+  <!-- sprinkle -->
+  <g fill="#e8e3d4" opacity=".8">
+    <circle cx="176" cy="136" r="3"/>
+    <circle cx="192" cy="142" r="2.5"/>
+    <circle cx="212" cy="134" r="3"/>
+    <circle cx="230" cy="140" r="2.5"/>
+    <circle cx="246" cy="136" r="2.5"/>
+    <circle cx="204" cy="150" r="2"/>
+  </g>
+  <g fill="#f04a3a" opacity=".8">
+    <circle cx="186" cy="152" r="2"/>
+    <circle cx="222" cy="152" r="2"/>
+    <circle cx="238" cy="148" r="2"/>
+  </g>
+  <!-- small dishes -->
+  <g>
+    <ellipse cx="358" cy="128" rx="42" ry="16" fill="#3f503b" stroke="#e8e3d4" stroke-width="3.5"/>
+    <ellipse cx="358" cy="126" rx="28" ry="9" fill="#38483a"/>
+    <text x="330" y="160" font-family="system-ui, sans-serif" font-size="13" fill="#e8e3d4">南姜末</text>
+  </g>
+  <g>
+    <ellipse cx="384" cy="196" rx="42" ry="16" fill="#3f503b" stroke="#e8e3d4" stroke-width="3.5"/>
+    <g fill="#e8e3d4" opacity=".7">
+      <circle cx="368" cy="196" r="3"/>
+      <circle cx="382" cy="200" r="2.5"/>
+      <circle cx="396" cy="194" r="3"/>
+    </g>
+    <text x="356" y="228" font-family="system-ui, sans-serif" font-size="13" fill="#e8e3d4">芹菜珠</text>
+  </g>
+  <!-- ladle pouring broth -->
+  <g transform="rotate(24 120 96)">
+    <ellipse cx="120" cy="96" rx="26" ry="14" fill="#38483a" stroke="#f04a3a" stroke-width="3.5"/>
+    <path d="M142 90l48-22" stroke="#e8e3d4" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <path d="M132 116c8 14 22 22 40 26" stroke="#93a58f" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

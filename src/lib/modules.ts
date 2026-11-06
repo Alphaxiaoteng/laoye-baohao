@@ -62,6 +62,7 @@ export const MODULES: ModuleConfig[] = [
 export const EXTRA_MODULE_LABELS: Record<string, string> = {
   tingchao: '听潮',
   opera: '潮剧与工艺（扩展）',
+  guide: '潮汕攻略',
 }
 
 export function moduleConfig(slug: string | undefined): ModuleConfig | undefined {

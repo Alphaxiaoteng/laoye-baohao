@@ -15,7 +15,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "validate": "tsx scripts/validate-content.ts"
+    "validate": "tsx scripts/validate-content.ts",
+    "eval:agent": "tsx scripts/eval-agent.ts",
+    "maintain": "tsx scripts/self-maintain.ts",
+    "fetch:guide": "node scripts/fetch-xhs-guide.mjs",
+    "eval:live": "tsx scripts/eval-live.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",

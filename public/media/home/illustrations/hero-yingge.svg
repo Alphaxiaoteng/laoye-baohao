@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 560" role="img" aria-label="自绘纸质插画：戴面具的英歌舞者，双手各持一支木槌">
+  <rect width="480" height="560" fill="#f7f4ea"/>
+  <circle cx="240" cy="268" r="200" fill="#efe9d9"/>
+  <circle cx="240" cy="268" r="200" fill="none" stroke="#ddd5c1" stroke-width="1"/>
+  <path d="M52 470a224 224 0 0 1 376 0" fill="none" stroke="#d9d2c0" stroke-width="1.5" stroke-dasharray="2 9"/>
+  <ellipse cx="240" cy="514" rx="120" ry="12" fill="#e5dfcd"/>
+
+  <g stroke="#2c2e2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 头饰翎羽 -->
+    <path d="M223 160 C200 130 194 102 198 78 C214 96 224 126 231 152 Z" fill="#9aa88f"/>
+    <path d="M257 160 C280 130 286 102 282 78 C266 96 256 126 249 152 Z" fill="#c9b07a"/>
+
+    <!-- 双槌 -->
+    <path d="M112 212 L216 62" stroke-width="12"/>
+    <path d="M112 212 L216 62" stroke-width="5" stroke="#c9b07a"/>
+    <path d="M368 212 L264 62" stroke-width="12"/>
+    <path d="M368 212 L264 62" stroke-width="5" stroke="#c9b07a"/>
+
+    <!-- 双腿 -->
+    <path d="M212 392 L198 470 L188 506 L216 512 L228 466 L240 398 Z" fill="#46503f"/>
+    <path d="M268 392 L282 470 L292 506 L264 512 L252 466 L240 398 Z" fill="#46503f"/>
+    <path d="M184 504 L218 504 L221 516 L180 516 Z" fill="#2c2e2a"/>
+    <path d="M262 504 L296 504 L300 516 L259 516 Z" fill="#2c2e2a"/>
+
+    <!-- 长衫 -->
+    <path d="M186 264 Q240 240 294 264 L308 392 Q240 410 172 392 Z" fill="#c08b72"/>
+    <path d="M240 300 L240 400" stroke="#a8755e" stroke-width="2"/>
+    <path d="M200 268 L240 302 L280 268" fill="none" stroke="#8f5f4a" stroke-width="2"/>
+
+    <!-- 腰带 -->
+    <path d="M176 356 L304 356 L304 374 L176 374 Z" fill="#2c2e2a" stroke="none"/>
+    <path d="M188 365 L292 365" stroke="#c9b07a" stroke-width="4" stroke-dasharray="10 8"/>
+
+    <!-- 双臂 -->
+    <path d="M196 276 C172 262 144 246 120 214 L100 232 C124 272 158 292 186 300 Z" fill="#c08b72"/>
+    <path d="M284 276 C308 262 336 246 360 214 L380 232 C356 272 322 292 294 300 Z" fill="#c08b72"/>
+    <path d="M104 226 L126 210 L136 224 L114 240 Z" fill="#c9b07a"/>
+    <path d="M376 226 L354 210 L344 224 L366 240 Z" fill="#c9b07a"/>
+    <circle cx="112" cy="212" r="11" fill="#d9b28d"/>
+    <circle cx="368" cy="212" r="11" fill="#d9b28d"/>
+
+    <!-- 颈部与面具 -->
+    <path d="M228 224 L228 250 L252 250 L252 224 Z" fill="#d9b28d"/>
+    <circle cx="240" cy="186" r="47" fill="#f6ecda"/>
+
+    <!-- 头巾 -->
+    <path d="M195 180 Q240 148 285 180 L285 162 Q240 132 195 162 Z" fill="#a63a2b"/>
+    <path d="M195 180 Q240 148 285 180" fill="none"/>
+
+    <!-- 面具：眉、眼、颊、口 -->
+    <path d="M210 176 Q222 168 232 175" fill="none" stroke-width="4"/>
+    <path d="M248 175 Q258 168 270 176" fill="none" stroke-width="4"/>
+    <path d="M212 186 Q222 180 232 186" fill="none"/>
+    <path d="M248 186 Q258 180 268 186" fill="none"/>
+    <path d="M204 200 Q216 206 221 198" fill="none" stroke="#a63a2b"/>
+    <path d="M276 200 Q264 206 259 198" fill="none" stroke="#a63a2b"/>
+    <path d="M240 188 L238 202 L243 202" fill="none" stroke-width="2"/>
+    <path d="M228 214 Q240 220 252 214" fill="none"/>
+    <circle cx="206" cy="168" r="2.5" fill="#2c2e2a" stroke="none"/>
+    <circle cx="274" cy="168" r="2.5" fill="#2c2e2a" stroke="none"/>
+
+    <!-- 衣领 -->
+    <path d="M206 236 L240 260 L274 236" fill="none" stroke-width="4"/>
+  </g>
+
+  <!-- 纸面装饰 -->
+  <g fill="none" stroke="#bdb6a3" stroke-width="1.6" stroke-linecap="round">
+    <path d="M56 470 q14 -16 28 0 q-8 -18 10 -20 q18 -2 18 12"/>
+    <path d="M408 452 q-14 -16 -28 0 q8 -18 -10 -20 q-18 -2 -18 12"/>
+  </g>
+  <circle cx="410" cy="96" r="4" fill="#c9b07a"/>
+  <circle cx="66" cy="140" r="3" fill="#9aa88f"/>
+</svg>

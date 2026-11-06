@@ -1,0 +1,215 @@
+/**
+ * 首页 Hero：一整幅横屏画卷，四栏热区。
+ * 静态 = panorama-master 的 CSS 切片；悬停 = 对应 GIF 叠播 + 微展宽 + 邻栏压暗。
+ * 素材：scripts/gen-hero-assets.mjs（gpt-image-2.6 / gpt-image-2.6-gif）。
+ */
+
+.home-hero {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 0;
+}
+
+/* ===== 桌面：四栏拼成完整画卷 ===== */
+.home-scroll {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 0 14px;
+  min-height: 520px;
+}
+
+.hero-panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  isolation: isolate;
+  transition: flex-grow 480ms cubic-bezier(0.22, 0.61, 0.36, 1), filter 480ms ease;
+  /* 首屏入场：整卷从下方浮起 */
+  animation: home-hero-in 640ms cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+}
+.hero-panel:nth-child(2) { animation-delay: 60ms; }
+.hero-panel:nth-child(3) { animation-delay: 120ms; }
+.hero-panel:nth-child(4) { animation-delay: 180ms; }
+
+/* 栏间一道极细的墨青缝，既分热区又不破坏画卷连续性 */
+.hero-panel + .hero-panel { box-shadow: inset 1px 0 0 rgba(36, 50, 41, 0.55); }
+
+/* 首末栏圆角，让整卷像一张装裱画 */
+.hero-panel:first-child { border-radius: 18px 0 0 18px; }
+.hero-panel:last-child { border-radius: 0 18px 18px 0; }
+
+@keyframes home-hero-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 静态切片：同一张母图，按栏定位；栏宽变化时背景同步拉伸，接缝处过渡自然 */
+.hero-panel-static {
+  position: absolute;
+  inset: 0;
+  background-image: url('/media/home/hero/panorama-master.webp');
+  background-repeat: no-repeat;
+  background-size: 400% 100%;
+  /* --slice: 0..3 → 0% / 33.333% / 66.666% / 100% */
+  background-position-x: calc(var(--slice, 0) * 33.3333%);
+  background-position-y: 50%;
+  filter: saturate(0.96) brightness(0.94);
+  transition: filter 420ms ease, transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* 悬停：当前栏微展宽 + 提亮，邻栏压暗（容器 hover 时统一压暗，当前栏再恢复） */
+.home-scroll:hover .hero-panel { filter: brightness(0.62) saturate(0.8); }
+.home-scroll:hover .hero-panel.is-active,
+.hero-panel.is-active {
+  flex-grow: 1.45;
+  filter: brightness(1.04) saturate(1.06);
+  z-index: 2;
+}
+.hero-panel.is-active .hero-panel-static {
+  transform: scale(1.03);
+  filter: saturate(1.05) brightness(1.02);
+}
+
+/* 动图层：淡入叠在切片上，与静态同构图，过渡不闪 */
+.hero-panel-gif {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: hero-gif-in 480ms ease 120ms forwards;
+  pointer-events: none;
+}
+@keyframes hero-gif-in {
+  to { opacity: 1; }
+}
+
+/* 底部渐变 + 标题 */
+.hero-panel-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 52%, rgba(10, 18, 13, 0.66) 100%);
+  transition: background 400ms ease;
+}
+.hero-panel.is-active .hero-panel-veil {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(10, 18, 13, 0.72) 100%),
+    radial-gradient(120% 55% at 50% 100%, rgba(240, 74, 58, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.hero-panel-caption {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+}
+.hero-panel-name {
+  font-family: var(--font-serif, 'Source Han Serif', 'Noto Serif CJK SC', serif);
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #f6f1e4;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  transition: letter-spacing 400ms ease;
+}
+.hero-panel.is-active .hero-panel-name { letter-spacing: 0.16em; }
+.hero-panel-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(246, 241, 228, 0.16);
+  color: #f6f1e4;
+  font-size: 17px;
+  opacity: 0;
+  transform: translate(-6px, 6px);
+  transition: opacity 360ms ease, transform 360ms ease, background 360ms ease;
+}
+.hero-panel.is-active .hero-panel-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+  background: #f04a3a;
+  color: #fff;
+}
+
+/* 移动端动图默认隐藏（桌面不用） */
+.hero-panel-mobile { display: none; }
+
+.home-sign {
+  margin: 16px 0 0;
+  padding: 0 18px 10px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  color: var(--text-faint, rgba(246, 241, 228, 0.42));
+}
+
+/* ===== 中等屏：标题略小 ===== */
+@media (max-width: 1100px) {
+  .hero-panel-caption { left: 16px; right: 16px; bottom: 16px; }
+}
+
+/* ===== 窄屏：2×2，每栏直接放动图 ===== */
+@media (max-width: 720px) {
+  .home-hero { min-height: auto; }
+  .home-scroll {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    min-height: 0;
+    padding: 0 10px;
+  }
+  .hero-panel,
+  .hero-panel.is-active {
+    flex: none;
+    border-radius: 14px !important;
+    box-shadow: none;
+    aspect-ratio: 4 / 3;
+    filter: none;
+    animation: none;
+  }
+  .home-scroll:hover .hero-panel { filter: none; }
+  .hero-panel-static {
+    display: block;
+    /* 移动端静态底：保持母图比例做加载占位，GIF 就绪后盖在上面 */
+    background-size: 400% auto;
+    background-position-y: 50%;
+  }
+  .hero-panel-mobile {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .hero-panel-caption { left: 12px; right: 12px; bottom: 12px; }
+  .hero-panel-name { font-size: 22px; }
+  .hero-panel-arrow { opacity: 1; transform: none; width: 28px; height: 28px; font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-panel { animation: none; transition: none; }
+  .hero-panel-static { transition: none; }
+  .hero-panel-gif { animation: none; opacity: 1; }
+}

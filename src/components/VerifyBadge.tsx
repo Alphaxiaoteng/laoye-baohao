@@ -24,7 +24,7 @@ export default function VerifyBadge({ verify, compact = false, className = '' }:
   return (
     <span
       className={[
-        'inline-flex items-center gap-1 rounded-full border px-2.5 text-xs leading-6',
+        'inline-flex items-center gap-1 rounded-[6px] border px-2.5 text-xs leading-6',
         compact ? 'min-h-[24px] py-0' : 'min-h-[28px]',
         ok ? TONE.verified : tone,
         className,

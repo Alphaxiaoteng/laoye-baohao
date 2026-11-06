@@ -5,3 +5,7 @@ dist
 .env
 .env.local
 coverage
+
+# 本地设计检查与原始下载素材（公开优化件在 public/media）
+.taste-skill/
+/assets/
