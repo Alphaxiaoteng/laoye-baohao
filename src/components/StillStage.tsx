@@ -117,6 +117,7 @@ export default function StillStage({
       className="still-film"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onTouchStart={() => setHover(true)}
     >
       <div className="still-film-chrome">
         <button type="button" className="still-film-nav" aria-label="上一列" onClick={() => step(-1)}>

@@ -87,6 +87,7 @@
 
 .ys-stage:fullscreen {
   height: 100vh;
+  height: 100dvh;
   border-radius: 0;
   border: 0;
 }

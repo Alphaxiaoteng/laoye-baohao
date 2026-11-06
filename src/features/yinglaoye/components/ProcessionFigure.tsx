@@ -24,6 +24,7 @@ export default function ProcessionFigure({ selectedId, onSelect }: Props) {
     onClick: () => onSelect(id),
     onMouseEnter: () => setHoverId(id),
     onMouseLeave: () => setHoverId(null),
+    onTouchStart: () => setHoverId(id),
     className: 'cursor-pointer',
     role: 'presentation',
   })

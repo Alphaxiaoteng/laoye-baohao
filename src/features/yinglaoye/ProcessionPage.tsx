@@ -54,7 +54,7 @@ export default function ProcessionPage() {
       </header>
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-start">
-        <div className="card space-y-4">
+        <div className="card min-w-0 space-y-4">
           <ProcessionFigure selectedId={selectedId} onSelect={setSelectedId} />
 
           <div role="group" aria-label="选择队伍组成部分" className="flex flex-wrap gap-2">
@@ -96,7 +96,7 @@ export default function ProcessionPage() {
         <section
           aria-labelledby="part-title"
           aria-live="polite"
-          className="card space-y-3 lg:sticky lg:top-4"
+          className="card min-w-0 space-y-3 lg:sticky lg:top-4"
         >
           <p className="text-xs text-muted">
             第 {selectedIndex + 1} / {PROCESSION_PARTS.length} 项 · 点击切换
