@@ -10,7 +10,6 @@ import {
 import { useProgressStore } from '../../store/progress'
 import VerifyBadge from '../../components/VerifyBadge'
 import CollectButton from '../../components/CollectButton'
-import { SourceList } from '../../components/SourceBadge'
 import { usePageContext, usePageTitle } from '../../lib/usePageContext'
 import FoodStepPager from './FoodStepPager'
 import { dishImage } from './assets'

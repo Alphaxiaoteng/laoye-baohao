@@ -41,7 +41,7 @@ describe('听潮页面渲染', () => {
     expect(html).not.toContain('跟读评分</')
   })
 
-  it('每个可播放词条都有播放按钮与口音、许可、来源', () => {
+  it('每个可播放词条都有播放按钮、口音与许可，不显示来源入口', () => {
     const html = render('/listen')
     for (const entry of audio) {
       expect(html).toContain(`播放：${entry.text}`)
@@ -49,7 +49,8 @@ describe('听潮页面渲染', () => {
       expect(html).toContain(entry.license ?? '')
     }
     expect(html).toContain('CC BY-SA 4.0')
-    expect(html).toContain('/sources#S500')
+    expect(html).not.toContain('/sources#S500')
+    expect(html).not.toContain('资料来源')
   })
 
   it('分类页只渲染该分类的词句', () => {
@@ -72,12 +73,12 @@ describe('听潮页面渲染', () => {
     }
   })
 
-  it('无音频时页面仍可用：待授权提示与外链核对入口都在', () => {
+  it('录音使用说明仍在，但不再跳转外部核对站点', () => {
     const html = render('/listen')
-    expect(html).toContain('去听潮来源核对发音')
+    expect(html).not.toContain('去听潮来源核对发音')
     expect(html).toContain('录音授权需求')
     expect(html).toContain('音频待授权录制')
-    expect(html).toContain('https://www.chaofayin.com/')
-    expect(html).toContain('https://www.mogher.com/')
+    expect(html).not.toContain('https://www.chaofayin.com/')
+    expect(html).not.toContain('https://www.mogher.com/')
   })
 })

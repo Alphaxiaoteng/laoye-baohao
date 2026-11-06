@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { usePageContext, usePageTitle } from '../../../lib/usePageContext'
-import { entriesOfModule, entryHref, sourcesOfModule } from '../../../lib/content'
-import { SourceList } from '../../../components/SourceBadge'
+import { entriesOfModule, entryHref } from '../../../lib/content'
 import { MEDIA } from '../data'
 import { PageSection, YinggeNav, SourceNote } from '../components/YinggeChrome'
 
@@ -41,7 +40,6 @@ export default function YinggeHome() {
   usePageContext({ module: 'yingge', moduleTitle: '英歌舞' })
 
   const list = entriesOfModule('yingge')
-  const sources = sourcesOfModule('yingge')
 
   return (
     <div className="space-y-8">

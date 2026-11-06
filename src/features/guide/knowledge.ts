@@ -173,49 +173,49 @@ const YINGLAOYE_PROCESSION: GuidePhoto = {
 /* 以下封面是 2026-11 从 Wikimedia Commons 检索后自托管的 16:10 裁切图，
    原图、作者与许可见同目录 ASSETS.md；没有热链，也没有 AI 生成。 */
 
-const PAIFANGJIE: GuidePhoto = {
+export const PAIFANGJIE: GuidePhoto = {
   src: '/media/guide/covers/paifangjie.webp',
   alt: '潮州牌坊街：街心立着石牌坊，两侧是骑楼与商铺，行人走在石板路上',
   caption: '牌坊街是古城主街，牌坊一座接一座。',
   credit: 'Sgnpkd / Wikimedia Commons · CC BY-SA 4.0',
 }
 
-const GUANGJI_TOWER: GuidePhoto = {
+export const GUANGJI_TOWER: GuidePhoto = {
   src: '/media/guide/covers/guangji-tower.webp',
   alt: '潮州广济楼：红墙灰瓦的三层城楼立在城墙上，中间是拱形城门',
   caption: '广济楼与城墙连在一起，楼下就是过街的城门洞。',
   credit: '燕难飞 / Wikimedia Commons · CC BY-SA 3.0',
 }
 
-const KAIYUAN_TEMPLE: GuidePhoto = {
+export const KAIYUAN_TEMPLE: GuidePhoto = {
   src: '/media/guide/covers/kaiyuan-temple.webp',
   alt: '潮州开元寺俯瞰：成片红瓦屋顶围出几进院落，院子里有树与石塔',
   caption: '从高处看开元寺，能看清几进院落的关系。',
   credit: 'Windmemories / Wikimedia Commons · CC BY-SA 4.0',
 }
 
-const XIAOGONGYUAN: GuidePhoto = {
+export const XIAOGONGYUAN: GuidePhoto = {
   src: '/media/guide/covers/xiaogongyuan.webp',
   alt: '汕头小公园：环形广场中间的亭子与四周的骑楼群，广场上有人走动',
   caption: '小公园亭是这片骑楼街区的中心。',
   credit: 'Sgnpkd / Wikimedia Commons · CC BY-SA 4.0',
 }
 
-const NANAO_LIGHTHOUSE: GuidePhoto = {
+export const NANAO_LIGHTHOUSE: GuidePhoto = {
   src: '/media/guide/covers/nanao-changshanwei.webp',
   alt: '南澳岛长山尾灯塔：红色灯塔立在码头边，远处是跨海的南澳大桥',
   caption: '长山尾灯塔在桥头附近，远处就是南澳大桥。',
   credit: 'Windmemories / Wikimedia Commons · CC BY-SA 4.0',
 }
 
-const QINGAO_BAY: GuidePhoto = {
+export const QINGAO_BAY: GuidePhoto = {
   src: '/media/guide/covers/qingao-bay.webp',
   alt: '南澳岛海湾：岸线堆着大片浅色礁石，远处是起伏的山与海面',
   caption: '南澳的海岸多为礁石，走的时候注意脚下。',
   credit: '燕难飞 / Wikimedia Commons · CC BY-SA 3.0',
 }
 
-const JINXIAN_GATE: GuidePhoto = {
+export const JINXIAN_GATE: GuidePhoto = {
   src: '/media/guide/covers/jinxian-gate.webp',
   alt: '揭阳进贤门：绿瓦红柱的城楼立在石砌城台上，中间是拱门，檐下挂着红灯笼',
   caption: '进贤门是老城最好认的起点。',
@@ -639,7 +639,6 @@ export const guideArticles: GuideArticle[] = [
     dek: '南澳的看点沿环岛路一字排开，顺序比速度重要。这篇只排点位与节奏，不写船班和实时路况。',
     duration: '1 天环岛，或 2 天住一晚',
     season: '春末到秋天看海最好；冬天风大，体感偏冷',
-    cover: NANAO_LIGHTHOUSE,
     facts: [
       { label: '进岛', value: '走南澳大桥进岛，桥很长，过桥本身就是一段风景' },
       { label: '分布', value: '灯塔、地质公园和沙滩分在西线、东线两段，中间隔着山路' },

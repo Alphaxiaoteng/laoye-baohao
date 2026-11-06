@@ -284,6 +284,30 @@
     }
   }
 
+  .site-nav-admin {
+    display: inline-flex;
+    min-height: 40px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(61, 47, 38, 0.2);
+    border-radius: 999px;
+    padding: 0 0.85rem;
+    color: var(--ink-soft);
+    font-family: MiSans, 'HarmonyOS Sans SC', 'PingFang SC', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .site-nav-admin:hover,
+  .site-nav-admin.is-active {
+    border-color: rgba(61, 47, 38, 0.45);
+    background: rgba(61, 47, 38, 0.08);
+    color: var(--text);
+  }
+
   .site-nav-bot {
     display: inline-flex;
     min-height: 40px;

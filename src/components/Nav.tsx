@@ -77,6 +77,13 @@ export default function Nav() {
             </NavLink>
           ))}
         </nav>
+        <NavLink
+          to="/admin"
+          className={({ isActive }) => `site-nav-admin${isActive ? ' is-active' : ''}`}
+          aria-label="切换到管理后台"
+        >
+          后台
+        </NavLink>
         <button
           type="button"
           className="site-nav-bot"
@@ -124,6 +131,13 @@ export default function Nav() {
                 {link.label}
               </NavLink>
             ))}
+            <NavLink
+              to="/admin"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => `site-nav-mobile-link${isActive ? ' is-active' : ''}`}
+            >
+              管理后台
+            </NavLink>
           </nav>
         </div>
       )}

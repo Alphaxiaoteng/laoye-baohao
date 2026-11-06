@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import DocsPage from '../src/routes/Docs'
+import { audioItems } from '../src/lib/content'
 
 function render(): string {
   const html = renderToString(
@@ -38,7 +39,9 @@ describe('历史介绍', () => {
     expect(html).toContain('食暝昏')
     expect(html).toContain('㩼謝')
     expect(html).toContain('汕頭')
-    expect(html.match(/class="docs-phrase"/g)?.length).toBe(21)
+    // 词条会随 content/audio.listen.json 增补；断言「全部词条都排进页面」，并保底不少于 21 条
+    expect(audioItems.length).toBeGreaterThanOrEqual(21)
+    expect(html.match(/class="docs-phrase"/g)?.length).toBe(audioItems.length)
 
     expect(html).toContain('/media/home/yingge-dance-1.webp')
     expect(html).toContain('/media/home/teochew-kanghu-tea.webp')
