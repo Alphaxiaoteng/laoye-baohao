@@ -639,6 +639,7 @@ export const guideArticles: GuideArticle[] = [
     dek: '南澳的看点沿环岛路一字排开，顺序比速度重要。这篇只排点位与节奏，不写船班和实时路况。',
     duration: '1 天环岛，或 2 天住一晚',
     season: '春末到秋天看海最好；冬天风大，体感偏冷',
+    cover: NANAO_LIGHTHOUSE,
     facts: [
       { label: '进岛', value: '走南澳大桥进岛，桥很长，过桥本身就是一段风景' },
       { label: '分布', value: '灯塔、地质公园和沙滩分在西线、东线两段，中间隔着山路' },

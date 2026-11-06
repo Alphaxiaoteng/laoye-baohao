@@ -33,7 +33,7 @@ export default function CasesPage() {
           三城各一例：潮州 · 汕头 · 揭阳
         </h1>
         <p className="text-[15px] leading-7 text-ink-soft">
-          潮州、汕头、揭阳各取一份已有来源的记录，配一张潮汕营老爷实拍；
+          潮州、汕头、揭阳各取一份已有记录，配一张潮汕营老爷实拍；
           再往下是四处记录的逐条对照（含潮州元巷村）。他们不是完整名录，也不构成一套统一流程。
         </p>
         <p className="rounded-xl border border-brick/30 bg-brick/5 px-3 py-2 text-sm leading-6 text-brick">
