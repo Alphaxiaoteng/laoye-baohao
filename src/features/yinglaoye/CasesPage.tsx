@@ -37,7 +37,7 @@ export default function CasesPage() {
           再往下是四处记录的逐条对照（含潮州元巷村）。他们不是完整名录，也不构成一套统一流程。
         </p>
         <p className="rounded-xl border border-brick/30 bg-brick/5 px-3 py-2 text-sm leading-6 text-brick">
-          旧日期只代表来源记录的那一年，不能当作今年的活动日程。当年的日期请查当地公告。
+          旧日期只代表当时记录的那一年，不能当作今年的活动日程。当年的日期请查当地公告。
         </p>
       </header>
 

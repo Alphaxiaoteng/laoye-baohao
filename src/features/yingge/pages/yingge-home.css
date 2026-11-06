@@ -696,3 +696,42 @@
     transition: none;
   }
 }
+
+/* ===== Mobile-first forced adaptation (deploy/mobile) ===== */
+@media (max-width: 640px) {
+  .yingge-home,
+  .yh-hero,
+  .yh-section {
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  .yh-hero {
+    min-height: 100svh;
+    padding: 12vh 5vw 8vh;
+  }
+  .yh-tile {
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+    width: 100%;
+  }
+  .club-pair {
+    flex-direction: column;
+    aspect-ratio: auto;
+  }
+  /* 防触摸闪烁：去掉 hover 态过渡，统一用 active 态 */
+  .yh-tile,
+  .yh-next,
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+    transition: none;
+  }
+  a:active, button:active {
+    opacity: 0.85;
+  }
+}
+@media (hover: none) {
+  .yh-tile:hover, .yh-next:hover {
+    transform: none;
+  }
+}
