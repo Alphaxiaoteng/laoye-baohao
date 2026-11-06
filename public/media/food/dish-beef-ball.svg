@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="一碗手打牛肉丸">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <circle cx="240" cy="146" r="118" fill="#38483a" opacity=".55"/>
+  <!-- steam -->
+  <g fill="none" stroke="#f04a3a" stroke-width="3" stroke-linecap="round" opacity=".45">
+    <path d="M196 96c-12-14 12-20 0-34"/>
+    <path d="M240 88c-12-14 12-20 0-34"/>
+    <path d="M284 96c-12-14 12-20 0-34"/>
+  </g>
+  <!-- chopsticks -->
+  <g stroke="#e8e3d4" stroke-width="5" stroke-linecap="round">
+    <path d="M356 96L250 168"/>
+    <path d="M368 110L258 176"/>
+  </g>
+  <!-- bowl -->
+  <path d="M132 156h216c0 56-48 92-108 92s-108-36-108-92z" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <path d="M132 156h216" stroke="#f04a3a" stroke-width="6"/>
+  <path d="M150 200c26 18 62 26 90 26s64-8 90-26" fill="none" stroke="#93a58f" stroke-width="4"/>
+  <!-- meatballs -->
+  <g fill="#93a58f" stroke="#f04a3a" stroke-width="3.5">
+    <circle cx="188" cy="140" r="20"/>
+    <circle cx="236" cy="132" r="22"/>
+    <circle cx="288" cy="140" r="20"/>
+    <circle cx="212" cy="164" r="16"/>
+    <circle cx="266" cy="164" r="16"/>
+  </g>
+  <g fill="none" stroke="#f04a3a" stroke-width="2" opacity=".7">
+    <path d="M178 132c6-6 14-6 20 0"/>
+    <path d="M226 124c6-6 14-6 20 0"/>
+    <path d="M278 132c6-6 14-6 20 0"/>
+  </g>
+  <!-- garnish -->
+  <g fill="#e8e3d4" opacity=".65">
+    <circle cx="240" cy="190" r="3"/>
+    <circle cx="252" cy="196" r="2.5"/>
+    <circle cx="228" cy="197" r="2.5"/>
+  </g>
+</svg>

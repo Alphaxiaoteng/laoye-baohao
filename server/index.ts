@@ -7,18 +7,25 @@ import { streamSSE } from 'hono/streaming'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import {
-  buildMessages,
   createLimiter,
   createRateLimiter,
   MAX_OUTPUT_CHARS,
   pendingTail,
+  prepareAsk,
+  redactSecrets,
   sanitizeAnswer,
   llmApiKey,
+  llmBaseHost,
   llmChatUrl,
   llmModel,
   validateAskRequest,
 } from './ask'
 import { loadContent } from './content'
+import { loadLocalEnv } from './ask-env'
+import { formatWebContext, webSearch, webSearchEnabled } from './web-search'
+
+// 本地开发时读取项目根目录 .env（仅服务端；不打印、不回传任何值）
+loadLocalEnv()
 
 const PORT = Number(process.env.PORT || 7860)
 const HOST = '0.0.0.0'
@@ -45,7 +52,11 @@ interface SseWriter {
 
 async function sendError(stream: SseWriter, code: string, message: string): Promise<void> {
   try {
-    await stream.writeSSE({ event: 'error', data: JSON.stringify({ error: { code, message } }) })
+    // 上游错误可能夹带 Authorization / key，对外统一脱敏
+    await stream.writeSSE({
+      event: 'error',
+      data: JSON.stringify({ error: { code, message: redactSecrets(message) } }),
+    })
   } catch {
     /* 客户端已断开 */
   }
@@ -79,6 +90,8 @@ app.get('/api/health', (c) =>
     ai: {
       keyConfigured: Boolean(llmApiKey()),
       model: llmModel(),
+      // 只暴露上游主机名，方便排障；不含路径、查询参数或任何凭据
+      endpoint: llmBaseHost(),
     },
     content: {
       entries: content.entries.length,
@@ -118,6 +131,27 @@ app.post('/api/ask', async (c) => {
   }
   const request = parsed.value
 
+  const prepared = prepareAsk(request, content)
+  if (prepared.direct) {
+    c.header('Cache-Control', 'no-cache, no-transform')
+    c.header('X-Accel-Buffering', 'no')
+    return streamSSE(c, async (stream) => {
+      await stream.writeSSE({
+        event: 'done',
+        data: JSON.stringify({
+          text: prepared.direct?.text ?? '',
+          citations: [],
+          navs: prepared.direct?.navs ?? [],
+          // 实时活动问题属于「资料里没有」，前端可据此显示谨慎提示
+          uncertain: prepared.direct?.kind === 'realtime',
+          truncated: false,
+          direct: true,
+          clarify: prepared.direct?.kind === 'clarify',
+        }),
+      })
+    })
+  }
+
   const apiKey = llmApiKey()
   if (!apiKey) {
     // 无密钥也走 SSE，前端按同一套降级逻辑处理
@@ -132,6 +166,17 @@ app.post('/api/ask', async (c) => {
       { error: { code: 'busy', message: '当前提问较多，请稍后再试' } },
       503,
     )
+  }
+
+  // 站内检索不足时才补站外检索（需配置 WEB_SEARCH_URL；默认关闭）
+  if (webSearchEnabled() && prepared.plan.docs.length < 2) {
+    const results = await webSearch(request.question)
+    if (results.length > 0) {
+      const last = prepared.messages[prepared.messages.length - 1]
+      if (last && last.role === 'user') {
+        last.content = `${last.content}\n\n${formatWebContext(results)}`
+      }
+    }
   }
 
   c.header('Cache-Control', 'no-cache, no-transform')
@@ -162,13 +207,13 @@ app.post('/api/ask', async (c) => {
           stream: true,
           temperature: 0.3,
           max_tokens: 900,
-          messages: buildMessages(request, content),
+          messages: prepared.messages,
         }),
         signal: controller.signal,
       })
 
       if (!upstream.ok) {
-        const code = upstream.status === 429 ? 'upstream' : 'upstream'
+        const code = upstream.status === 429 ? 'rate_limited' : 'upstream'
         await sendError(stream, code, `上游返回 ${upstream.status}`)
         return
       }
@@ -253,7 +298,31 @@ app.post('/api/ask', async (c) => {
   })
 })
 
+// 展内自带 AI/语音后端未挂载，降级提示（原站 8787 服务，当前未部署；需在 /api/* 兜底之前注册）
+app.all('/api/agent', (c) =>
+  c.json({ error: { code: 'not_available', message: '展内智能问答暂未开放，请使用站内「问一问」' } }, 503),
+)
+app.all('/api/agent/*', (c) =>
+  c.json({ error: { code: 'not_available', message: '展内智能问答暂未开放，请使用站内「问一问」' } }, 503),
+)
+app.all('/api/voice', (c) =>
+  c.json({ error: { code: 'not_available', message: '展内语音功能暂未开放' } }, 503),
+)
+app.all('/api/voice/*', (c) =>
+  c.json({ error: { code: 'not_available', message: '展内语音功能暂未开放' } }, 503),
+)
+app.all('/api/site-content', (c) =>
+  c.json({ error: { code: 'not_available', message: '展内内容服务暂未开放' } }, 503),
+)
+
 app.all('/api/*', (c) => c.json({ error: { code: 'not_found', message: '接口不存在' } }, 404))
+
+// 英歌原生展的绝对路径资源重写（原站 8787 部署在站点根，挂载到 /exhibits/yingge/ 后需前缀映射）
+app.get('/_next/*', serveStatic({ root: './public/exhibits/yingge' }))
+app.get('/images/*', serveStatic({ root: './public/exhibits/yingge' }))
+app.get('/favicon.*', serveStatic({ root: './public/exhibits/yingge' }))
+app.get('/apple-touch-icon.png', serveStatic({ root: './public/exhibits/yingge' }))
+app.get('/site.webmanifest', serveStatic({ root: './public/exhibits/yingge' }))
 
 // 静态资源与 SPA fallback（dist/ 由 vite build 生成）
 app.use('*', serveStatic({ root: './dist' }))
@@ -262,6 +331,10 @@ app.use('*', serveStatic({ root: './dist' }))
 app.get('/assets/*', (c) => c.text('Not Found', 404))
 
 app.get('*', async (c) => {
+  // 带扩展名的静态资源缺失时直接 404，不伪装成 200 HTML
+  if (/\.[a-z0-9]+$/i.test(c.req.path)) {
+    return c.text('Not Found', 404)
+  }
   try {
     // 不缓存 index.html：重新构建后立刻拿到新的资源 hash
     const html = await readFile(resolve(process.cwd(), 'dist', 'index.html'), 'utf8')
@@ -273,7 +346,8 @@ app.get('*', async (c) => {
 })
 
 serve({ fetch: app.fetch, port: PORT, hostname: HOST }, (info) => {
+  // 只打印模型、上游主机名与是否配置密钥；永远不打印 key 或 Authorization
   console.log(
-    `[laoye-baohao] listening on http://${HOST}:${info.port} | key=${llmApiKey() ? 'configured' : 'missing'} | entries=${content.entries.length} sources=${content.sources.length}`,
+    `[laoye-baohao] listening on http://${HOST}:${info.port} | model=${llmModel()} | endpoint=${llmBaseHost()} | key=${llmApiKey() ? 'configured' : 'missing'} | entries=${content.entries.length} sources=${content.sources.length}`,
   )
 })

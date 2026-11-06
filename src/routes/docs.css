@@ -1,0 +1,238 @@
+/* 文献汇总：以阅读为主，控制行宽与行高，不做花哨动效。 */
+
+.docs-hero {
+  padding-top: 4px;
+}
+
+.docs-controls {
+  position: sticky;
+  top: 72px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+  background: linear-gradient(180deg, var(--deep) 70%, rgba(36, 50, 41, 0));
+}
+
+.docs-search input {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.docs-search input::placeholder {
+  color: rgba(190, 200, 187, 0.6);
+}
+
+.docs-search input:focus {
+  border-color: var(--coral);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.docs-toc {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.docs-toc::-webkit-scrollbar {
+  display: none;
+}
+
+.docs-toc a {
+  flex: none;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  padding: 5px 12px;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.docs-toc a:hover {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.docs-section {
+  scroll-margin-top: 150px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.docs-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-serif, serif);
+  font-size: 22px;
+  color: var(--text);
+}
+
+.docs-section-title span {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--faint, #9fae9c);
+}
+
+.docs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.docs-entry {
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 18px 20px 16px;
+}
+
+.docs-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.docs-entry h3 {
+  font-family: var(--font-serif, serif);
+  font-size: 18.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.docs-region {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--faint, #9fae9c);
+}
+
+.docs-summary {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--ink-soft, #d3dbcf);
+}
+
+.docs-body {
+  margin-top: 12px;
+  max-width: 68ch;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.95;
+  color: rgba(211, 219, 207, 0.92);
+}
+
+.docs-body p {
+  margin: 0;
+}
+
+.docs-placeholder {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--faint, #9fae9c);
+}
+
+.docs-entry-foot {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.docs-jump {
+  font-size: 12.5px;
+  color: var(--coral);
+  text-decoration: none;
+}
+
+.docs-jump:hover {
+  text-decoration: underline;
+}
+
+.docs-recipe-grid {
+  margin-top: 14px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+}
+
+.docs-recipe-grid h4 {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--faint, #9fae9c);
+  margin-bottom: 8px;
+}
+
+.docs-recipe-grid ul,
+.docs-recipe-grid ol {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--muted);
+  padding-left: 18px;
+}
+
+.docs-recipe-grid em {
+  font-style: normal;
+  color: rgba(190, 200, 187, 0.7);
+}
+
+.docs-source-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.docs-source-list a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.docs-source-list a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+  .docs-controls {
+    top: 64px;
+  }
+  .docs-entry {
+    padding: 15px 15px 13px;
+  }
+  .docs-body {
+    font-size: 14.5px;
+    line-height: 1.9;
+  }
+  .docs-recipe-grid {
+    grid-template-columns: 1fr;
+  }
+}

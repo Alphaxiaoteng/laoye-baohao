@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="一碗牛肉粿条汤">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <circle cx="240" cy="150" r="120" fill="#38483a" opacity=".55"/>
+  <g fill="none" stroke="#f04a3a" stroke-width="3" stroke-linecap="round" opacity=".4">
+    <path d="M188 92c-10-12 10-18 0-30"/>
+    <path d="M240 86c-10-12 10-18 0-30"/>
+    <path d="M292 92c-10-12 10-18 0-30"/>
+  </g>
+  <!-- chopsticks -->
+  <g stroke="#e8e3d4" stroke-width="5" stroke-linecap="round">
+    <path d="M362 88L268 158"/>
+    <path d="M374 102L278 166"/>
+  </g>
+  <!-- bowl -->
+  <path d="M124 150h232c0 60-52 98-116 98s-116-38-116-98z" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <path d="M124 150h232" stroke="#f04a3a" stroke-width="6"/>
+  <!-- noodles -->
+  <g fill="none" stroke="#93a58f" stroke-width="4" stroke-linecap="round">
+    <path d="M156 162c22 8 44-6 66 2s44-6 66 2"/>
+    <path d="M152 176c22 8 44-6 66 2s44-6 66 2"/>
+    <path d="M156 190c22 8 44-6 66 2s44-6 66 2"/>
+  </g>
+  <!-- beef slices -->
+  <g fill="#38483a" stroke="#f04a3a" stroke-width="3">
+    <path d="M170 152c16-18 44-20 58-6-12 16-40 20-58 6z"/>
+    <path d="M232 146c16-18 44-20 58-6-12 16-40 20-58 6z"/>
+    <path d="M198 168c16-18 44-20 58-6-12 16-40 20-58 6z"/>
+  </g>
+  <!-- greens -->
+  <g fill="#e8e3d4" opacity=".7">
+    <path d="M286 168c12-8 26-8 34 2-10 8-24 8-34-2z"/>
+    <circle cx="178" cy="196" r="3"/>
+    <circle cx="256" cy="200" r="2.5"/>
+    <circle cx="300" cy="196" r="2.5"/>
+  </g>
+</svg>

@@ -140,6 +140,26 @@ export interface MediaItem {
   sourceIds?: string[]
 }
 
+/** 小红书攻略条目（抓取管线见 scripts/fetch-xhs-guide.mjs） */
+export interface GuideItem {
+  id: string
+  city: string
+  kind: 'guide' | 'food' | 'recipe'
+  title: string
+  excerpt: string
+  /** 抓取到的正文要点（最多 600 字），只给检索与问答用，卡片仍显示 excerpt */
+  detail?: string
+  author: string
+  likes: number
+  collects: number
+  comments: number
+  publishedAt: string
+  cover: string
+  noteUrl: string
+  sourceIds: string[]
+  verify: string
+}
+
 export interface ContentBundle {
   entries: Entry[]
   story: StoryChapter[]
@@ -147,6 +167,7 @@ export interface ContentBundle {
   audio: AudioItem[]
   sources: Source[]
   media: MediaItem[]
+  guides?: GuideItem[]
 }
 
 export const EMPTY_CONTENT: ContentBundle = {
@@ -156,4 +177,5 @@ export const EMPTY_CONTENT: ContentBundle = {
   audio: [],
   sources: [],
   media: [],
+  guides: [],
 }

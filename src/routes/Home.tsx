@@ -1,150 +1,434 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { MODULES } from '../lib/modules'
-import { audioItems, entriesOfModule, hasAnyContent, recipes, storyChapters } from '../lib/content'
+import { entriesOfModule, hasAnyContent, storyChapters } from '../lib/content'
 import { usePageTitle } from '../lib/usePageContext'
+import { useProgressStore } from '../store/progress'
+import { HOME_HERO, HOME_MODULE_MEDIA, HOME_RAW_PHOTOS } from './homeMedia'
+import { YINGGE_EXHIBIT_HOME, YINGGE_EXHIBITS } from '../features/yingge-static'
+import './Home.css'
 
-function HeroArt() {
-  return (
-    <svg
-      viewBox="0 0 320 260"
-      aria-hidden="true"
-      className="h-auto w-full rounded-3xl border border-line bg-white/60"
-    >
-      <circle cx="160" cy="120" r="86" fill="none" stroke="#A63A2B" strokeWidth="1.5" opacity="0.35" />
-      <circle cx="160" cy="120" r="64" fill="none" stroke="#2F4A3A" strokeWidth="1.5" opacity="0.35" />
-      {/* 茶壶与杯的抽象剪影 */}
-      <path d="M120 128 q40 -22 78 0 l-8 34 q-31 14 -62 0 z" fill="#2F4A3A" opacity="0.75" />
-      <path d="M198 132 q18 5 15 19" stroke="#2F4A3A" strokeWidth="5" fill="none" />
-      <rect x="141" y="106" width="34" height="12" rx="5" fill="#2F4A3A" opacity="0.85" />
-      <path d="M62 196 h34 m-17 -9 v18" stroke="#A63A2B" strokeWidth="3" opacity="0.6" />
-      <path d="M232 196 h34 m-17 -9 v18" stroke="#A63A2B" strokeWidth="3" opacity="0.6" />
-      <path d="M96 218 h128" stroke="#D9CFBF" strokeWidth="2" strokeDasharray="6 6" />
-      <text x="160" y="245" textAnchor="middle" fontSize="11" fill="#6B6156">
-        自绘几何示意，不使用外部素材
-      </text>
-    </svg>
-  )
+/** 故事单列的滚动锚点：章节页返回时用同一批 key 还原现场。 */
+const SCROLL_KEY = 'laoye:story-scroll'
+
+interface ScrollMemo {
+  path: string
+  y: number
+  id: string
+}
+
+function rememberStoryScroll(id: string, path: string): void {
+  try {
+    const memo: ScrollMemo = { path, y: window.scrollY, id }
+    window.sessionStorage.setItem(SCROLL_KEY, JSON.stringify(memo))
+  } catch {
+    /* 隐私模式下 sessionStorage 可能不可写，忽略即可 */
+  }
+}
+
+/** 取故事原文的第一句作为单列索引的一句简介，不改写内容。 */
+function firstSentence(text: string | undefined): string {
+  const clean = (text ?? '').trim()
+  if (!clean) return '这一站没有额外的叙述，进章节看条目。'
+  const cut = clean.split(/(?<=[。！？])/)[0] ?? clean
+  return cut.length > 46 ? `${cut.slice(0, 46)}…` : cut
 }
 
 export default function Home() {
   usePageTitle('')
-  const anyContent = hasAnyContent
-  const playableAudio = audioItems.filter((a) => (a.file ?? '').trim() !== '').length
+  const location = useLocation()
+  const rootRef = useRef<HTMLDivElement | null>(null)
+  const experienced = useProgressStore((s) => s.chaptersExperienced)
+  const skipped = useProgressStore((s) => s.chaptersSkipped)
+  const modulesVisited = useProgressStore((s) => s.modulesVisited)
+
+  const nextChapter =
+    storyChapters.find((chapter) => !experienced.includes(chapter.id)) ?? storyChapters[0]
+  const hero = HOME_HERO
+  const firstChapter = storyChapters[0]
+
+  const rows = useMemo(() => {
+    return storyChapters.map((chapter, index) => {
+      const status = experienced.includes(chapter.id)
+        ? '已体验'
+        : skipped.includes(chapter.id)
+          ? '已跳过'
+          : '未体验'
+      const tone = experienced.includes(chapter.id)
+        ? 'is-done'
+        : skipped.includes(chapter.id)
+          ? 'is-skipped'
+          : 'is-idle'
+      return { chapter, index, status, tone, line: firstSentence(chapter.narrative) }
+    })
+  }, [experienced, skipped])
+
+  // 从章节页回到落地页时，滚回刚才那一章（做法同 /story，见 StoryIndex）
+  useEffect(() => {
+    let memo: ScrollMemo | null = null
+    try {
+      const raw = window.sessionStorage.getItem(SCROLL_KEY)
+      memo = raw ? (JSON.parse(raw) as ScrollMemo) : null
+    } catch {
+      memo = null
+    }
+    if (!memo) return undefined
+    const timer = window.setTimeout(() => {
+      const target = memo?.id ? document.getElementById(`home-chapter-${memo.id}`) : null
+      if (target) target.scrollIntoView({ block: 'center', behavior: 'instant' })
+      else if (memo?.path === location.pathname) window.scrollTo({ top: memo.y, left: 0, behavior: 'instant' })
+      try {
+        window.sessionStorage.removeItem(SCROLL_KEY)
+      } catch {
+        /* 忽略 */
+      }
+    }, 60)
+    return () => window.clearTimeout(timer)
+  }, [location.pathname])
+
+  // 动效为可选增强：GSAP 加载失败或用户要求减少动效时，页面保持静态可读
+  useEffect(() => {
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced || !rootRef.current) return undefined
+
+    let cancelled = false
+    let revert: (() => void) | undefined
+
+    void (async () => {
+      try {
+        const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+          import('gsap'),
+          import('gsap/ScrollTrigger'),
+        ])
+        if (cancelled) return
+        gsap.registerPlugin(ScrollTrigger)
+        const ctx = gsap.context(() => {
+          gsap.from('.home-hero-copy > *', {
+            y: 24,
+            opacity: 0,
+            duration: 0.85,
+            stagger: 0.08,
+            ease: 'power3.out',
+          })
+          gsap.fromTo(
+            '.home-hero-media img',
+            { scale: 1.07 },
+            { scale: 1, duration: 1.6, ease: 'power2.out' },
+          )
+          // 只做位移视差：即使 ScrollTrigger 没触发，内容也不会被藏起来
+          gsap.to('.home-hero-media img', {
+            yPercent: 6,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.home-hero',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          })
+        }, rootRef)
+        revert = () => ctx.revert()
+      } catch {
+        /* 动效不可用时静默降级为静态版式 */
+      }
+    })()
+
+    return () => {
+      cancelled = true
+      revert?.()
+    }
+  }, [])
 
   return (
-    <div className="space-y-14">
-      <section className="grid items-center gap-8 pt-4 md:grid-cols-[1.1fr_0.9fr]">
-        <div>
-          <p className="text-xs tracking-[0.35em] text-brick">潮汕文化互动馆</p>
-          <h1 className="mt-3 font-serif text-4xl leading-tight text-ink sm:text-5xl">老爷保号</h1>
-          <p className="mt-2 font-serif text-xl text-ink-soft">跟着故事，走进潮汕文化</p>
-          <p className="mt-5 max-w-xl text-[15px] leading-7 text-ink-soft">
-            看一场英歌，冲一泡茶，认识一个不止于标签的潮汕。用故事、轻互动和随时可问的解释，
-            帮助第一次接触潮汕的人先走完一条完整的入门体验。
-          </p>
-
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link to="/story" className="btn-primary">
-              跟故事走
-            </Link>
-            <Link to="/museum" className="btn-secondary">
-              自由逛逛
-            </Link>
-            <Link to="/listen" className="btn-quiet">
-              先听听潮汕话
-            </Link>
-          </div>
-
-          <p className="mt-5 max-w-xl text-xs leading-5 text-muted">
-            故事为原创虚构串联，不对应某地完整仪式流程。所有文化内容标注来源与核验状态，
-            未完成核验的会直接写明。本站不使用真人或神明形象素材，也不自动播放音频。
-          </p>
-
-          {!anyContent ? (
-            <p className="mt-4 rounded-xl border border-amber-600/30 bg-amber-50/70 px-3 py-2 text-sm text-amber-900">
-              内容准备中：还没有读取到 content/*.json，页面结构可用，条目会显示为空。
-            </p>
-          ) : null}
+    <div className="home-page" ref={rootRef}>
+      {/* ---------- 首屏：深墨青 + 左侧大字 + 右侧实拍 ---------- */}
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="home-hero-media" aria-hidden={false}>
+          <img
+            src={hero.src}
+            width={hero.width}
+            height={hero.height}
+            alt={hero.alt}
+            fetchPriority="high"
+            decoding="async"
+          />
         </div>
-        <HeroArt />
+        <div className="home-hero-shade" aria-hidden="true" />
+        <div className="home-ambient" aria-hidden="true" />
+
+        <div className="home-hero-inner page-x">
+          <div className="home-hero-copy">
+            <p className="home-kicker">
+              <span aria-hidden="true" className="home-kicker-rule" />
+              国家级非物质文化遗产 · 潮汕
+            </p>
+            <h1 id="home-title" className="home-hero-title">
+              老爷保号
+            </h1>
+            <p className="home-hero-sub">跟着故事，走进潮汕文化</p>
+            <p className="home-hero-body">
+              一场英歌，一泡茶，一夜巡境。五个站点、约十分钟，先把「看见」变成「看懂」。
+            </p>
+
+            <div className="home-hero-actions">
+              <Link
+                to={firstChapter ? `/story/${firstChapter.id}` : '/story'}
+                className="btn-primary"
+                onClick={() => rememberStoryScroll(firstChapter?.id ?? 'story', location.pathname)}
+              >
+                {nextChapter && experienced.length > 0 ? '接着走故事' : '开始走故事'}
+              </Link>
+              <Link to="/museum" className="home-glass-btn">
+                进入文化馆
+              </Link>
+            </div>
+
+            <dl className="home-facts">
+              <div>
+                <dt>故事章节</dt>
+                <dd>{storyChapters.length} 站</dd>
+              </div>
+              <div>
+                <dt>入门体验</dt>
+                <dd>约 10 分钟</dd>
+              </div>
+              <div>
+                <dt>你的进度</dt>
+                <dd>{experienced.length} 已体验</dd>
+              </div>
+              <div>
+                <dt>开始条件</dt>
+                <dd>无需登录</dd>
+              </div>
+            </dl>
+
+            <p className="home-figcaption">
+              主图为真实演出照片（{hero.creator} · {hero.license}）；站内图示与互动均为示意。
+            </p>
+          </div>
+        </div>
+
+        <p className="home-scroll-cue" aria-hidden="true">
+          向下 · 从故事开始
+        </p>
       </section>
 
-      <section aria-labelledby="modules-title" className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-2">
-          <h2 id="modules-title" className="font-serif text-2xl text-ink">
-            四个入口
-          </h2>
-          <Link to="/museum" className="link-inline text-sm">
-            查看文化馆全貌
-          </Link>
-        </div>
+      {/* ---------- 四个主题入口 ---------- */}
+      <section id="modules" className="home-section page-x mx-auto max-w-exhibit" aria-labelledby="modules-title">
+        <header className="home-section-head">
+          <p className="home-eyebrow">
+            <span aria-hidden="true" className="home-eyebrow-num">01</span>
+            COLLECTION · 四个入口
+          </p>
+          <h2 id="modules-title">自由进馆</h2>
+          <p className="home-section-desc">不必先走序章。想先看什么，就直接进哪个馆。</p>
+        </header>
 
-        <ul className="grid gap-4 sm:grid-cols-2">
-          {MODULES.map((mod) => {
-            const list = entriesOfModule(mod.id)
-            const verified = list.filter((e) => e.verify === 'verified').length
+        <ul className="home-module-grid">
+          {MODULES.map((module, index) => {
+            const photo = HOME_MODULE_MEDIA[module.id]
+            const count = entriesOfModule(module.id).length
+            const visited = modulesVisited.includes(module.id)
+            // 英歌直接进 8787 原生静态展；其余仍走 React 模块
+            const href = module.id === 'yingge' ? YINGGE_EXHIBIT_HOME : `/museum/${module.id}`
+            const external = module.id === 'yingge'
+
             return (
-              <li key={mod.id}>
+              <li key={module.id} className="home-module-card">
                 <Link
-                  to={`/museum/${mod.id}`}
-                  className="card block h-full no-underline transition-colors hover:border-brick/50"
+                  to={href}
+                  className="home-module-link"
+                  {...(external ? { reloadDocument: true } : {})}
                 >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <h3 className="font-serif text-xl text-ink">{mod.title}</h3>
-                    <span className="text-xs text-muted">{list.length} 条内容</span>
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-ink-soft">{mod.intro}</p>
-                  <p className="mt-3 text-xs text-muted">
-                    {list.length === 0
-                      ? '条目待登记'
-                      : verified === list.length
-                        ? '全部条目标注已核验'
-                        : `${list.length - verified} 条仍待核验/待补充`}
-                  </p>
+                  {photo ? (
+                    <img
+                      className="home-module-img"
+                      src={photo.src}
+                      width={photo.width}
+                      height={photo.height}
+                      alt={photo.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : null}
+                  <span className="home-module-shade" aria-hidden="true" />
+                  <span className="home-module-body">
+                    <span className="home-module-no">Mod. {String(index + 1).padStart(2, '0')}</span>
+                    <strong className="home-module-name">{module.title}</strong>
+                    <span className="home-module-meta">
+                      {external ? '原生展 · 7 个展馆' : `${count} 条 · ${visited ? '已进馆' : '未进馆'}`}
+                    </span>
+                  </span>
+                  <span className="home-module-go" aria-hidden="true">
+                    →
+                  </span>
                 </Link>
               </li>
             )
           })}
         </ul>
+
+        {/* 8787 英歌原生展：静态页面原样挂载，React 只提供入口 */}
+        <div className="home-exhibit-strip">
+          <p className="home-exhibit-strip-label">
+            英歌舞 · 原生展
+            <span>7 个展馆，原页原样打开</span>
+          </p>
+          <ul>
+            {YINGGE_EXHIBITS.map((item) => (
+              <li key={item.id}>
+                <a href={item.href} title={item.note}>
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2">
-        <div className="card flex h-full flex-col justify-between gap-3">
-          <div>
-            <h2 className="font-serif text-xl text-ink">听潮</h2>
-            <p className="mt-2 text-sm leading-6 text-ink-soft">
-              独立的潮汕话词句播放页。没有取得授权的录音不会假装能播，卡片会直接写"音频待授权录制"。
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link to="/listen" className="btn-secondary">
-              去听潮
-            </Link>
-            <span className="text-xs text-muted">
-              {audioItems.length === 0
-                ? '词条待登记'
-                : `${playableAudio} / ${audioItems.length} 条有可播放音频`}
-            </span>
-          </div>
-        </div>
+      {/* ---------- 故事单列：01–05 可跳转 ---------- */}
+      <section id="story" className="home-section page-x mx-auto max-w-exhibit" aria-labelledby="story-title">
+        <header className="home-section-head">
+          <p className="home-eyebrow">
+            <span aria-hidden="true" className="home-eyebrow-num">02</span>
+            NIGHT PROCESSION · 01—05
+          </p>
+          <h2 id="story-title">一夜巡境</h2>
+          <p className="home-section-desc">
+            五章串成一条夜里的路。任何一章都能直接点进去，回来还停在原处。
+          </p>
+        </header>
 
-        <div className="card flex h-full flex-col justify-between gap-3">
-          <div>
-            <h2 className="font-serif text-xl text-ink">我的手记</h2>
-            <p className="mt-2 text-sm leading-6 text-ink-soft">
-              只记录你真实做过的操作：走过哪一章、打开过哪个条目、听过哪句词。
-              不把"浏览步骤"写成"亲手完成"。
+        <ol className="home-timeline">
+          {rows.map(({ chapter, index, status, tone, line }) => (
+            <li key={chapter.id} id={`home-chapter-${chapter.id}`} className="home-timeline-item">
+              <Link
+                to={`/story/${chapter.id}`}
+                className="home-timeline-row"
+                onClick={() => rememberStoryScroll(chapter.id, location.pathname)}
+              >
+                <span aria-hidden="true" className="home-timeline-num">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="home-timeline-main">
+                  <strong>{chapter.title}</strong>
+                  <span className="home-timeline-line">{line}</span>
+                </span>
+                <span className={`home-timeline-status ${tone}`}>{status}</span>
+                <span className="home-timeline-enter">
+                  进入
+                  <span aria-hidden="true">→</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+
+        <p className="home-timeline-note">
+          原创虚构串联，不对应某地完整仪式流程。章节里的文化信息都来自页内标注的条目与来源。
+        </p>
+      </section>
+
+      {/* ---------- 悬浮 Agent：看到哪里就问哪里 ---------- */}
+      <section className="home-section page-x mx-auto max-w-exhibit" aria-labelledby="ask-title">
+        <div className="home-ask">
+          <div className="home-ask-copy">
+            <p className="home-eyebrow">
+              <span aria-hidden="true" className="home-eyebrow-num">03</span>
+              ASK · 上下文问答
             </p>
+            <h2 id="ask-title">看到哪里，就问哪里</h2>
+            <p className="home-section-desc">
+              智能体会带上你当前所在的模块、条目和步骤，只依据站内资料回答，并给出可回看的来源。
+            </p>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => window.dispatchEvent(new CustomEvent('laoye:ask-open'))}
+            >
+              打开问一问
+            </button>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link to="/journal" className="btn-secondary">
-              打开手记
-            </Link>
-            <span className="text-xs text-muted">
-              {storyChapters.length} 章故事 · {recipes.length} 份食谱
-            </span>
+
+          <div className="home-ask-panel glass">
+            <p className="meta-label">可以现场这样问</p>
+            <ul>
+              <li>
+                <span aria-hidden="true">?</span>
+                这个角色是谁？
+              </li>
+              <li>
+                <span aria-hidden="true">?</span>
+                英歌和营老爷有什么联系？
+              </li>
+              <li>
+                <span aria-hidden="true">?</span>
+                这一步为什么这样做？
+              </li>
+              <li>
+                <span aria-hidden="true">?</span>
+                我刚才看了什么？
+              </li>
+            </ul>
+            <p className="home-ask-note">资料不足时会直接说「不确定」，不编造现场信息。</p>
           </div>
         </div>
+      </section>
+
+      {!hasAnyContent ? (
+        <p className="home-content-warning page-x mx-auto max-w-exhibit">
+          内容还在准备中，页面结构可以先浏览。
+        </p>
+      ) : null}
+
+      {/* ---------- 原始资料照片 ---------- */}
+      <section className="home-section page-x mx-auto max-w-exhibit" aria-labelledby="raw-title">
+        <details className="home-raw">
+          <summary>
+            <span className="exhibit-no">Archive · 原始资料照片</span>
+            <span id="raw-title" className="home-raw-title">
+              原始资料照片
+            </span>
+            <span className="meta-label">{HOME_RAW_PHOTOS.length} 张 · 点开看许可</span>
+          </summary>
+
+          <p className="home-raw-desc">这些实拍照片只作为授权资料记录，不承担首屏主视觉以外的叙事。</p>
+
+          <ul className="home-raw-grid">
+            {HOME_RAW_PHOTOS.map((media) => (
+              <li key={media.id}>
+                <figure className="home-raw-figure">
+                  <img
+                    src={media.src}
+                    width={media.width}
+                    height={media.height}
+                    alt={media.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption>
+                    <span className="text-[11px] text-muted">来源：</span>
+                    <a href={media.page} target="_blank" rel="noopener noreferrer" className="link-inline">
+                      {media.title}
+                    </a>
+                    <span>
+                      {media.creator} ·{' '}
+                      <a href={media.licenseUrl} target="_blank" rel="noopener noreferrer" className="link-inline">
+                        {media.license}
+                      </a>
+                    </span>
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+
+          <p className="home-raw-note">
+            照片来自 Wikimedia Commons，已自托管并做尺寸/格式优化；裁切版本沿用原许可。
+          </p>
+        </details>
       </section>
     </div>
   )

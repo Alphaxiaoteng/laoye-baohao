@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="一盘切片的卤鹅">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <circle cx="240" cy="152" r="120" fill="#38483a" opacity=".55"/>
+  <g fill="none" stroke="#f04a3a" stroke-width="3" stroke-linecap="round" opacity=".4">
+    <path d="M210 84c-10-12 10-18 0-30"/>
+    <path d="M250 78c-10-12 10-18 0-30"/>
+    <path d="M290 86c-10-12 10-18 0-30"/>
+  </g>
+  <!-- plate -->
+  <ellipse cx="240" cy="186" rx="164" ry="66" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="240" cy="186" rx="128" ry="46" fill="none" stroke="#93a58f" stroke-width="3"/>
+  <!-- slices -->
+  <g stroke="#e8e3d4" stroke-width="3">
+    <path d="M156 176c22-26 58-30 78-10-16 22-52 30-78 10z" fill="#93a58f"/>
+    <path d="M188 172c22-26 58-30 78-10-16 22-52 30-78 10z" fill="#38483a"/>
+    <path d="M220 170c22-26 58-30 78-10-16 22-52 30-78 10z" fill="#93a58f"/>
+    <path d="M252 174c22-26 58-30 78-10-16 22-52 30-78 10z" fill="#38483a"/>
+  </g>
+  <!-- skin lines -->
+  <g fill="none" stroke="#f04a3a" stroke-width="3" stroke-linecap="round">
+    <path d="M162 172c20-20 48-26 68-12"/>
+    <path d="M194 168c20-20 48-26 68-12"/>
+    <path d="M226 166c20-20 48-26 68-12"/>
+    <path d="M258 170c20-20 48-26 68-12"/>
+  </g>
+  <!-- star anise + dip bowl -->
+  <g fill="none" stroke="#f04a3a" stroke-width="3">
+    <circle cx="128" cy="206" r="12"/>
+    <path d="M128 194v-6M128 218v6M116 206h-6M140 206h6M120 198l-5-5M136 198l5-5M120 214l-5 5M136 214l5 5"/>
+  </g>
+  <g>
+    <ellipse cx="348" cy="214" rx="34" ry="16" fill="#3f503b" stroke="#e8e3d4" stroke-width="3.5"/>
+    <ellipse cx="348" cy="212" rx="22" ry="9" fill="#38483a"/>
+  </g>
+</svg>

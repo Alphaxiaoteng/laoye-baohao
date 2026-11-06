@@ -1,0 +1,15 @@
+{
+  "name": "laoye-baohao",
+  "version": "1.0.0",
+  "description": "查询「老爷保号」潮汕文化互动馆的站内资料（英歌舞、工夫茶、潮汕美食、营老爷、潮汕攻略、听潮、文献），返回带 [S#] 来源引用的答案；站内资料没有就回答没有。",
+  "homepage": "/skill",
+  "license": "UNLICENSED",
+  "entrypoints": {
+    "skill": "SKILL.md",
+    "cli": "laoye.sh"
+  },
+  "api": {
+    "health": "/api/health",
+    "ask": "/api/ask"
+  }
+}

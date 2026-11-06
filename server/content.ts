@@ -9,6 +9,7 @@ const FILES: { key: keyof ContentBundle; file: string }[] = [
   { key: 'audio', file: 'audio.json' },
   { key: 'sources', file: 'sources.json' },
   { key: 'media', file: 'media.json' },
+  { key: 'guides', file: 'guides.json' },
 ]
 
 export function contentDir(): string {
@@ -47,7 +48,7 @@ export function collectionFiles(dir: string, key: string): string[] {
 
 /** 服务端只读取 content/ 用于拼提示词，不写回任何内容 */
 export function loadContent(dir: string = contentDir()): ContentBundle {
-  const bundle = { entries: [], story: [], recipes: [], audio: [], sources: [], media: [] } as ContentBundle
+  const bundle = { entries: [], story: [], recipes: [], audio: [], sources: [], media: [], guides: [] } as ContentBundle
   for (const { key } of FILES) {
     ;(bundle as unknown as Record<string, unknown[]>)[key] = collectionFiles(dir, key).flatMap(
       (file) => readArray<unknown>(dir, file, key),

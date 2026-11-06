@@ -14,7 +14,11 @@
     "title": "第一章｜鼓点落在巷口",
     "fiction": true,
     "narrative": "鼓声从巷口进来，你跟着人群退到墙边。有人举起两根短木槌，脚步比鼓点快半拍。你看不懂，也不急着看懂，只记住他抬头那一下。",
-    "entryIds": ["yingge-intro", "yingge-watch", "yingge-in-yinglaoye"],
+    "entryIds": [
+      "yingge-intro",
+      "yingge-watch",
+      "yingge-in-yinglaoye"
+    ],
     "action": "formation"
   },
   {
@@ -23,7 +27,12 @@
     "title": "第二章｜水开了",
     "fiction": true,
     "narrative": "回到屋里，水刚响。长辈把杯子摆成一圈，示意你先别说话。你照着做，手有点抖，茶汤洒在桌上一小片。她笑了一下，说再来一次就好。",
-    "entryIds": ["tea-intro", "tea-ware", "tea-steps", "tea-pour"],
+    "entryIds": [
+      "tea-intro",
+      "tea-ware",
+      "tea-steps",
+      "tea-pour"
+    ],
     "action": "pour"
   },
   {
@@ -32,7 +41,10 @@
     "title": "第三章｜桌上的空位",
     "fiction": true,
     "narrative": "桌边留着几个空位，菜还没上。你只知道今天有人从很远回来，碗筷按人数摆好。厨房里飘出的味道你说不上名字，就先记下这份等待。",
-    "entryIds": ["food-pending-1", "food-pending-2"],
+    "entryIds": [
+      "food-beef-ball",
+      "food-kway-teow"
+    ],
     "action": "recipe"
   },
   {
@@ -41,7 +53,11 @@
     "title": "终章｜队伍出门",
     "fiction": true,
     "narrative": "夜里队伍要出门。你站在路边，把手电收进兜里，让出一条道。鼓声远了，你回到院子，把今天看到的几件事写进手记，然后关灯。",
-    "entryIds": ["ylr-xunjing", "ylr-team", "ylr-visit"],
+    "entryIds": [
+      "ylr-xunjing",
+      "ylr-team",
+      "ylr-visit"
+    ],
     "action": "cards"
   }
 ]

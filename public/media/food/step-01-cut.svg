@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="步骤一：在砧板上把牛肉切成薄片，粿条切条">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <g opacity=".5" fill="#38483a"><circle cx="240" cy="150" r="118"/></g>
+  <!-- board -->
+  <rect x="80" y="150" width="240" height="104" rx="14" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <path d="M104 166v72M392 150" stroke="#93a58f" stroke-width="3"/>
+  <!-- beef block -->
+  <path d="M112 176c34-22 82-16 96 10-20 26-70 32-96 12z" fill="#38483a" stroke="#f04a3a" stroke-width="3.5"/>
+  <g stroke="#f04a3a" stroke-width="3" fill="none" stroke-dasharray="7 6">
+    <path d="M136 170v46"/>
+    <path d="M160 166v48"/>
+    <path d="M184 168v46"/>
+  </g>
+  <!-- sliced pieces -->
+  <g fill="#3f503b" stroke="#f04a3a" stroke-width="3">
+    <path d="M96 246c14-12 32-12 42 0-10 12-28 12-42 0z"/>
+    <path d="M146 260c14-12 32-12 42 0-10 12-28 12-42 0z"/>
+  </g>
+  <!-- knife -->
+  <g transform="rotate(16 330 120)">
+    <rect x="318" y="70" width="118" height="20" rx="4" fill="#38483a" stroke="#e8e3d4" stroke-width="3.5"/>
+    <path d="M318 90h126l-26 42h-100z" fill="#3f503b" stroke="#e8e3d4" stroke-width="3.5"/>
+    <path d="M330 100h84" stroke="#93a58f" stroke-width="3"/>
+  </g>
+  <!-- kway teow strips -->
+  <g stroke="#f04a3a" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M336 214v44"/>
+    <path d="M356 220v44"/>
+    <path d="M376 226v42"/>
+    <path d="M396 232v40"/>
+  </g>
+  <g fill="#e8e3d4" font-family="system-ui, sans-serif" font-size="15" opacity=".8">
+    <text x="98" y="140">牛肉 0.2 cm</text>
+    <text x="316" y="212">粿条 0.8 cm</text>
+  </g>
+</svg>

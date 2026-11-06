@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { sourceVerifyLabel, sources } from '../lib/content'
 import { EXTRA_MODULE_LABELS, MODULES } from '../lib/modules'
 import { usePageTitle } from '../lib/usePageContext'
@@ -50,7 +50,8 @@ export default function SourcesPage() {
           只作索引的来源，相关的条目不会写成确定事实。
         </p>
         <p className="text-xs leading-5 text-muted">
-          外链一律新窗口打开。访问日期为整理当天的记录，页面内容可能已被来源方更新。
+          外部链接只作来源署名与核对入口，不是内容终点：条目正文、图示与交互都在本站本地化。
+          访问日期为整理当天的记录，页面内容可能已被来源方更新。
         </p>
       </header>
 
@@ -78,23 +79,26 @@ export default function SourcesPage() {
                 <li key={source.id} id={source.id} className="scroll-mt-24 px-4 py-4">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0 space-y-1">
-                      <p className="flex flex-wrap items-baseline gap-2">
-                        <span className="font-mono text-xs text-brick">[{source.id}]</span>
+                      <p className="leading-7">
+                        <span className="mr-2 font-mono text-xs text-brick">[{source.id}]</span>
                         {source.url ? (
-                          <a
-                            href={source.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-serif text-base text-ink underline decoration-line hover:decoration-brick"
-                          >
-                            {source.title}
-                          </a>
+                          <>
+                            <span className="mr-1 text-[11px] tracking-wide text-muted">来源：</span>
+                            <a
+                              href={source.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-serif text-base text-ink underline decoration-line hover:decoration-brick"
+                            >
+                              {source.title}
+                              <span aria-hidden="true" className="text-xs text-muted">
+                                {'\u00A0'}↗
+                              </span>
+                            </a>
+                          </>
                         ) : (
                           <span className="font-serif text-base text-ink">{source.title}</span>
                         )}
-                        <span aria-hidden="true" className="text-xs text-muted">
-                          ↗
-                        </span>
                       </p>
                       <dl className="grid gap-x-4 gap-y-1 text-xs text-muted sm:grid-cols-2">
                         <div>
@@ -109,6 +113,12 @@ export default function SourcesPage() {
                           <dt className="inline">适用地区：</dt>
                           <dd className="inline">{source.region || '未标注'}</dd>
                         </div>
+                        {source.note ? (
+                          <div className="sm:col-span-2">
+                            <dt className="inline">许可/署名：</dt>
+                            <dd className="inline">{source.note}</dd>
+                          </div>
+                        ) : null}
                       </dl>
                     </div>
                     <span
@@ -134,15 +144,19 @@ export default function SourcesPage() {
       <section className="card space-y-2">
         <h2 className="section-title">媒体说明</h2>
         <p className="text-sm leading-6 text-ink-soft">
-          首版不引用外部图片、视频或音频文件。页面里的阵形、茶具与队伍图都是本站自绘的几何示意图，
-          标注"示意图，非某地标准"。外部资料只以文字链接出现，点击后到来源站阅读。
+          页面里的阵形、茶具与队伍图是本站自绘的几何示意图，标注「示意图，非某地标准」。
+          首页与听潮使用的实拍照片、录音均自托管，来源与许可逐条登记在下方来源表。
+        </p>
+        <p className="text-sm leading-6 text-ink-soft">
+          听潮词条音频来自 Wikimedia Commons（CC BY-SA 4.0），已转码为 MP3 并保留原始文件。
+          作者与许可信息见每条「信息」展开区及下方来源表 S500–S520。
         </p>
         <p className="text-sm text-ink-soft">
-          听潮词条的可播放音频需要本地录音与展示授权；未授权的条目在
-          <Link to="/listen" className="link-inline mx-1">
-            听潮
-          </Link>
-          页显示为不可播放。
+          英歌原生展（
+          <a href="/exhibits/yingge/index.html" className="link-inline">
+            /exhibits/yingge/
+          </a>
+          ）为独立静态挂载，其内部媒体与署名由原始项目提供。
         </p>
       </section>
     </div>

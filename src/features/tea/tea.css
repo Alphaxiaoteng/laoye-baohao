@@ -1,0 +1,1040 @@
+/*
+ * 工夫茶茶席：写实拟物渲染（纯 CSS + 内联 SVG 纹理，无外部图片）。
+ *
+ * 设计意图：深木茶桌上一方乌木茶盘，紫砂朱泥壶、白瓷品茗杯、青瓷茶荷，
+ * 用多层渐变 + 内阴影 + 高光模拟釉面与木纹，配色收进 8787 深墨青底座。
+ * 所有选择器都带 .tea- 前缀或收在 .tea-stage 下，避免影响站内其他模块。
+ */
+
+.tea-stage {
+  /* 器物与材质 */
+  --tea-lacquer: #100b07;
+  --tea-wood-deep: #241408;
+  --tea-wood: #432917;
+  --tea-wood-light: #6f4a2a;
+  --tea-clay: #8a452b;
+  --tea-clay-deep: #4a1f12;
+  --tea-clay-light: #b06a42;
+  --tea-porcelain: #f6efe2;
+  --tea-porcelain-shade: #c9b9a1;
+  --tea-celadon: #9fb4a2;
+  --tea-amber: #b8681f;
+  --tea-amber-light: #e2a355;
+  --tea-ivory: #f1e7d6;
+  --tea-gold: #d3a273;
+  --tea-muted: #a89a86;
+
+  /* 木纹：横向拉伸的分形噪声，叠在木色渐变上 */
+  --tea-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 0.11' numOctaves='4' seed='9'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23g)' opacity='0.42'/%3E%3C/svg%3E");
+  /* 紫砂泥料：细密颗粒 */
+  --tea-clay-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23c)' opacity='0.32'/%3E%3C/svg%3E");
+
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4px;
+}
+
+/* ---------- 标题 ---------- */
+.tea-stage .scene-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-bottom: 14px;
+}
+
+.tea-stage .scene-step-name {
+  font-family: 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', STSong, serif;
+  font-size: clamp(20px, 4.6vw, 26px);
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: var(--text);
+}
+
+.tea-stage .scene-step-sub {
+  font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- 茶桌 ---------- */
+.tea-stage .tea-board {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 14px;
+  background-color: #2a1a0e;
+  background-image:
+    radial-gradient(78% 52% at 50% -6%, rgba(255, 216, 165, 0.2), transparent 66%),
+    radial-gradient(120% 88% at 50% 118%, rgba(0, 0, 0, 0.62), transparent 72%),
+    var(--tea-grain),
+    repeating-linear-gradient(90.5deg, rgba(255, 205, 150, 0.09) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(89deg, rgba(0, 0, 0, 0.26) 0 2px, transparent 2px 13px),
+    linear-gradient(168deg, #4a2d18 0%, #2f1b0e 46%, #1a0e07 100%);
+  background-blend-mode: normal, normal, soft-light, normal, normal, normal;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 216, 170, 0.18),
+    inset 0 -20px 38px rgba(0, 0, 0, 0.58),
+    0 30px 60px -26px rgba(0, 0, 0, 0.9);
+}
+
+/* 顶部灯光落在桌面上的柔光 */
+.tea-stage .board-light {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 30% at 50% 16%, rgba(255, 222, 178, 0.18), transparent 72%),
+    radial-gradient(90% 70% at 50% 100%, rgba(0, 0, 0, 0.28), transparent 70%);
+}
+
+/* ---------- 茶盘 ---------- */
+.tea-stage .tea-tray {
+  position: absolute;
+  z-index: 1;
+  top: 24%;
+  right: 4.5%;
+  bottom: 6%;
+  left: 4.5%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+  background-color: #3a2412;
+  background-image:
+    linear-gradient(180deg, rgba(255, 214, 168, 0.12), rgba(255, 214, 168, 0) 30%),
+    var(--tea-grain),
+    repeating-linear-gradient(89.5deg, rgba(255, 202, 152, 0.075) 0 2px, transparent 2px 8px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 11px),
+    linear-gradient(176deg, #6a431f 0%, #432814 52%, #241409 100%);
+  background-blend-mode: normal, soft-light, normal, normal, normal;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 208, 162, 0.18),
+    inset 0 12px 20px rgba(0, 0, 0, 0.34),
+    inset 0 -16px 26px rgba(0, 0, 0, 0.62),
+    0 14px 24px -12px rgba(0, 0, 0, 0.55);
+}
+
+/* 盘前沿：一点厚度与反光 */
+.tea-stage .tea-tray::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 7%;
+  background: linear-gradient(180deg, rgba(255, 210, 165, 0.1), rgba(0, 0, 0, 0.5));
+  box-shadow: inset 0 1px 0 rgba(255, 220, 180, 0.16);
+}
+
+/* 盘面：低于边沿一层的凹面 */
+.tea-stage .tray-channel {
+  position: absolute;
+  inset: 4.5% 3.5%;
+  overflow: hidden;
+  border-radius: 7px;
+  background-color: #3a2412;
+  background-image:
+    radial-gradient(90% 70% at 50% 0%, rgba(0, 0, 0, 0.34), transparent 70%),
+    var(--tea-grain),
+    linear-gradient(176deg, #5b3a1c 0%, #3b2412 58%, #241408 100%);
+  background-blend-mode: normal, soft-light, normal;
+  box-shadow:
+    inset 0 5px 12px rgba(0, 0, 0, 0.5),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 214, 170, 0.08);
+}
+
+/* 盘面四周的排水槽 */
+.tea-stage .tray-channel::before {
+  content: '';
+  position: absolute;
+  inset: 3.5%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 210, 168, 0.06);
+}
+
+/* 排水孔的一点水光 */
+.tea-stage .tray-ripple {
+  position: absolute;
+  right: 12%;
+  bottom: 12%;
+  width: 12%;
+  height: 8%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(170, 140, 100, 0.28), transparent 70%);
+  opacity: 0.7;
+}
+
+/* ---------- 茶巾 ---------- */
+.tea-stage .tea-cloth {
+  position: absolute;
+  z-index: 2;
+  bottom: 3%;
+  left: 2.5%;
+  width: 22%;
+  height: 11%;
+  transform: rotate(-5deg);
+  border-radius: 5px 9px 4px 11px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 240, 220, 0.06) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px),
+    linear-gradient(158deg, #6f5a41, #4a3a29 58%, #2a1f15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 210, 0.2),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.45),
+    0 9px 16px -7px rgba(0, 0, 0, 0.8);
+}
+
+/* 折叠的一层 */
+.tea-stage .tea-cloth::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 44%;
+  border-radius: 5px 9px 40% 30%;
+  background: rgba(255, 238, 214, 0.07);
+  box-shadow:
+    inset 0 -2px 4px rgba(0, 0, 0, 0.35),
+    0 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- 紫砂壶 ---------- */
+.tea-stage .tea-pot {
+  position: absolute;
+  z-index: 3;
+  top: 16%;
+  left: 50%;
+  width: 46%;
+  transform: translateX(-50%);
+  transition: transform 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 出汤时壶身侧倾 */
+.tea-phase-serve .tea-pot {
+  transform: translateX(-50%) rotate(-9deg);
+  transform-origin: 58% 86%;
+}
+
+.tea-stage .pot-svg {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 纳茶与注水时掀开一线壶盖 */
+.tea-stage .pot-lid-group {
+  transform-origin: 144px 47px;
+  transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.tea-phase-leaf .pot-lid-group,
+.tea-phase-pour .pot-lid-group {
+  transform: translate(-13px, -11px) rotate(-17deg);
+}
+
+.tea-stage .pot-shadow {
+  position: absolute;
+  z-index: 1;
+  right: 11%;
+  bottom: 1%;
+  left: 13%;
+  height: 15%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(0, 0, 0, 0.78),
+    rgba(0, 0, 0, 0.28) 62%,
+    transparent 78%
+  );
+  filter: blur(5px);
+}
+
+/* 盘面上的一点壶身反光 */
+.tea-stage .tea-pot::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  bottom: -2%;
+  left: 24%;
+  width: 46%;
+  height: 13%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(126, 66, 34, 0.45), transparent 70%);
+  filter: blur(5px);
+}
+
+/* ---------- 落茶 ---------- */
+.tea-stage .tea-leaves {
+  position: absolute;
+  z-index: 4;
+  top: 2%;
+  left: 26%;
+  width: 48%;
+  height: 34%;
+  pointer-events: none;
+}
+
+.tea-stage .tea-leaves span {
+  position: absolute;
+  top: 0;
+  width: 22%;
+  height: 9%;
+  border-radius: 46% 54% 62% 38% / 62% 58% 42% 38%;
+  background: linear-gradient(140deg, #55632f, #2c3418 72%);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  animation: tea-drop-leaf 1.2s ease-in forwards;
+}
+
+.tea-stage .tea-leaves span:nth-child(1) {
+  left: 12%;
+  animation-delay: 0s;
+}
+.tea-stage .tea-leaves span:nth-child(2) {
+  left: 30%;
+  animation-delay: 0.12s;
+}
+.tea-stage .tea-leaves span:nth-child(3) {
+  left: 48%;
+  animation-delay: 0.24s;
+}
+.tea-stage .tea-leaves span:nth-child(4) {
+  left: 66%;
+  animation-delay: 0.36s;
+}
+.tea-stage .tea-leaves span:nth-child(5) {
+  left: 38%;
+  animation-delay: 0.48s;
+}
+
+/* ---------- 注水 / 出汤 ---------- */
+.tea-stage .pour-stream {
+  position: absolute;
+  top: -11%;
+  left: 47%;
+  z-index: 6;
+  width: 4px;
+  height: 44%;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  background: linear-gradient(
+    to bottom,
+    rgba(232, 244, 238, 0.06),
+    rgba(236, 246, 240, 0.46) 34%,
+    rgba(244, 250, 246, 0.72) 80%,
+    rgba(255, 255, 255, 0.4)
+  );
+  filter: blur(0.4px);
+  animation: tea-pour-pulse 0.5s infinite alternate;
+}
+
+.tea-stage .pour-stream::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  width: 18px;
+  height: 7px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(238, 248, 242, 0.55), transparent 72%);
+  filter: blur(1.5px);
+}
+
+.tea-stage .pour-out {
+  position: absolute;
+  top: 30%;
+  left: 29.5%;
+  z-index: 5;
+  width: 3px;
+  height: 46%;
+  transform: rotate(9deg);
+  transform-origin: 50% 0;
+  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    rgba(214, 150, 74, 0.2),
+    rgba(214, 150, 74, 0.78) 22%,
+    rgba(226, 163, 85, 0.92) 70%,
+    rgba(180, 110, 44, 0.5)
+  );
+  animation: tea-out-pulse 0.45s infinite alternate;
+}
+
+/* ---------- 品茗杯 ---------- */
+.tea-stage .tea-cups {
+  position: absolute;
+  z-index: 3;
+  right: 13%;
+  bottom: 11.5%;
+  left: 13%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.tea-stage .cup {
+  position: relative;
+  display: flex;
+  width: 24%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tea-stage .cup-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 茶汤：注茶前是杯内暗影，注茶后是琥珀釉面 */
+.tea-stage .cup-tea,
+.tea-stage .cup-tea-sheen {
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+
+.tea-stage .cup.is-filled .cup-tea {
+  opacity: 1;
+}
+
+.tea-stage .cup.is-filled .cup-tea-sheen {
+  opacity: 0.42;
+}
+
+.tea-stage .cup-0 .cup-tea {
+  transition-delay: 0s;
+}
+.tea-stage .cup-1 .cup-tea {
+  transition-delay: 0.22s;
+}
+.tea-stage .cup-2 .cup-tea {
+  transition-delay: 0.44s;
+}
+
+/* ---------- 茶荷 ---------- */
+.tea-stage .leaf-dish {
+  position: absolute;
+  z-index: 4;
+  top: 26.5%;
+  right: 6%;
+  width: 14%;
+  aspect-ratio: 1.42 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tea-stage .leaf-dish-base {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50% 50% 52% 52% / 44% 44% 60% 60%;
+  background-color: #7c8d81;
+  background-image:
+    radial-gradient(62% 46% at 34% 22%, rgba(255, 255, 248, 0.5), transparent 62%),
+    radial-gradient(70% 60% at 76% 88%, rgba(0, 0, 0, 0.4), transparent 64%),
+    linear-gradient(168deg, #a9b8a9 0%, #87988a 40%, #55655a 78%, #37443b 100%);
+  box-shadow:
+    inset 0 -4px 8px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 8px 14px -5px rgba(0, 0, 0, 0.7);
+}
+
+/* 碟内浅凹 */
+.tea-stage .leaf-dish-base::before {
+  content: '';
+  position: absolute;
+  inset: 18% 12%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(24, 32, 26, 0.5), rgba(24, 32, 26, 0.16));
+  box-shadow:
+    inset 0 3px 5px rgba(0, 0, 0, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.tea-stage .dry-leaves {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  width: 64%;
+  height: 42%;
+  transform: translate(-50%, -50%);
+}
+
+.tea-stage .dry-leaves span {
+  position: absolute;
+  width: 34%;
+  height: 22%;
+  border-radius: 40% 60% 66% 34% / 60% 54% 46% 40%;
+  background: linear-gradient(140deg, #4f5a30, #2a3117 72%);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  opacity: 0.92;
+}
+
+.tea-stage .dry-leaves span:nth-child(1) {
+  top: 12%;
+  left: 10%;
+  transform: rotate(24deg);
+}
+.tea-stage .dry-leaves span:nth-child(2) {
+  top: 44%;
+  left: 34%;
+  transform: rotate(-18deg);
+}
+.tea-stage .dry-leaves span:nth-child(3) {
+  top: 20%;
+  left: 56%;
+  transform: rotate(42deg);
+}
+
+/* ---------- 热气 ---------- */
+.tea-stage .steam {
+  position: absolute;
+  z-index: 6;
+  display: flex;
+  gap: 7px;
+  pointer-events: none;
+}
+
+.tea-stage .steam span {
+  width: 6px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(to top, rgba(255, 246, 232, 0.42), rgba(255, 246, 232, 0));
+  filter: blur(3px);
+  animation: tea-rise 3.2s infinite ease-in;
+}
+
+.tea-stage .steam span:nth-child(2) {
+  animation-delay: 1.05s;
+}
+.tea-stage .steam span:nth-child(3) {
+  animation-delay: 2.1s;
+}
+
+.tea-stage .pot-steam {
+  top: -9%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tea-stage .cup-steam {
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 5px;
+}
+
+.tea-stage .cup-steam span {
+  height: 22px;
+  width: 4px;
+}
+
+/* ---------- 完成 ---------- */
+.tea-phase-done .scene-step-name {
+  color: var(--coral);
+}
+
+.tea-stage .celebrate-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: radial-gradient(60% 46% at 50% 44%, rgba(255, 206, 150, 0.16), transparent 70%);
+}
+
+/* 空气里的光斑：柔化成一团散景，避免像灰尘点 */
+.tea-stage .glint {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 243, 224, 0.42),
+    rgba(255, 226, 182, 0.18) 40%,
+    rgba(255, 220, 170, 0) 72%
+  );
+  filter: blur(2.4px);
+  animation: tea-twinkle 2.8s infinite;
+}
+
+.tea-stage .glint.s1 {
+  top: 26%;
+  left: 30%;
+  animation-delay: 0s;
+}
+.tea-stage .glint.s2 {
+  top: 40%;
+  right: 27%;
+  animation-delay: 0.7s;
+}
+.tea-stage .glint.s3 {
+  bottom: 34%;
+  left: 47%;
+  animation-delay: 1.4s;
+}
+
+.tea-stage .scene-caption {
+  margin-top: 10px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  text-align: center;
+  opacity: 0.85;
+}
+
+@media (max-width: 480px) {
+  /* 窄屏：茶席整体偏小，把壶与杯稍微放大，避免器物缩成小图标 */
+  .tea-stage .tea-pot {
+    top: 15%;
+    width: 51%;
+  }
+
+  .tea-stage .tea-cups {
+    right: 10%;
+    bottom: 10.5%;
+    left: 10%;
+  }
+
+  .tea-stage .cup {
+    width: 27%;
+  }
+}
+
+@media (max-width: 420px) {
+  .tea-stage .leaf-dish {
+    display: none;
+  }
+
+  .tea-stage .scene-caption {
+    font-size: 10px;
+  }
+}
+
+/* ==================================================================
+   面板与控件：茶席的「展柜」与操作区走 8787 深墨青毛玻璃，
+   只给一层细线，器物靠自身材质说话，不再做漆木拟物。
+   ================================================================== */
+
+/* 茶席外框：深墨青毛玻璃展柜 */
+.tea-stage-panel {
+  padding: clamp(8px, 2vw, 14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  background-color: rgba(45, 61, 49, 0.42);
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 18px 60px rgba(13, 21, 15, 0.16);
+}
+
+/* 步骤操作区：同一块玻璃，只是内边距更大 */
+.tea-panel {
+  position: relative;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  background-color: rgba(45, 61, 49, 0.42);
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 18px 60px rgba(13, 21, 15, 0.16);
+}
+
+/* 进度点：细线圆点，已走完鹿棕、当前珊瑚红 */
+.tea-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.tea-progress-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  transition:
+    transform 240ms var(--ease-exhibit),
+    background-color 240ms var(--ease-exhibit),
+    box-shadow 240ms var(--ease-exhibit);
+}
+
+.tea-progress-dot.is-done {
+  background: var(--brown);
+  box-shadow: inset 0 0 0 1px rgba(222, 118, 34, 0.55);
+}
+
+.tea-progress-dot.is-current {
+  transform: scale(1.3);
+  background: var(--coral);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    0 0 0 3px rgba(240, 74, 58, 0.16),
+    0 0 12px rgba(240, 74, 58, 0.3);
+}
+
+/* 项目页对应环节：细线小注，左侧一段鹿棕 */
+.tea-source-note {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-left: 2px solid rgba(222, 118, 34, 0.6);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+  text-align: left;
+}
+
+/* 按钮：主按钮珊瑚红，次按钮毛玻璃，与全站 .btn 一致 */
+.tea-btn {
+  position: relative;
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.35rem;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease-exhibit),
+    background-color 200ms var(--ease-exhibit),
+    border-color 200ms var(--ease-exhibit),
+    filter 160ms var(--ease-exhibit);
+}
+
+.tea-btn-primary {
+  border-color: var(--coral);
+  background-color: var(--coral);
+  color: #fff;
+  font-weight: 600;
+}
+
+.tea-btn-primary:hover {
+  border-color: #ff5c4b;
+  background-color: #ff5c4b;
+}
+
+.tea-btn-primary:active {
+  transform: translateY(1px);
+  border-color: #d63c2d;
+  background-color: #d63c2d;
+}
+
+.tea-btn-ghost {
+  border-color: rgba(255, 255, 255, 0.24);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.tea-btn-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.tea-btn-ghost:active {
+  transform: translateY(1px);
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.tea-btn:disabled,
+.tea-btn[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.4;
+  transform: none;
+  filter: none;
+}
+
+.tea-btn:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
+}
+
+/* 一键演示：茶席上方只有一颗主按钮（暂停时旁边多一颗重置） */
+.tea-playbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tea-play-btn {
+  min-width: 148px;
+  letter-spacing: 0.1em;
+}
+
+.tea-play-btn[aria-pressed='true'] {
+  box-shadow:
+    0 0 0 3px rgba(240, 74, 58, 0.16),
+    0 0 18px rgba(240, 74, 58, 0.28);
+}
+
+/* 完成页的「茶」印：珊瑚色印章圆牌 */
+.tea-seal {
+  display: flex;
+  width: 72px;
+  height: 72px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(240, 74, 58, 0.55);
+  background: rgba(240, 74, 58, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  font-family: 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', STSong, serif;
+  font-size: 36px;
+  line-height: 1;
+  color: #ff9c90;
+}
+
+/* 手势圆盘：深墨青玻璃底 + 珊瑚铜环进度 */
+.tea-gesture-ring {
+  display: flex;
+  width: 112px;
+  height: 112px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 200ms var(--ease-exhibit);
+  box-shadow: 0 10px 22px -14px rgba(0, 0, 0, 0.9);
+}
+
+.tea-gesture-ring.is-matched {
+  transform: scale(1.05);
+}
+
+.tea-gesture-disc {
+  display: flex;
+  width: 94px;
+  height: 94px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.tea-gesture-icon {
+  font-size: 40px;
+  line-height: 1;
+  filter: saturate(0.85) brightness(0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tea-stage .tea-pot {
+    transition: none;
+  }
+}
+
+/* ---------- 动画 ---------- */
+@keyframes tea-rise {
+  0% {
+    transform: translateY(0) scaleX(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-52px) scaleX(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes tea-drop-leaf {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(1000%) rotate(220deg);
+    opacity: 0;
+  }
+}
+
+@keyframes tea-bubble {
+  0% {
+    transform: translateY(0) scale(0.55);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(-24px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes tea-pour-pulse {
+  from {
+    transform: translateX(-50%) scaleY(0.97);
+    opacity: 0.75;
+  }
+  to {
+    transform: translateX(-50%) scaleY(1.03);
+    opacity: 1;
+  }
+}
+
+@keyframes tea-out-pulse {
+  from {
+    transform: rotate(9deg) scaleY(0.96);
+    opacity: 0.75;
+  }
+  to {
+    transform: rotate(9deg) scaleY(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes tea-twinkle {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.95;
+  }
+}
+
+/* ---- 单页模式：茶席 + 右侧步骤，器物上可直接点击 ---- */
+
+.tea-single {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: start;
+}
+
+.tea-interactive-wrap {
+  position: relative;
+}
+
+/* 热区只覆盖器物本体，避免整块茶席都变成按钮 */
+.tea-hotspot {
+  position: absolute;
+  z-index: 8;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.tea-hotspot:hover,
+.tea-hotspot:focus-visible {
+  border-color: rgba(240, 74, 58, 0.75);
+  background: rgba(240, 74, 58, 0.08);
+  outline: none;
+}
+
+.tea-hotspot.hot-pot {
+  top: 16%;
+  left: 28%;
+  width: 44%;
+  height: 40%;
+}
+
+.tea-hotspot.hot-leaf {
+  top: 25.5%;
+  right: 4%;
+  width: 15%;
+  height: 15%;
+  border-radius: 999px;
+}
+
+.tea-hotspot.hot-cups {
+  bottom: 7%;
+  left: 12%;
+  width: 76%;
+  height: 28%;
+}
+
+@media (max-width: 900px) {
+  .tea-single {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 当前步骤提示：只在器物后面点一盏柔光，不画死板的方框 */
+.tea-hotspot.is-hint {
+  border-color: transparent;
+  border-radius: 999px;
+  background: radial-gradient(
+    closest-side,
+    rgba(240, 74, 58, 0.26),
+    rgba(240, 74, 58, 0.08) 58%,
+    transparent 76%
+  );
+  animation: tea-hint-glow 2.6s ease-in-out infinite;
+}
+
+.tea-hotspot.is-hint:hover,
+.tea-hotspot.is-hint:focus-visible {
+  border-color: rgba(240, 74, 58, 0.75);
+  border-radius: 16px;
+}
+
+@keyframes tea-hint-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tea-hotspot.is-hint {
+    animation: none;
+  }
+}

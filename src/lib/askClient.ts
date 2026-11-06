@@ -27,6 +27,10 @@ export type AskDone = {
   citations: Citation[]
   navs: NavSuggestion[]
   uncertain: boolean
+  /** 服务端确定性回答（浏览回顾 / 澄清），不需要引用 */
+  direct?: boolean
+  /** 服务端先追问澄清，而非直接作答 */
+  clarify?: boolean
 }
 
 export type AskEvent =
@@ -75,13 +79,24 @@ export function parseEventBlock(block: string): AskEvent | null {
   }
   if (event === 'done') {
     const citations = Array.isArray(bag.citations)
-      ? (bag.citations as Citation[]).filter(
-          (c) => c && typeof c.id === 'string' && typeof c.url === 'string',
-        )
+      ? (bag.citations as Citation[])
+          .filter(
+            (c) =>
+              c &&
+              typeof c.id === 'string' &&
+              typeof c.title === 'string' &&
+              typeof c.url === 'string',
+          )
+          .map((c) => ({ id: c.id, title: c.title, url: c.url }))
       : []
     const navs = Array.isArray(bag.navs)
       ? (bag.navs as NavSuggestion[]).filter(
-          (n) => n && typeof n.entryId === 'string' && typeof n.path === 'string',
+          (n) =>
+            n &&
+            typeof n.entryId === 'string' &&
+            typeof n.title === 'string' &&
+            typeof n.path === 'string' &&
+            n.path.startsWith('/'),
         )
       : []
     return {
@@ -90,6 +105,8 @@ export function parseEventBlock(block: string): AskEvent | null {
       citations,
       navs,
       uncertain: bag.uncertain === true,
+      direct: bag.direct === true,
+      clarify: bag.clarify === true,
     }
   }
   return null

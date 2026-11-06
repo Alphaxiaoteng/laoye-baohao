@@ -1,5 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { useAskContextStore } from '../store/askContext'
+
+// 浏览器里在绘制前同步上下文；SSR / 测试环境退回 useEffect，避免服务端渲染警告
+const useBeforePaintEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export interface PageContext {
   module?: string
@@ -18,7 +21,8 @@ export function usePageContext(ctx: PageContext): void {
   const { module, moduleTitle, entryId, entryTitle, step, stepLabel } = ctx
   const setContext = useAskContextStore((s) => s.setContext)
 
-  useEffect(() => {
+  // 路由切换后先更新上下文再绘制，避免「正在了解」短暂显示上一页
+  useBeforePaintEffect(() => {
     setContext({ module, moduleTitle, entryId, entryTitle, step, stepLabel })
   }, [setContext, module, moduleTitle, entryId, entryTitle, step, stepLabel])
 }

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="步骤二：碗底先放味精与鱼露">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <g opacity=".5" fill="#38483a"><circle cx="230" cy="156" r="116"/></g>
+  <!-- empty bowl -->
+  <path d="M96 142h212c0 58-48 94-106 94S96 200 96 142z" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="202" cy="142" rx="106" ry="24" fill="#2d3d31" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="202" cy="142" rx="82" ry="16" fill="#38483a" stroke="#93a58f" stroke-width="3"/>
+  <!-- seasoning dots in bowl -->
+  <g fill="#f04a3a">
+    <circle cx="182" cy="140" r="3"/>
+    <circle cx="200" cy="144" r="2.5"/>
+    <circle cx="218" cy="139" r="3"/>
+    <circle cx="230" cy="145" r="2"/>
+  </g>
+  <!-- fish sauce bottle -->
+  <g>
+    <rect x="330" y="96" width="52" height="96" rx="12" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+    <rect x="344" y="72" width="24" height="26" rx="5" fill="#38483a" stroke="#e8e3d4" stroke-width="4"/>
+    <path d="M340 130h32" stroke="#f04a3a" stroke-width="5"/>
+    <text x="336" y="160" font-family="system-ui, sans-serif" font-size="15" fill="#e8e3d4">鱼露</text>
+  </g>
+  <!-- measuring spoon -->
+  <g transform="rotate(-18 300 210)">
+    <ellipse cx="300" cy="210" rx="26" ry="14" fill="#38483a" stroke="#f04a3a" stroke-width="3.5"/>
+    <path d="M322 204l58-18" stroke="#e8e3d4" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g fill="#e8e3d4" font-family="system-ui, sans-serif" font-size="15" opacity=".8">
+    <text x="126" y="262">鱼露 10 mL · 味精 0.5 g</text>
+  </g>
+</svg>

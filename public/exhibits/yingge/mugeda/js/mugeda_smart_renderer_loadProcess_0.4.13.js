@@ -1,0 +1,1 @@
+(function(){"use strict";var n=MugineRequire("Utils/Module"),a=MugineRequire("Utils/Macro"),r=function(){};r.init=function(){},a._regFunction("load_percent",function(u,c,e){if(e){var o=e._getRoot(),t=o._renderManager,i=t._preLoader;return Math.round(i._loadPercent)}return"100"},!0),n.namespace("Utils.LoadProcess",r)})();

@@ -1,12 +1,57 @@
 [
   {
-    "id": "S1",
-    "title": "英歌舞数字博物馆（首页）",
-    "org": "wenjian.asia（站点首页未标注主办机构）",
-    "url": "http://www.wenjian.asia/",
-    "region": "未标注地区、队伍与年份",
+    "id": "S100",
+    "title": "英歌（潮阳英歌）· 国家级非物质文化遗产代表性项目",
+    "org": "中国非物质文化遗产网 · 中国非物质文化遗产数字博物馆",
+    "url": "https://www.ihchina.cn/project_details/12901.html",
+    "region": "广东省汕头市（潮阳区）",
     "accessDate": "2026-11-05",
-    "verify": "reference-only",
-    "module": "yingge"
+    "verify": "fetched",
+    "module": "yingge",
+    "note": "项目序号 111，项目编号 Ⅲ—8，2006 年第一批，类别传统舞蹈，保护单位汕头市潮阳区文化馆。"
+  },
+  {
+    "id": "S101",
+    "title": "英歌（普宁英歌）· 国家级非物质文化遗产代表性项目",
+    "org": "中国非物质文化遗产网 · 中国非物质文化遗产数字博物馆",
+    "url": "https://www.ihchina.cn/project_details/12902.html",
+    "region": "广东省揭阳市（普宁市）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yingge",
+    "note": "项目序号 111，项目编号 Ⅲ—8，2006 年第一批，保护单位普宁市文化馆。"
+  },
+  {
+    "id": "S102",
+    "title": "英歌（甲子英歌）· 国家级非物质文化遗产代表性项目",
+    "org": "中国非物质文化遗产网 · 中国非物质文化遗产数字博物馆",
+    "url": "https://www.ihchina.cn/project_details/12903.html",
+    "region": "广东省汕尾市（陆丰市甲子镇）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yingge",
+    "note": "项目序号 111，项目编号 Ⅲ—8，2011 年第三批国家级非遗扩展项目，保护单位为陆丰市甲子英歌文化艺术服务中心。"
+  },
+  {
+    "id": "S103",
+    "title": "汕头市地方标准 DB 4405/T 315—2025《非物质文化遗产 潮阳英歌》",
+    "org": "汕头市市场监督管理局发布；PDF 由汕头职业技术学院英歌舞专题站提供",
+    "url": "https://www.stpt.edu.cn/_upload/article/files/53/40/58838af7487794853b6cb93946b9/4d483414-a74c-4fc9-a1c4-839762c52e07.pdf",
+    "region": "广东省汕头市（潮阳区）",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yingge",
+    "note": "2025-02-24 发布，2025-02-25 实施。含队伍构成、脸谱、服饰、道具、乐器、基础技法、基础队形与分类；附录图片由汕头市潮阳区棉北后溪英歌队提供。"
+  },
+  {
+    "id": "S104",
+    "title": "潮阳英歌地方标准（专题栏目页）",
+    "org": "汕头职业技术学院 · 英歌舞专题站",
+    "url": "https://www.stpt.edu.cn/yinggewu/ygwyjzl/list.htm",
+    "region": "广东省汕头市",
+    "accessDate": "2026-11-05",
+    "verify": "fetched",
+    "module": "yingge",
+    "note": "S103 所引 PDF 的发布栏目页；仅用于定位标准原文，本身不提供事实陈述。"
   }
 ]

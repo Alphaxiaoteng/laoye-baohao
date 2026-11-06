@@ -4,6 +4,7 @@ import { TeaRoutes } from './tea'
 import { FoodRoutes } from './food'
 import { YinglaoyeRoutes } from './yinglaoye'
 import { ListenRoutes } from './listen'
+import { GuideRoutes } from './guide'
 
 /** 各模块专属路由；排在通用路由之前，同路径时模块页面优先 */
 export const featureRoutes: RouteObject[] = [
@@ -12,4 +13,5 @@ export const featureRoutes: RouteObject[] = [
   ...FoodRoutes,
   ...YinglaoyeRoutes,
   ...ListenRoutes,
+  ...GuideRoutes,
 ]

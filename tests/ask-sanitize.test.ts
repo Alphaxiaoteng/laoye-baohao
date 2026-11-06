@@ -132,3 +132,21 @@ describe('提示词', () => {
     expect(prompt).not.toContain('MODELSCOPE_API_KEY=')
   })
 })
+
+describe('导航标记清理不留断句', () => {
+  it('删除 [[nav:...]] 后不留下「查看和。」这种残句', () => {
+    const out = sanitizeAnswer('……都不能确定。你可以查看[[nav:tea-pour]]和。', content)
+    expect(out.text).not.toContain('和。')
+    expect(out.text).not.toContain('[[')
+    expect(out.text).toContain('可以查看')
+  })
+})
+
+describe('中文排版清理', () => {
+  it('书名号与标点前后不留空格', () => {
+    const out = sanitizeAnswer('可以打开 [[nav:tea-pour]] 和 [[nav:tea-steps]] 。', content)
+    expect(out.text).not.toMatch(/《\s/)
+    expect(out.text).not.toMatch(/\s》/)
+    expect(out.text).not.toMatch(/\s[。，]/)
+  })
+})

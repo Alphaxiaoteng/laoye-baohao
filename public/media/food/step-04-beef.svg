@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="步骤四：牛肉片放进滚沸的牛骨汤烫至仅熟">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <g opacity=".5" fill="#38483a"><circle cx="240" cy="158" r="116"/></g>
+  <!-- pot -->
+  <path d="M112 134h228v74c0 26-22 42-48 42H160c-26 0-48-16-48-42z" fill="#3f503b" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="226" cy="134" rx="114" ry="26" fill="#38483a" stroke="#e8e3d4" stroke-width="4"/>
+  <ellipse cx="226" cy="134" rx="90" ry="18" fill="#2d3d31" stroke="#93a58f" stroke-width="3"/>
+  <!-- rolling broth -->
+  <g stroke="#f04a3a" stroke-width="3" fill="none" opacity=".65">
+    <path d="M156 132c10-8 22-8 32 0"/>
+    <path d="M210 138c10-8 22-8 32 0"/>
+    <path d="M266 130c10-8 22-8 32 0"/>
+  </g>
+  <!-- bubbles -->
+  <g fill="#93a58f">
+    <circle cx="176" cy="150" r="6"/>
+    <circle cx="236" cy="156" r="5"/>
+    <circle cx="292" cy="148" r="6"/>
+    <circle cx="204" cy="168" r="4"/>
+  </g>
+  <!-- beef slices going in -->
+  <g fill="#38483a" stroke="#f04a3a" stroke-width="3.5">
+    <path d="M296 108c18-14 44-12 56 4-14 14-40 16-56-4z" transform="rotate(-14 324 110)"/>
+    <path d="M336 128c18-14 44-12 56 4-14 14-40 16-56-4z" transform="rotate(-8 364 130)"/>
+  </g>
+  <g stroke="#e8e3d4" stroke-width="4" stroke-linecap="round">
+    <path d="M300 92l-26 34"/>
+    <path d="M316 100l-26 34"/>
+  </g>
+  <!-- steam -->
+  <g stroke="#f04a3a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".4">
+    <path d="M182 106c-10-12 10-18 0-28"/>
+    <path d="M222 100c-10-12 10-18 0-28"/>
+  </g>
+  <text x="118" y="278" font-family="system-ui, sans-serif" font-size="15" fill="#e8e3d4" opacity=".8">汤不沸不要下肉；烫到肉片完全变色</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="一盘蚝烙，配鱼露小碟">
+  <rect width="480" height="300" fill="#2d3d31"/>
+  <circle cx="240" cy="150" r="120" fill="#38483a" opacity=".55"/>
+
+  <!-- 蒸汽 -->
+  <g fill="none" stroke="#f04a3a" stroke-width="3" stroke-linecap="round" opacity=".4">
+    <path d="M196 84c-11-13 11-19 0-32"/>
+    <path d="M240 76c-11-13 11-19 0-32"/>
+    <path d="M284 84c-11-13 11-19 0-32"/>
+  </g>
+
+  <!-- 盘子 -->
+  <ellipse cx="240" cy="188" rx="150" ry="66" fill="#3f503b" stroke="#e8e3d4" stroke-width="3"/>
+  <ellipse cx="240" cy="184" rx="128" ry="54" fill="#2f3f33" stroke="#93a58f" stroke-width="1.5" opacity=".8"/>
+
+  <!-- 蚝烙主体：不规则蛋饼 -->
+  <path
+    d="M148 186c-6-26 26-48 62-52 30-4 56 4 78 16 22 12 34 30 26 44-8 15-44 24-84 24-42 0-76-10-82-32z"
+    fill="#d98a3a"
+    stroke="#b96f28"
+    stroke-width="3"
+  />
+  <!-- 焦边 -->
+  <path
+    d="M152 196c18 14 56 20 92 18 30-2 56-10 68-24"
+    fill="none"
+    stroke="#8f5220"
+    stroke-width="5"
+    stroke-linecap="round"
+    opacity=".7"
+  />
+
+  <!-- 蚝仔 -->
+  <g fill="#93a58f" stroke="#e8e3d4" stroke-width="2">
+    <ellipse cx="196" cy="176" rx="16" ry="12" transform="rotate(-12 196 176)"/>
+    <ellipse cx="238" cy="192" rx="17" ry="13" transform="rotate(8 238 192)"/>
+    <ellipse cx="282" cy="176" rx="16" ry="12" transform="rotate(-6 282 176)"/>
+    <ellipse cx="314" cy="194" rx="13" ry="10" transform="rotate(16 314 194)"/>
+    <ellipse cx="214" cy="204" rx="12" ry="9"/>
+  </g>
+  <g fill="#f2f1ea" opacity=".5">
+    <circle cx="190" cy="172" r="3"/>
+    <circle cx="232" cy="188" r="3"/>
+    <circle cx="276" cy="172" r="3"/>
+  </g>
+
+  <!-- 芫荽 -->
+  <g fill="none" stroke="#7fae7a" stroke-width="3" stroke-linecap="round">
+    <path d="M170 206c8-10 20-14 30-12"/>
+    <path d="M172 210c10-4 20-4 28 2"/>
+    <path d="M300 208c8-8 18-10 26-6"/>
+  </g>
+
+  <!-- 鱼露小碟 -->
+  <g>
+    <ellipse cx="392" cy="222" rx="38" ry="18" fill="#3f503b" stroke="#e8e3d4" stroke-width="2.5"/>
+    <ellipse cx="392" cy="220" rx="27" ry="12" fill="#6d4a22"/>
+    <ellipse cx="386" cy="217" rx="8" ry="4" fill="#8a5f2c" opacity=".8"/>
+  </g>
+  <text x="392" y="258" text-anchor="middle" font-family="serif" font-size="12" fill="#93a58f">鱼露</text>
+</svg>

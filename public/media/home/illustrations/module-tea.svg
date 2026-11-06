@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420" role="img" aria-label="自绘纸质插画：茶盘上的工夫茶壶与三只小茶杯">
+  <rect width="400" height="420" fill="#f7f4ea"/>
+  <rect x="14" y="14" width="372" height="392" fill="none" stroke="#e2dccb"/>
+  <circle cx="200" cy="212" r="126" fill="none" stroke="#ddd6c4" stroke-width="1" stroke-dasharray="2 8"/>
+
+  <g stroke="#2c2e2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 茶盘 -->
+    <ellipse cx="200" cy="312" rx="132" ry="32" fill="#e6dfcc"/>
+    <ellipse cx="200" cy="306" rx="112" ry="24" fill="#f2eee2"/>
+
+    <!-- 壶身 -->
+    <path d="M146 250 Q146 216 200 214 Q254 216 254 250 L254 280 Q254 300 200 302 Q146 300 146 280 Z" fill="#c08b72"/>
+    <path d="M164 258 Q200 246 236 258" fill="none" stroke="#8f5f4a" stroke-width="2"/>
+    <ellipse cx="200" cy="214" rx="38" ry="10" fill="#d8c7a8"/>
+    <circle cx="200" cy="202" r="7" fill="#c9b07a"/>
+
+    <!-- 壶嘴 -->
+    <path d="M252 246 Q282 240 292 220 Q296 232 286 248 Q276 262 254 266 Z" fill="#c08b72"/>
+    <path d="M260 248 Q278 240 286 228" fill="none" stroke="#8f5f4a" stroke-width="2"/>
+
+    <!-- 壶把 -->
+    <path d="M146 240 Q114 236 114 266 Q114 294 146 288" fill="none" stroke-width="9"/>
+    <path d="M146 240 Q122 240 122 266 Q122 286 146 288" fill="none" stroke="#c08b72" stroke-width="5"/>
+
+    <!-- 三只茶杯 -->
+    <g fill="#fbf9f1">
+      <path d="M136 312 h36 l-5 20 q-13 8 -26 0 z"/>
+      <path d="M182 316 h36 l-5 20 q-13 8 -26 0 z"/>
+      <path d="M228 312 h36 l-5 20 q-13 8 -26 0 z"/>
+    </g>
+    <g stroke="#9aa88f" stroke-width="2">
+      <path d="M139 318 h30"/>
+      <path d="M185 322 h30"/>
+      <path d="M231 318 h30"/>
+    </g>
+  </g>
+
+  <!-- 热气 -->
+  <g fill="none" stroke="#b9b3a1" stroke-width="2.2" stroke-linecap="round">
+    <path d="M176 186 q-10 -14 2 -26 q10 -10 2 -24"/>
+    <path d="M204 178 q-10 -14 2 -26 q10 -10 2 -24"/>
+    <path d="M230 186 q-10 -14 2 -26 q10 -10 2 -24"/>
+  </g>
+
+  <g fill="none" stroke="#bdb6a3" stroke-width="1.6" stroke-linecap="round">
+    <path d="M58 348 q-16 -14 -30 -2"/>
+    <path d="M342 348 q16 -14 30 -2"/>
+  </g>
+  <circle cx="330" cy="92" r="4" fill="#a63a2b" opacity="0.75"/>
+</svg>

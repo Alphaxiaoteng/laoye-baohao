@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-11-05T21:08:20.335Z",
+  "counts": {
+    "entries": 27,
+    "story": 5,
+    "recipes": 4,
+    "audio": 21,
+    "sources": 99,
+    "guides": 49
+  },
+  "validation": {
+    "errors": [],
+    "warnings": []
+  },
+  "freshness": {
+    "thresholdDays": 240,
+    "staleSources": [],
+    "staleGuides": []
+  },
+  "assets": {
+    "missingGuideCovers": []
+  },
+  "nextActions": [
+    "无需处理。"
+  ]
+}

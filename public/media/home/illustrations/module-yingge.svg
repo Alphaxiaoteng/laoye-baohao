@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420" role="img" aria-label="自绘纸质插画：交叉的双槌">
+  <rect width="400" height="420" fill="#f7f4ea"/>
+  <rect x="14" y="14" width="372" height="392" fill="none" stroke="#e2dccb"/>
+  <circle cx="200" cy="212" r="126" fill="none" stroke="#ddd6c4" stroke-width="1" stroke-dasharray="2 8"/>
+
+  <g stroke="#2c2e2a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 左斜槌 -->
+    <path d="M122 326 L104 308 L272 116 L290 134 Z" fill="#c9b07a"/>
+    <path d="M130 320 L268 130" stroke="#a8865a" stroke-width="2.5"/>
+    <path d="M104 308 L122 326 L112 336 L94 318 Z" fill="#46503f"/>
+    <!-- 右斜槌 -->
+    <path d="M278 326 L296 308 L128 116 L110 134 Z" fill="#d8c08c"/>
+    <path d="M270 320 L132 130" stroke="#a8865a" stroke-width="2.5"/>
+    <path d="M296 308 L278 326 L288 336 L306 318 Z" fill="#46503f"/>
+
+    <!-- 槌头装饰 -->
+    <path d="M124 316 l-10 4" stroke="#a63a2b" stroke-width="5"/>
+    <path d="M276 316 l10 4" stroke="#a63a2b" stroke-width="5"/>
+  </g>
+
+  <g stroke="#a63a2b" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M90 344 q-8 18 6 26"/>
+    <path d="M104 350 q-6 16 4 24"/>
+    <path d="M310 344 q8 18 -6 26"/>
+    <path d="M296 350 q6 16 -4 24"/>
+  </g>
+
+  <g fill="none" stroke="#bdb6a3" stroke-width="1.6" stroke-linecap="round">
+    <path d="M64 236 q-20 -22 -40 -6 q-14 12 2 22"/>
+    <path d="M336 236 q20 -22 40 -6 q14 12 -2 22"/>
+  </g>
+  <circle cx="342" cy="88" r="3.5" fill="#9aa88f"/>
+</svg>
