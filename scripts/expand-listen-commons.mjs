@@ -107,20 +107,26 @@ const audio = readJson(AUDIO_FILE)
 const sources = readJson(SOURCE_FILE)
 mkdirSync(OUT, { recursive: true })
 
-const category = await api({ action: 'query', generator: 'categorymembers', gcmtitle: 'Category:Teochew_pronunciation', gcmtype: 'file', gcmlimit: '100', prop: 'imageinfo', iiprop: 'url|extmetadata' })
-const ll = await api({ action: 'query', list: 'allimages', aiprefix: 'LL-Q36759-', ailimit: '500', aiprop: 'url|size' })
-const titles = [
-  ...Object.values(category.query?.pages ?? {}).map((page) => page.title),
-  ...(ll.query?.allimages ?? []).map((item) => `File:${item.name}`),
-].filter((title) => SPECS.some(([, match]) => title.includes(match)))
-const pages = await details(titles)
-const catalog = [...pages.values()]
+const CACHE_FILE = path.join(ROOT, 'scripts/audio-source-cache.json')
+let catalog
+if (existsSync(CACHE_FILE)) {
+  catalog = readJson(CACHE_FILE)
+} else {
+  const category = await api({ action: 'query', generator: 'categorymembers', gcmtitle: 'Category:Teochew_pronunciation', gcmtype: 'file', gcmlimit: '100', prop: 'imageinfo', iiprop: 'url|extmetadata' })
+  const ll = await api({ action: 'query', list: 'allimages', aiprefix: 'LL-Q36759-', ailimit: '500', aiprop: 'url|size' })
+  const titles = [
+    ...Object.values(category.query?.pages ?? {}).map((page) => page.title),
+    ...(ll.query?.allimages ?? []).map((item) => `File:${item.name}`),
+  ].filter((title) => SPECS.some(([, match]) => title.includes(match)))
+  catalog = await details(titles)
+  writeJson(CACHE_FILE, catalog)
+}
 
 let nextSource = Math.max(...sources.map((item) => /^S(\d+)$/.exec(item.id)?.[1] ? Number(/^S(\d+)$/.exec(item.id)[1]) : 0)) + 1
 const assetRows = []
 let added = 0
 
-for (const [slug, match, text, categoryId, meaning, pinyin] of SPECS) {
+for (const [slug, match, text, categoryId, meaning, pinyin] of [...SPECS.slice(25), ...SPECS.slice(0, 25)]) {
   const id = `audio-commons-${slug}`
   if (audio.some((item) => item.id === id)) continue
   const page = catalog.find((item) => item.title.includes(match))
@@ -137,9 +143,10 @@ for (const [slug, match, text, categoryId, meaning, pinyin] of SPECS) {
   const dest = path.join(OUT, `commons-${slug}.mp3`)
 
   try {
-    const response = await download(`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(page.title.replace(/^File:/, ''))}`)
-    if (!response.ok) throw new Error(`下载 ${response.status}`)
-    const buf = Buffer.from(await response.arrayBuffer())
+    const fileUrl = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(page.title.replace(/^File:/, ''))}`
+    const status = execFileSync('curl', ['-sSL', '--max-time', '20', '-A', 'Mozilla/5.0', '-o', tmp, '-w', '%{http_code}', fileUrl], { encoding: 'utf8' }).trim()
+    if (status !== '200') throw new Error(`下载 ${status}`)
+    const buf = readFileSync(tmp)
     if (buf.length < 1024) throw new Error(`文件过小 ${buf.length}`)
     writeFileSync(tmp, buf)
     execFileSync('ffmpeg', ['-y', '-i', tmp, '-ac', '1', '-b:a', '64k', dest], { stdio: 'ignore' })
@@ -156,7 +163,7 @@ for (const [slug, match, text, categoryId, meaning, pinyin] of SPECS) {
   } finally {
     try { execFileSync('rm', ['-f', tmp]) } catch { /* ignore */ }
   }
-  await sleep(1500)
+  await sleep(400)
 }
 
 writeJson(AUDIO_FILE, audio)
