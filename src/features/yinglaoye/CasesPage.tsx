@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { entryById, entryHref } from '../../lib/content'
 import { usePageContext, usePageTitle } from '../../lib/usePageContext'
-import { SourceBadges } from '../../components/SourceBadge'
 import VerifyBadge from '../../components/VerifyBadge'
 import Breadcrumb from './components/Breadcrumb'
 import CityCaseCard from './components/CityCaseCard'
