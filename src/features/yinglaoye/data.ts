@@ -166,7 +166,7 @@ export const PHOTO_NOTE = '图为潮汕地区营老爷实拍，不特指某村�
 
 /**
  * 三城真图案例：潮州 / 汕头 / 揭阳各取一份已有条目。
- * 图片都是 public/media/photos/ 下的 CC 授权实拍（登记见 registry.json 与 PHOTO_CREDITS）；
+ * 实拍图在 public/media/photos/ 下（CC BY-SA 4.0，登记见 registry.json 与 PHOTO_CREDITS）；
  * 时间与年份照来源原文，不换算成今年的日程。
  */
 export interface CityCase {
@@ -205,10 +205,10 @@ export const CITY_CASES: CityCase[] = [
   {
     city: '汕头',
     entryId: 'ylr-case-shantou',
-    image: '/media/photos/yinglaoye-lion.jpg',
-    width: 1920,
-    height: 1440,
-    alt: '潮汕营老爷实拍：舞狮队停在村口，村民围看',
+    image: '/media/photos/yinglaoye-chaoyang-walk.jpg',
+    width: 1600,
+    height: 2400,
+    alt: '潮汕营老爷巡游实拍：队伍抬着神轿行进',
     time: '正月初六',
     year: '2017 年记录',
     point: '澄海前沟乡游神，老爷像走在队伍中间，有时请英歌队',
@@ -216,24 +216,45 @@ export const CITY_CASES: CityCase[] = [
   {
     city: '揭阳',
     entryId: 'ylr-case-puning',
-    image: '/media/photos/yinglaoye-annual.jpg',
-    width: 1080,
-    height: 1920,
-    focus: '50% 28%',
-    alt: '潮汕营老爷实拍：游神队伍里着戏服的队员',
+    image: '/media/photos/yinglaoye-yingge.jpg',
+    width: 1920,
+    height: 1080,
+    alt: '潮汕营老爷实拍：现场的英歌装扮',
     time: '农历正月，各村轮流“闹热”',
     year: '2021 年 11 月发布',
     point: '普宁夜里抬八抬大轿，走遍村里的大路小巷',
   },
 ]
 
-/** 模块首页头图：跳火堆实拍，只作地区实拍示例，不写本模块没有的细节 */
-export const HERO_PHOTO = {
-  image: '/media/photos/yinglaoye-fire-jump.jpg',
-  width: 1920,
-  height: 1440,
-  alt: '潮汕营老爷实拍：跳火堆',
-} as const
+/** 模块首页可切换的四张静图 */
+export const STAGE_FRAMES = [
+  {
+    id: 'sedan',
+    src: '/media/photos/yinglaoye-chaoyang-sedan.jpg',
+    alt: '潮阳双忠营老爷实拍：神轿与抬轿的人',
+    caption: '潮阳双忠，神轿',
+    focus: 'center 30%',
+  },
+  {
+    id: 'drum',
+    src: '/media/photos/yinglaoye-procession.jpg',
+    alt: '潮汕营老爷实拍：巡游队伍中敲鼓的鼓手',
+    caption: '巡游队伍里的鼓',
+  },
+  {
+    id: 'walk',
+    src: '/media/photos/yinglaoye-chaoyang-walk.jpg',
+    alt: '潮阳双忠营老爷实拍：队伍抬着神轿行进',
+    caption: '潮阳双忠，队伍行进',
+    focus: 'center 30%',
+  },
+  {
+    id: 'yingge',
+    src: '/media/photos/yinglaoye-yingge.jpg',
+    alt: '潮汕营老爷实拍：现场的英歌装扮',
+    caption: '现场的英歌装扮',
+  },
+] as const
 
 /** 实拍图授权登记：照 public/media/photos/registry.json 抄录，用于页面署名 */
 export interface PhotoCredit {
@@ -247,30 +268,28 @@ export interface PhotoCredit {
 
 export const PHOTO_CREDITS: PhotoCredit[] = [
   {
-    label: '巡游队伍',
+    label: '潮阳双忠神轿',
+    author: '0754Hombee',
+    license: 'CC BY-SA 4.0',
+    source: 'https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E9%98%B3%E5%8F%8C%E5%BF%A0%E8%90%A5%E8%80%81%E7%88%B72.jpg',
+  },
+  {
+    label: '巡游鼓手',
     author: 'Zoemonday',
     license: 'CC BY-SA 4.0',
     source: 'https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E6%B1%95%E8%90%A5%E8%80%81%E7%88%B7.jpg',
   },
   {
-    label: '舞狮',
-    author: '陈异1',
+    label: '潮阳双忠巡游',
+    author: '0754Hombee',
     license: 'CC BY-SA 4.0',
-    source:
-      'https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E6%B1%95%E8%90%A5%E8%80%81%E7%88%B7%E8%88%9E%E7%8B%AE.jpg',
+    source: 'https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E9%98%B3%E5%8F%8C%E5%BF%A0%E8%90%A5%E8%80%81%E7%88%B71.jpg',
   },
   {
-    label: '年度游神队伍',
+    label: '现场英歌装扮',
     author: 'Zoemonday',
     license: 'CC BY-SA 4.0',
     source:
-      'https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E6%B1%95%E5%9C%B0%E5%8C%BA%E5%B9%B4%E5%BA%A6%E6%B8%B8%E7%A5%9E%E8%8A%82.jpg',
-  },
-  {
-    label: '跳火堆',
-    author: '陈异1',
-    license: 'CC BY-SA 4.0',
-    source:
-      'https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E6%B1%95%E8%90%A5%E8%80%81%E7%88%B7%E8%B7%B3%E7%81%AB%E5%A0%86.jpg',
+      'https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E6%B1%95%E8%90%A5%E8%80%81%E7%88%B7%E8%8B%B1%E6%AD%8C%E8%88%9E%E7%8E%B0%E5%9C%BA.jpg',
   },
 ]

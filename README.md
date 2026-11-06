@@ -114,12 +114,12 @@ public/audio/test-tone.mp3  程序生成的 1 秒 440Hz 纯音（播放器自检
 
 ## 内容模型
 
-`content/entries.json`：`{id, module, title, summary, body, region, sourceIds[], verify}`
-`content/story.json`：`{id, order, title, fiction, narrative, entryIds[], action}`
-`content/recipes.json`：`{id, name, region, servings, ingredients[], tools[], steps[], safety[], sourceIds[], verify}`
-`content/audio.json`：`{id, category, text, meaning, accent, pinyin?, file, recorder, license, sourceIds[]}`
-`content/sources.json`：`{id, title, org, url, region, accessDate, verify, module}`
-`content/media.json`：`{id, file, type, author, license}`（首版只有自绘 SVG，可为空）
+`content/entries.json` 或 `content/entries.<模块>.json`：`{id, module, title, summary, body, region, sourceIds[], verify}`
+`content/story.json` 或 `content/story.<模块>.json`：`{id, order, title, fiction, narrative, entryIds[], action}`
+`content/recipes.json` 或 `content/recipes.<模块>.json`：`{id, name, region, servings, ingredients[], tools[], steps[], safety[], sourceIds[], verify}`
+`content/audio.json` 或 `content/audio.<模块>.json`：`{id, category, text, meaning, accent, pinyin?, file, recorder, license, sourceIds[]}`
+`content/sources.json` 或 `content/sources.<模块>.json`：`{id, title, org, url, region, accessDate, verify, module}`
+`content/media.json` 或 `content/media.<模块>.json`：`{id, file, type, author, license}`（首版只有自绘 SVG，可为空）
 
 枚举约定：
 

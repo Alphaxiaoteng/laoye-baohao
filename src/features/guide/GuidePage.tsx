@@ -1,199 +1,260 @@
-import { useMemo, useState } from 'react'
-import { GUIDE_CITIES, GUIDE_KINDS, guideItems, type GuideItem } from './guideData'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { usePageTitle } from '../../lib/usePageContext'
+import { guideArticles, type GuideArticle } from './knowledge'
+import FoodGlyph from './FoodGlyphs'
+import RouteSketch from './RouteSketch'
 import './guide.css'
 
-const KIND_LABEL: Record<GuideItem['kind'], string> = {
-  guide: '行程攻略',
-  food: '美食合集',
-  recipe: '家常做法',
-}
-
-/** 三个主流城市分区展示；跨市的「潮汕」攻略单独一个区 */
-const CITY_SECTIONS: { key: string; title: string; blurb: string }[] = [
-  { key: '潮州', title: '潮州', blurb: '广济桥、牌坊街与青龙古庙一线' },
-  { key: '汕头', title: '汕头', blurb: '小公园开埠区、南澳岛与牛肉火锅' },
-  { key: '揭阳', title: '揭阳', blurb: '进贤门、揭阳学宫与普宁英歌' },
-  { key: '潮汕', title: '跨市连线', blurb: '一次跑两三个城市的长线行程' },
-]
-
-function formatCount(n: number): string {
-  if (!Number.isFinite(n) || n <= 0) return '—'
-  if (n >= 10000) return `${(n / 10000).toFixed(1)} 万`
-  return String(n)
-}
-
-export default function GuidePage() {
-  usePageTitle('潮汕攻略')
-  const [city, setCity] = useState<(typeof GUIDE_CITIES)[number]>('全部')
-  const [kind, setKind] = useState<'all' | GuideItem['kind']>('all')
-
-  const filtered = useMemo(
-    () =>
-      guideItems.filter(
-        (item) => (city === '全部' || item.city === city) && (kind === 'all' || item.kind === kind),
-      ),
-    [city, kind],
+/** 没有可靠实拍时用的头图：只是纸面上的结构示意，不冒充现场照片 */
+function CoverArt() {
+  return (
+    <svg className="guide-cover-art" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+      <path className="guide-cover-sea" d="M0 132c40-14 70 10 106-2s66-18 100-4 74 6 114-6v82H0z" />
+      <path className="guide-cover-wave" d="M0 152c44-12 74 12 116 0s72-14 110 0 62 8 94-2" />
+      <path className="guide-cover-wave" d="M0 168c44-12 74 12 116 0s72-14 110 0 62 8 94-2" />
+      <circle className="guide-cover-sun" cx="246" cy="52" r="20" />
+      <path className="guide-cover-beam" d="M60 132V96l16-12 16 12v36" />
+      <path className="guide-cover-beam" d="M92 132V96" />
+    </svg>
   )
+}
 
-  /** 默认视图：按三城 + 跨市分区；用户筛了具体城市就只显示该区 */
-  const sections = useMemo(() => {
-    if (city !== '全部') {
-      return [{ key: city, title: city, blurb: '', items: filtered }]
-    }
-    return CITY_SECTIONS.map((s) => ({
-      ...s,
-      items: filtered.filter((item) => item.city === s.key),
-    })).filter((s) => s.items.length > 0)
-  }, [city, filtered])
+function GuideCard({ article, onOpen }: { article: GuideArticle; onOpen: (id: string) => void }) {
+  return (
+    <article className="guide-card">
+      <div className="guide-card-media">
+        {article.cover ? (
+          <img
+            className="guide-card-img"
+            src={article.cover.src}
+            alt={article.cover.alt}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <CoverArt />
+        )}
+      </div>
+
+      <div className="guide-card-body">
+        <p className="guide-kicker">
+          <span className="guide-kicker-city">{article.city}</span>
+          <span>{article.theme}</span>
+          <span>{article.eyebrow}</span>
+        </p>
+        <h2 className="guide-card-title">{article.title}</h2>
+        <p className="guide-card-dek">{article.dek}</p>
+        <p className="guide-card-meta">
+          <span>{article.duration}</span>
+          <span>{article.season}</span>
+        </p>
+        <button
+          type="button"
+          className="guide-open"
+          onClick={() => onOpen(article.id)}
+          aria-label={`阅读指南：${article.title}`}
+        >
+          读这篇
+          <span className="guide-open-arrow" aria-hidden="true">
+            →
+          </span>
+        </button>
+      </div>
+    </article>
+  )
+}
+
+/** 阅读视图单独导出，方便渲染测试直接检查单篇内容 */
+export function GuideReader({ article, onBack }: { article: GuideArticle; onBack: () => void }) {
+  const routeHeadingId = `${article.id}-route`
+  const foodHeadingId = `${article.id}-food`
+  const cautionHeadingId = `${article.id}-cautions`
+  const photoHeadingId = `${article.id}-photos`
 
   return (
-    <div className="space-y-8">
-      <header className="guide-hero">
-        <p className="text-xs tracking-[0.3em] text-brick">潮汕攻略</p>
-        <h1 className="mt-3 font-serif text-[26px] leading-[1.3] text-ink sm:text-[38px]">
-          潮州 · 汕头 · 揭阳，别人走过的路
-        </h1>
-        <p className="mt-4 max-w-2xl text-[15px] leading-7 text-ink-soft">
-          这些行程来自小红书上真实发布的图文，经过去广告、去软文与要点摘录后收录；
-          每条保留原作者、原帖链接与发布时间，只作路线参考，不代表本站核验过店家的实时营业状态。
+    <article className="guide-reader">
+      <button type="button" className="guide-back" onClick={onBack}>
+        <span aria-hidden="true">←</span> 全部指南
+      </button>
+
+      <header className="guide-reader-head">
+        <p className="guide-kicker">
+          <span className="guide-kicker-city">{article.city}</span>
+          <span>{article.theme}</span>
+          <span>{article.eyebrow}</span>
         </p>
-        <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+        <h1 className="guide-reader-title">{article.title}</h1>
+        <p className="guide-reader-dek">{article.dek}</p>
+        <dl className="guide-reader-meta">
           <div>
-            <dt className="text-xs text-faint">收录篇数</dt>
-            <dd className="mt-1 font-serif text-xl text-ink">{guideItems.length}</dd>
+            <dt>时长</dt>
+            <dd>{article.duration}</dd>
           </div>
           <div>
-            <dt className="text-xs text-faint">覆盖地区</dt>
-            <dd className="mt-1 font-serif text-xl text-ink">
-              {new Set(guideItems.map((g) => g.city)).size}
-            </dd>
+            <dt>季节</dt>
+            <dd>{article.season}</dd>
           </div>
-          <div aria-live="polite">
-            <dt className="text-xs text-faint">当前筛选</dt>
-            <dd className="mt-1 font-serif text-xl text-ink">{filtered.length}</dd>
+          <div>
+            <dt>线索</dt>
+            <dd>{article.route.segments.reduce((sum, seg) => sum + seg.stops.length, 0)} 个点位</dd>
           </div>
         </dl>
       </header>
 
-      <section aria-label="筛选" className="space-y-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-xs text-faint">城市</span>
-          {GUIDE_CITIES.map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => setCity(c)}
-              aria-pressed={city === c}
-              className={`guide-chip ${city === c ? 'is-active' : ''}`}
-            >
-              {c}
-            </button>
+      {article.cover ? (
+        <figure className="guide-hero">
+          <img
+            className="guide-hero-img"
+            src={article.cover.src}
+            alt={article.cover.alt}
+            loading="eager"
+            decoding="async"
+          />
+          <figcaption>
+            {article.cover.caption}
+            <span className="guide-credit">{article.cover.credit}</span>
+          </figcaption>
+        </figure>
+      ) : null}
+
+      <section className="guide-facts" aria-labelledby={`${article.id}-facts`}>
+        <h2 id={`${article.id}-facts`}>先记住这几件事</h2>
+        <dl>
+          {article.facts.map((fact) => (
+            <div key={fact.label} className="guide-fact">
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
           ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 text-xs text-faint">类型</span>
-          {GUIDE_KINDS.map((k) => (
-            <button
-              key={k.id}
-              type="button"
-              onClick={() => setKind(k.id)}
-              aria-pressed={kind === k.id}
-              className={`guide-chip ${kind === k.id ? 'is-active' : ''}`}
-            >
-              {k.label}
-            </button>
-          ))}
-        </div>
+        </dl>
       </section>
 
-      {sections.length === 0 ? (
-        <div className="card">
-          <p className="text-sm text-ink-soft">这个组合下还没有收录的攻略，换个城市或类型看看。</p>
-        </div>
+      <div className="guide-body">
+        {article.sections.map((section) => (
+          <section key={section.heading} className="guide-section">
+            <h2>{section.heading}</h2>
+            {section.body.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            {section.link ? (
+              <Link className="guide-inline-link" to={section.link.to}>
+                {section.link.label}
+                <span aria-hidden="true"> →</span>
+              </Link>
+            ) : null}
+          </section>
+        ))}
+      </div>
+
+      <section className="guide-block" aria-labelledby={routeHeadingId}>
+        <h2 id={routeHeadingId}>路线</h2>
+        <p className="guide-block-note">{article.route.intro}</p>
+        {article.route.segments.map((segment, i) => (
+          <RouteSketch
+            key={segment.label}
+            segment={segment}
+            index={i}
+            titleId={`${article.id}-route-${i}`}
+          />
+        ))}
+      </section>
+
+      {article.food.length > 0 ? (
+        <section className="guide-block" aria-labelledby={foodHeadingId}>
+          <h2 id={foodHeadingId}>吃的</h2>
+          <p className="guide-block-note">
+            下面是小图谱，只标种类与吃法，不是菜品照片；实拍在「现场」一栏。
+          </p>
+          <ul className="guide-food">
+            {article.food.map((item) => (
+              <li key={item.name} className="guide-food-item">
+                <FoodGlyph kind={item.glyph} />
+                <span className="guide-food-text">
+                  <strong>{item.name}</strong>
+                  <span>{item.note}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {article.photos.length > 0 ? (
+        <section className="guide-block" aria-labelledby={photoHeadingId}>
+          <h2 id={photoHeadingId}>现场</h2>
+          <div className={`guide-photos${article.photos.length > 1 ? ' guide-photos--grid' : ''}`}>
+            {article.photos.map((photo, i) => (
+              <figure key={photo.src + i} className="guide-photo">
+                <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+                <figcaption>
+                  {photo.caption}
+                  <span className="guide-credit">{photo.credit}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
       ) : (
-        <div className="space-y-10">
-          {sections.map((section) => (
-            <section key={section.key} aria-label={section.title}>
-              <header className="mb-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h2 className="font-serif text-xl text-ink sm:text-2xl">{section.title}</h2>
-                {section.blurb ? (
-                  <p className="text-xs text-faint">{section.blurb}</p>
-                ) : null}
-                <span className="ml-auto text-xs text-muted">{section.items.length} 篇</span>
-              </header>
-              <ul className="guide-grid">
-                {section.items.map((item, index) => (
-                  <li key={item.id} style={{ animationDelay: `${Math.min(index, 12) * 45}ms` }}>
-                    <article className="guide-card">
-                      <div className="guide-cover">
-                        {item.cover ? (
-                          <img
-                            src={item.cover}
-                            alt=""
-                            loading="lazy"
-                            decoding="async"
-                            width={900}
-                            height={675}
-                            onError={(event) => {
-                              // 图片缺失时保留深色底，不要让破图标破坏卡片
-                              event.currentTarget.style.visibility = 'hidden'
-                            }}
-                          />
-                        ) : (
-                          <span className="guide-cover-fallback" aria-hidden="true">
-                            老爷保号
-                          </span>
-                        )}
-                        <span className="guide-city">{item.city}</span>
-                        <span className="guide-kind">{KIND_LABEL[item.kind]}</span>
-                      </div>
-                      <div className="guide-body">
-                        <h2 className="guide-title">{item.title}</h2>
-                        <p className="guide-excerpt">{item.excerpt || '原帖以图片为主，点开原帖查看完整行程。'}</p>
-                        <div className="guide-meta">
-                          <span>♡ {formatCount(item.likes)}</span>
-                          <span>☆ {formatCount(item.collects)}</span>
-                          <span>{item.publishedAt || '日期不详'}</span>
-                        </div>
-                        <div className="guide-foot">
-                          <span className="guide-author">@{item.author}</span>
-                          <a
-                            href={item.noteUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="guide-link"
-                          >
-                            来源：小红书原帖 ↗
-                          </a>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
+        <p className="guide-block-note guide-block-note--solo">{article.photosNote}</p>
       )}
 
-      <section className="guide-note">
-        <h2 className="section-title">关于这些攻略</h2>
-        <p>
-          内容为原帖要点摘录，不是全文镜像；版权归各原作者所有。封面图仅作来源示意，已自托管以避免热链。
-          行程里的价格、营业时间、门票与交通随时会变，出发前请以商家与官方公告为准。
+      <section className="guide-block guide-cautions" aria-labelledby={cautionHeadingId}>
+        <h2 id={cautionHeadingId}>到现场要注意</h2>
+        <ul>
+          {article.cautions.map((caution) => (
+            <li key={caution}>{caution}</li>
+          ))}
+        </ul>
+        <p className="guide-block-note">
+          日期、班次、开放与演出安排以现场公告为准；本文不提供实时信息。
         </p>
-        <p>
-          想看有出处、经过核验的文化条目，请到{' '}
-          <a href="/docs" className="link-inline">
-            文献汇总
-          </a>{' '}
-          或{' '}
-          <a href="/sources" className="link-inline">
-            资料来源
-          </a>
-          。
+      </section>
+
+      <button type="button" className="guide-back guide-back--foot" onClick={onBack}>
+        <span aria-hidden="true">←</span> 回到全部指南
+      </button>
+    </article>
+  )
+}
+
+export default function GuidePage() {
+  const [activeId, setActiveId] = useState<string | null>(null)
+
+  const active = useMemo(
+    () => guideArticles.find((article) => article.id === activeId) ?? null,
+    [activeId],
+  )
+
+  usePageTitle(active ? `${active.title} · 潮汕攻略` : '潮汕攻略')
+
+  useEffect(() => {
+    if (activeId) window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [activeId])
+
+  if (active) {
+    return (
+      <div className="guide-page">
+        <GuideReader article={active} onBack={() => setActiveId(null)} />
+      </div>
+    )
+  }
+
+  return (
+    <div className="guide-page">
+      <header className="guide-lead">
+        <p className="guide-kicker">潮汕 · {guideArticles.length} 篇</p>
+        <h1>把潮汕走成一条线</h1>
+        <p className="guide-dek">
+          这里不放跳转链接。我们从公开攻略里把点位、顺序和吃的东西拆出来，重新排成能按天走的指南；
+          路线用 SVG 画结构，现场用站内已登记的实拍，写不清的地方就留白。
         </p>
+      </header>
+
+      <section className="guide-grid" aria-label="指南列表">
+        {guideArticles.map((article) => (
+          <GuideCard key={article.id} article={article} onOpen={setActiveId} />
+        ))}
       </section>
     </div>
   )

@@ -110,6 +110,39 @@
     "bytes": 498695
   },
   {
+    "id": "yinglaoye-chaoyang-sedan",
+    "file": "/media/photos/yinglaoye-chaoyang-sedan.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E9%98%B3%E5%8F%8C%E5%BF%A0%E8%90%A5%E8%80%81%E7%88%B72.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "0754Hombee",
+    "credit": "Own work",
+    "width": 1803,
+    "height": 2400,
+    "bytes": 1246982
+  },
+  {
+    "id": "yinglaoye-chaoyang-walk",
+    "file": "/media/photos/yinglaoye-chaoyang-walk.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E9%98%B3%E5%8F%8C%E5%BF%A0%E8%90%A5%E8%80%81%E7%88%B71.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "0754Hombee",
+    "credit": "Own work",
+    "width": 1600,
+    "height": 2400,
+    "bytes": 1052967
+  },
+  {
+    "id": "yinglaoye-yingge",
+    "file": "/media/photos/yinglaoye-yingge.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E6%B1%95%E8%90%A5%E8%80%81%E7%88%B7%E8%8B%B1%E6%AD%8C%E8%88%9E%E7%8E%B0%E5%9C%BA.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Zoemonday",
+    "credit": "Own work",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 476998
+  },
+  {
     "id": "yingge-parade",
     "file": "/media/photos/yingge-parade.jpg",
     "source_page": "https://commons.wikimedia.org/wiki/File:%E6%BD%AE%E6%B1%95%E8%8B%B1%E6%AD%8C%E8%88%9E%E5%B7%A1%E6%BC%94.jpg",

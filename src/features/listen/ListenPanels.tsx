@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { sources } from '../../lib/content'
 import { AUDIO_PENDING_LABEL, LISTEN_CATEGORIES } from './catalog'
 
 /** 需求说明：什么条件的录音才会被本站采用 */
@@ -50,45 +49,9 @@ export function ListenLicensingNote() {
   )
 }
 
-/** 外链：去已有来源站点核对发音，不搬运对方音频 */
+/** 站外发音核对入口已从产品 UI 移除。 */
 export function ListenSourceCheck() {
-  const picks = sources.filter(
-    (source) => source.module === 'tingchao' && ['S9', 'S10', 'S11'].includes(source.id),
-  )
-
-  return (
-    <section className="card space-y-3" aria-labelledby="listen-source-check">
-      <h2 id="listen-source-check" className="section-title">
-        去听潮来源核对发音
-      </h2>
-      <p className="text-sm leading-6 text-ink-soft">
-        本站只链到来源站点，不下载、不热链对方的音频。听到的读音仍以来源页当时的内容为准。
-      </p>
-      {picks.length === 0 ? (
-        <p className="text-sm text-muted">来源表里暂时没有登记可用于核对发音的站点。</p>
-      ) : (
-        <ul className="grid gap-3 sm:grid-cols-3">
-          {picks.map((source) => (
-            <li key={source.id}>
-              <a
-                href={source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex min-h-[44px] flex-col justify-center rounded-xl border border-line bg-white/70 px-4 py-3 no-underline transition-colors hover:border-brick hover:text-brick"
-              >
-                <span className="text-sm font-medium text-ink">{source.title}</span>
-                <span className="mt-1 text-xs text-muted">
-                  {source.org}
-                  {source.region ? ` · ${source.region}` : ''}
-                </span>
-                <span className="mt-2 text-xs text-brick">新窗口打开来源 ↗</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
-  )
+  return null
 }
 
 /** 已上线录音的署名、许可与核对边界 */
@@ -96,7 +59,7 @@ export function ListenAttribution() {
   return (
     <section className="card space-y-3" aria-labelledby="listen-attribution">
       <h2 id="listen-attribution" className="section-title">
-        录音来源与许可
+        录音与许可
       </h2>
       <p className="text-sm leading-6 text-ink-soft">
         可播放录音来自 Wikimedia Commons，作者为 Austin Zhang（20 条）与 Oh! Tea（1 条），共 21 条，
@@ -122,12 +85,7 @@ export function ListenAttribution() {
         。录音尚未请潮汕母语者逐条复核；如发现不符会先下线该条。
       </p>
       <p className="text-xs leading-5 text-muted">
-        词义按来源页标注的汉字直译，标「字面」的只解释汉字对应关系，不代表完整语用。
-        完整来源清单见
-        <Link className="link-inline mx-1" to="/sources#S500">
-          资料来源页
-        </Link>
-        。
+        词义按词条记录直译，标「字面」的只解释汉字对应关系，不代表完整语用。
       </p>
     </section>
   )

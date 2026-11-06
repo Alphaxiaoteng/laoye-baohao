@@ -1,0 +1,12 @@
+{
+  "version": "v2-palace-lacquer",
+  "versionTitle": "版本二：故宫多宝阁黑漆描金 × 宋代院体静物光影风 (Imperial Dark Lacquer & Song Court Still-Life)",
+  "folder": "04-food",
+  "id": "03-dish-kway-teow-soup",
+  "title": "代表菜·鲜切牛肉粿条汤",
+  "model": "gpt-image-2.6",
+  "size": "1024x1024",
+  "referenceImage": "public/media/home/hero/panel-food.webp",
+  "prompt": "Imperial Palace Museum Digital Duobaoge (数字多宝阁) curatorial aesthetic fused with Song Dynasty court academy realism (院体工笔重彩). Set against a deep polished ebony-lacquer and dark ink-pine void (#141C18 to #0D120F), illuminated by a single dramatic museum spotlight from top-left. Hyper-tactile heritage materials: luminous gilded lacquer, translucent porcelain glaze, aged bronze, hand-woven silk, and warm incense smoke. Strict 1:1 square composition with 50% velvety dark negative space, subtle gold-dust rim highlights (#B08A5A), timeless museum gravitas, strictly no text, no watermark, no artificial neon. Subject: Steaming bowl of Chaoshan beef kway teow noodle soup: silky white flat rice ribbons topped with tender blanched beef slices, beef balls, and a saucer of shacha sauce.",
+  "generatedAt": "2026-11-06T13:43:52.497Z"
+}

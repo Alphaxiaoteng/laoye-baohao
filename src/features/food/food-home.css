@@ -1,0 +1,62 @@
+.food-stage-img {
+  animation: food-step-in 280ms var(--ease-exhibit);
+}
+
+.food-step-meter {
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.food-step-meter > span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: var(--coral);
+}
+
+.food-step-meter > span.is-run {
+  animation: food-step-fill var(--food-step-ms, 3200ms) linear forwards;
+}
+
+.food-step-meter > span.is-paused {
+  animation: food-step-fill var(--food-step-ms, 3200ms) linear forwards;
+  animation-play-state: paused;
+}
+
+.food-step-meter > span.is-held {
+  transform: scaleX(1);
+}
+
+@keyframes food-step-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes food-step-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .food-stage-img {
+    animation: none;
+  }
+
+  .food-step-meter > span.is-run,
+  .food-step-meter > span.is-paused {
+    animation: none;
+    transform: scaleX(1);
+  }
+}

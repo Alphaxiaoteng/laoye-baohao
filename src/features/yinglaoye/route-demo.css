@@ -1,0 +1,418 @@
+/* 绕村示意：自绘 SVG。队伍按路径弧长前行，旗面、灯笼和虚线用 CSS 轻动。 */
+
+.yl-demo {
+  margin: 0;
+}
+
+.yl-route-stage {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse 70% 62% at 50% 42%, rgba(222, 118, 34, 0.12), transparent 70%),
+    var(--paper-surface);
+}
+
+.yl-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 760 / 440;
+}
+
+.yl-ground {
+  fill: rgba(63, 80, 59, 0.42);
+  stroke: none;
+}
+
+.yl-road-bed {
+  fill: none;
+  stroke: rgba(36, 28, 23, 0.12);
+  stroke-width: 28;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.yl-road-dash {
+  fill: none;
+  stroke: rgba(36, 28, 23, 0.42);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-dasharray: 2 11;
+  animation: yl-dash 1.4s linear infinite;
+}
+
+.yl-alley {
+  fill: none;
+  stroke: rgba(36, 28, 23, 0.2);
+  stroke-width: 11;
+  stroke-linecap: round;
+}
+
+.yl-road-bed--dim {
+  opacity: 0.35;
+}
+
+.yl-alley--bg {
+  opacity: 0.55;
+}
+
+.yl-alley-dash {
+  fill: none;
+  stroke: rgba(36, 28, 23, 0.46);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 3 10;
+  animation: yl-dash 1.2s linear infinite;
+}
+
+.yl-demo-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.yl-scene-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.yl-scene-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.yl-scene-tabs button {
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper-surface);
+  padding: 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.yl-scene-tabs button:hover,
+.yl-scene-tabs button:focus-visible {
+  border-color: rgba(61, 47, 38, 0.26);
+  background: var(--hover);
+  color: var(--text);
+  outline: none;
+}
+
+.yl-scene-tabs button.is-current {
+  border-color: var(--coral);
+  color: var(--text);
+  background: rgba(240, 74, 58, 0.12);
+}
+
+.yl-scene-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.yl-scene-view {
+  min-height: 0;
+}
+
+.yl-space-wrap {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: var(--paper-surface);
+}
+
+.yl-space-host {
+  width: 100%;
+  min-height: min(52vh, 420px);
+  aspect-ratio: 16 / 9;
+}
+
+.yl-space-host canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.yl-orbit-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.yl-space-status {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.yl-demo-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.yl-lane-alley-only {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.yl-house-roof {
+  fill: rgba(222, 118, 34, 0.28);
+  stroke: rgba(36, 28, 23, 0.32);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+.yl-house-wall {
+  fill: rgba(255, 253, 248, 0.88);
+  stroke: rgba(36, 28, 23, 0.2);
+  stroke-width: 1.4;
+}
+
+.yl-house-window {
+  fill: rgba(36, 28, 23, 0.12);
+  stroke: none;
+}
+
+.yl-arrow {
+  fill: rgba(36, 28, 23, 0.45);
+}
+
+.yl-piece,
+.yl-arrow {
+  opacity: 0;
+}
+
+.yl-demo.is-ready .yl-piece,
+.yl-demo.is-ready .yl-arrow {
+  opacity: 1;
+}
+
+.yl-shadow {
+  fill: rgba(0, 0, 0, 0.28);
+  stroke: none;
+}
+
+.yl-pole,
+.yl-string {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.yl-string {
+  stroke-width: 1.6;
+}
+
+.yl-finial {
+  fill: var(--brown);
+  stroke: none;
+}
+
+.yl-flag-cloth {
+  fill: var(--coral);
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  animation: yl-flag 1.7s ease-in-out infinite alternate;
+}
+
+.yl-flag-line {
+  fill: none;
+  stroke: rgba(255, 253, 248, 0.88);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.yl-roof {
+  fill: var(--coral);
+  stroke: none;
+}
+
+.yl-cabin {
+  fill: rgba(28, 40, 32, 0.94);
+  stroke: var(--text);
+  stroke-width: 1.7;
+}
+
+.yl-curtain {
+  fill: none;
+  stroke: rgba(255, 253, 248, 0.78);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+
+.yl-glow {
+  fill: rgba(222, 118, 34, 0.32);
+  stroke: none;
+}
+
+.yl-lantern-cap,
+.yl-lantern-tassel {
+  fill: none;
+  stroke: var(--coral);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+.yl-lantern-body {
+  fill: var(--brown);
+  stroke: none;
+}
+
+.yl-lantern-core {
+  fill: none;
+  stroke: rgba(255, 253, 248, 0.88);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.yl-lantern-hang {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: yl-swing 2.6s ease-in-out infinite alternate;
+}
+
+.yl-sedan-body {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: yl-bob 1.15s ease-in-out infinite;
+}
+
+.yl-lane,
+.yl-badge,
+.yl-note {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.yl-lane {
+  position: absolute;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--paper-surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 14px rgba(61, 47, 38, 0.08);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.yl-lane-main {
+  left: 50%;
+  top: 82%;
+  transform: translateX(-50%);
+}
+
+.yl-lane-alley {
+  left: 50%;
+  top: 57%;
+  transform: translateX(-50%);
+}
+
+.yl-caption {
+  max-width: 42rem;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.yl-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.yl-badge {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper-surface);
+  padding: 4px 10px;
+}
+
+.yl-note {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@keyframes yl-dash {
+  to {
+    stroke-dashoffset: -26;
+  }
+}
+
+@keyframes yl-flag {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes yl-swing {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes yl-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3.5px);
+  }
+}
+
+.yl-demo.is-paused .yl-flag-cloth,
+.yl-demo.is-paused .yl-lantern-hang,
+.yl-demo.is-paused .yl-sedan-body,
+.yl-demo.is-paused .yl-road-dash,
+.yl-demo.is-paused .yl-alley-dash {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yl-flag-cloth,
+  .yl-lantern-hang,
+  .yl-sedan-body,
+  .yl-road-dash,
+  .yl-alley-dash {
+    animation: none;
+  }
+}

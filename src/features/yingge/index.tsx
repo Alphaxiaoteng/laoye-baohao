@@ -8,7 +8,8 @@ import YinggeSound from './pages/Sound'
 
 /**
  * yingge 模块的专属页面。
- * 主结构只有两页：/museum/yingge（五要素下滑）与 /museum/yingge/story（叙事 + 数字馆）。
+ * 主页面只有 /museum/yingge：先数字馆，再阵形与角色。
+ * /museum/yingge/story 重定向到历史介绍英歌篇的叙事线索，旧链接不 404。
  * formations / roles / watch / sound 保留为可直达的深链页，供旧链接与站内检索使用，
  * 主页面不再逐一跳转。条目页（/museum/yingge/:entry）仍由通用 EntryPage 处理。
  */

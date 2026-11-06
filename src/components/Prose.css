@@ -1,0 +1,30 @@
+.prose { color: var(--ink-soft); font-size: 16px; line-height: 1.95; overflow-wrap: anywhere; }
+.prose > :first-child { margin-top: 0; }
+.prose > :last-child { margin-bottom: 0; }
+.prose p { margin: 0 0 1.05em; }
+.prose h3, .prose h4, .prose h5, .prose h6 {
+  margin: 1.8em 0 .65em;
+  color: var(--ink);
+  font-family: 'Source Han Serif CN', var(--font-serif, serif);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -.01em;
+}
+.prose h3 { font-size: 1.35rem; }
+.prose h4 { font-size: 1.18rem; }
+.prose h5, .prose h6 { font-size: 1.05rem; }
+.prose strong { color: var(--ink); font-weight: 650; }
+.prose code { padding: .12em .38em; border-radius: 4px; background: rgba(61, 47, 38, .08); color: var(--ink); font: .88em/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.prose ul, .prose ol { display: flex; flex-direction: column; gap: .5em; margin: 0 0 1.2em; padding-left: 1.5em; }
+.prose li { padding-left: .2em; }
+.prose li::marker { color: var(--coral); }
+.prose blockquote { margin: 1.2em 0; padding: .8em 1.1em; border-left: 2px solid var(--coral); background: rgba(61, 47, 38, .045); color: var(--ink-soft); }
+.prose blockquote p { margin: 0; }
+
+.docs-body.prose { font-size: 16px; line-height: 1.95; }
+.docs-body.prose p { margin-bottom: 1.05em; }
+.body-text.prose { max-width: 68ch; }
+@media (max-width: 720px) {
+  .prose { font-size: 15px; line-height: 1.9; }
+  .prose h3 { font-size: 1.22rem; }
+}

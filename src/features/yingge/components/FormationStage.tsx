@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import * as THREE from 'three'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { FORMATIONS, type FormationId } from '../data'
 import { useProgressStore } from '../../../store/progress'
 
 const COUNT = 48
 const TAU = Math.PI * 2
+const DANCER_URL = '/media/yingge/models/dancer.glb'
 
 interface Point {
   x: number
@@ -93,6 +97,247 @@ function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
 }
 
+interface DancerStage {
+  sync: (rotY: number, tilt: number, points: Point[], phase: number, width: number, height: number) => void
+  pick: (clientX: number, clientY: number) => boolean
+  dispose: () => void
+}
+
+/** 把模型脚底放到原点，身高约 1.65 个阵形单位。 */
+function fitMatrix(root: THREE.Object3D): THREE.Matrix4 {
+  root.updateMatrixWorld(true)
+  const box = new THREE.Box3().setFromObject(root)
+  const height = Math.max(0.001, box.max.y - box.min.y)
+  const scale = 1.65 / height
+  const cx = (box.min.x + box.max.x) / 2
+  const cz = (box.min.z + box.max.z) / 2
+  return new THREE.Matrix4()
+    .makeTranslation(-cx * scale, -box.min.y * scale, -cz * scale)
+    .multiply(new THREE.Matrix4().makeScale(scale, scale, scale))
+}
+
+function mountDancers(gltfScene: THREE.Object3D, host: HTMLElement, width: number, height: number): DancerStage | null {
+  const fit = fitMatrix(gltfScene)
+  const parts: THREE.InstancedMesh[] = []
+  gltfScene.traverse((obj) => {
+    const mesh = obj as THREE.Mesh
+    if (!mesh.isMesh) return
+    const geo = mesh.geometry.clone()
+    geo.applyMatrix4(fit.clone().multiply(mesh.matrixWorld))
+    const source = mesh.material
+    const material = Array.isArray(source) ? source[0] : source
+    const inst = new THREE.InstancedMesh(geo, material, COUNT)
+    inst.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
+    inst.frustumCulled = false
+    parts.push(inst)
+  })
+  if (parts.length === 0) return null
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true })
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+  renderer.setSize(width, height)
+  renderer.domElement.className = 'block h-full w-full touch-pan-y'
+  host.appendChild(renderer.domElement)
+
+  const scene = new THREE.Scene()
+  scene.background = new THREE.Color('#1f2d25')
+  scene.add(new THREE.AmbientLight('#ffffff', 0.75))
+  const sun = new THREE.DirectionalLight('#fff2e0', 1.35)
+  sun.position.set(8, 14, 6)
+  scene.add(sun)
+  const fill = new THREE.DirectionalLight('#9bb8a8', 0.4)
+  fill.position.set(-6, 5, -8)
+  scene.add(fill)
+  scene.add(new THREE.GridHelper(26, 13, 0x4a5e54, 0x314239))
+  for (const part of parts) scene.add(part)
+
+  const camera = new THREE.PerspectiveCamera(32, width / Math.max(1, height), 0.1, 200)
+  const dummy = new THREE.Object3D()
+  const raycaster = new THREE.Raycaster()
+  const pointer = new THREE.Vector2()
+
+  return {
+    sync(rotY, tilt, points, phase, w, h) {
+      const pitch = 0.28 + (tilt - 0.32) * 0.85
+      const dist = 34
+      camera.aspect = w / Math.max(1, h)
+      camera.updateProjectionMatrix()
+      camera.position.set(
+        Math.sin(rotY) * dist * Math.cos(pitch),
+        1.2 + Math.sin(pitch) * 16,
+        Math.cos(rotY) * dist * Math.cos(pitch),
+      )
+      camera.lookAt(0, 0.7, 0)
+      renderer.setSize(w, h)
+      const stepPhase = phase * 8.4
+      const arm = Math.sin(stepPhase) * 0.55
+      for (let i = 0; i < COUNT; i += 1) {
+        const p = points[i]
+        const bob = Math.abs(Math.sin(phase * 4.2 + i * 0.48)) * 0.08
+        dummy.position.set(p?.x ?? 0, bob, p?.z ?? 0)
+        const side = i % 2 ? 1 : -1
+        dummy.rotation.set(side * arm * 0.35 + Math.sin(stepPhase + i * 0.2) * 0.08, 0, side * arm * 0.12)
+        dummy.updateMatrix()
+        for (const part of parts) part.setMatrixAt(i, dummy.matrix)
+      }
+      for (const part of parts) part.instanceMatrix.needsUpdate = true
+      renderer.render(scene, camera)
+    },
+    pick(clientX, clientY) {
+      const rect = renderer.domElement.getBoundingClientRect()
+      if (rect.width === 0 || rect.height === 0) return false
+      pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1
+      pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1
+      raycaster.setFromCamera(pointer, camera)
+      return raycaster.intersectObjects(parts, false).length > 0
+    },
+    dispose() {
+      renderer.dispose()
+      renderer.domElement.remove()
+      for (const part of parts) part.geometry.dispose()
+      scene.clear()
+    },
+  }
+}
+
+function DancerZoom({ onClose }: { onClose: () => void }) {
+  const hostRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    const host = hostRef.current
+    if (!host) return
+    let disposed = false
+    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    renderer.domElement.className = 'block h-full w-full'
+    host.appendChild(renderer.domElement)
+    const scene = new THREE.Scene()
+    scene.background = new THREE.Color('#1f2d25')
+    scene.add(new THREE.AmbientLight('#ffffff', 0.8))
+    const sun = new THREE.DirectionalLight('#fff2e0', 1.4)
+    sun.position.set(2, 4, 3)
+    scene.add(sun)
+    const camera = new THREE.PerspectiveCamera(35, 1, 0.05, 50)
+    let yaw = 0.5
+    let pitch = 0.25
+    let dist = 4.2
+    const place = () => {
+      camera.position.set(
+        Math.sin(yaw) * dist * Math.cos(pitch),
+        0.85 + Math.sin(pitch) * dist * 0.55,
+        Math.cos(yaw) * dist * Math.cos(pitch),
+      )
+      camera.lookAt(0, 0.8, 0)
+    }
+    place()
+    const resize = () => {
+      const rect = host.getBoundingClientRect()
+      const w = Math.max(1, rect.width)
+      const h = Math.max(1, rect.height)
+      camera.aspect = w / h
+      camera.updateProjectionMatrix()
+      renderer.setSize(w, h)
+    }
+    resize()
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(resize) : null
+    observer?.observe(host)
+
+    let dragging = false
+    let last = { x: 0, y: 0 }
+    const down = (event: PointerEvent) => {
+      dragging = true
+      last = { x: event.clientX, y: event.clientY }
+      renderer.domElement.setPointerCapture(event.pointerId)
+    }
+    const move = (event: PointerEvent) => {
+      if (!dragging) return
+      yaw += (event.clientX - last.x) * 0.008
+      pitch = Math.min(1.15, Math.max(-0.15, pitch + (event.clientY - last.y) * 0.005))
+      last = { x: event.clientX, y: event.clientY }
+      place()
+    }
+    const up = () => {
+      dragging = false
+    }
+    const wheel = (event: WheelEvent) => {
+      event.preventDefault()
+      dist = Math.min(9, Math.max(1.6, dist + event.deltaY * 0.004))
+      place()
+    }
+    renderer.domElement.addEventListener('pointerdown', down)
+    renderer.domElement.addEventListener('pointermove', move)
+    renderer.domElement.addEventListener('pointerup', up)
+    renderer.domElement.addEventListener('pointercancel', up)
+    renderer.domElement.addEventListener('wheel', wheel, { passive: false })
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+
+    const loader = new GLTFLoader()
+    loader.load(DANCER_URL, (gltf) => {
+      if (disposed) return
+      const root = gltf.scene
+      root.updateMatrixWorld(true)
+      const box = new THREE.Box3().setFromObject(root)
+      const height = Math.max(0.001, box.max.y - box.min.y)
+      const scale = 1.7 / height
+      root.scale.setScalar(scale)
+      root.updateMatrixWorld(true)
+      const fitted = new THREE.Box3().setFromObject(root)
+      root.position.set(
+        -((fitted.min.x + fitted.max.x) / 2),
+        -fitted.min.y,
+        -((fitted.min.z + fitted.max.z) / 2),
+      )
+      scene.add(root)
+    })
+
+    let raf = 0
+    const loop = () => {
+      renderer.render(scene, camera)
+      raf = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => {
+      disposed = true
+      cancelAnimationFrame(raf)
+      observer?.disconnect()
+      document.removeEventListener('keydown', onKey)
+      renderer.domElement.removeEventListener('pointerdown', down)
+      renderer.domElement.removeEventListener('pointermove', move)
+      renderer.domElement.removeEventListener('pointerup', up)
+      renderer.domElement.removeEventListener('pointercancel', up)
+      renderer.domElement.removeEventListener('wheel', wheel)
+      renderer.dispose()
+      renderer.domElement.remove()
+    }
+  }, [onClose])
+
+  if (typeof document === 'undefined') return null
+  // 页面入场动画带 transform，fixed 留在里面会跟着滚出视口。
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="英歌角色，可拖动旋转，滚轮放大"
+        className="relative h-[min(78vh,720px)] w-[min(960px,94vw)] overflow-hidden rounded-card border border-line"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div ref={hostRef} className="h-full w-full" />
+        <button
+          type="button"
+          className="absolute right-3 top-3 min-h-[44px] rounded-control border border-line bg-paper px-3 text-sm text-ink"
+          onClick={onClose}
+        >
+          关闭
+        </button>
+      </div>
+    </div>,
+    document.body,
+  )
+}
+
 function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(false)
   useEffect(() => {
@@ -123,9 +368,15 @@ interface AnimState {
   autoIndex: number
 }
 
-export function FormationStage() {
+export function FormationStage({ tall = false }: { tall?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const wrapRef = useRef<HTMLDivElement | null>(null)
+  const glRef = useRef<HTMLDivElement | null>(null)
+  const openZoomRef = useRef(() => {})
+  const [modelOn, setModelOn] = useState(false)
+  const [zoomOpen, setZoomOpen] = useState(false)
+  const closeZoom = useCallback(() => setZoomOpen(false), [])
+  openZoomRef.current = () => setZoomOpen(true)
   const stateRef = useRef<AnimState>({
     mode: 'double',
     auto: true,
@@ -201,6 +452,8 @@ export function FormationStage() {
     let width = 0
     let height = 0
     let dpr = 1
+    let dancer: DancerStage | null = null
+    let disposed = false
 
     const resize = () => {
       const rect = wrap.getBoundingClientRect()
@@ -257,6 +510,12 @@ export function FormationStage() {
           cur.x += (target.x - cur.x) * k
           cur.z += (target.z - cur.z) * k
         }
+      }
+
+      if (dancer) {
+        dancer.sync(s.rotY, s.tilt, s.current, phase, width, height)
+        raf = requestAnimationFrame(draw)
+        return
       }
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
@@ -364,31 +623,60 @@ export function FormationStage() {
     }
     raf = requestAnimationFrame(draw)
 
+    const glHost = glRef.current
+    const loader = new GLTFLoader()
+    loader.load(
+      DANCER_URL,
+      (gltf) => {
+        if (disposed || !glHost) return
+        dancer = mountDancers(gltf.scene, glHost, width, height)
+        if (!dancer) return
+        canvas.style.visibility = 'hidden'
+        canvas.style.pointerEvents = 'none'
+        setModelOn(true)
+      },
+      undefined,
+      () => {
+        /* 模型还没落盘时继续画圆点 */
+      },
+    )
+
     let lastPointer: { x: number; y: number } | null = null
+    let downAt: { x: number; y: number } | null = null
+    let moved = false
     const onPointerDown = (event: PointerEvent) => {
+      if (event.button !== 0) return
       s.dragging = true
-      s.auto = false
-      setAuto(false)
-      canvas.setPointerCapture?.(event.pointerId)
+      moved = false
+      downAt = { x: event.clientX, y: event.clientY }
+      wrap.setPointerCapture?.(event.pointerId)
       lastPointer = { x: event.clientX, y: event.clientY }
     }
     const onPointerMove = (event: PointerEvent) => {
-      if (!s.dragging || !lastPointer) return
+      if (!s.dragging || !lastPointer || !downAt) return
       const dx = event.clientX - lastPointer.x
       const dy = event.clientY - lastPointer.y
+      if (Math.hypot(event.clientX - downAt.x, event.clientY - downAt.y) > 6) {
+        moved = true
+        s.auto = false
+        setAuto(false)
+      }
       s.targetRotY += dx * 0.006
       s.targetTilt = Math.min(0.95, Math.max(0.32, s.targetTilt + dy * 0.0035))
       lastPointer = { x: event.clientX, y: event.clientY }
     }
-    const endDrag = () => {
+    const endDrag = (event: PointerEvent) => {
+      const open = s.dragging && !moved && event.type === 'pointerup' && dancer?.pick(event.clientX, event.clientY)
       s.dragging = false
       lastPointer = null
+      downAt = null
+      if (open) openZoomRef.current()
     }
-    canvas.addEventListener('pointerdown', onPointerDown)
-    canvas.addEventListener('pointermove', onPointerMove)
-    canvas.addEventListener('pointerup', endDrag)
-    canvas.addEventListener('pointercancel', endDrag)
-    canvas.addEventListener('pointerleave', endDrag)
+    wrap.addEventListener('pointerdown', onPointerDown)
+    wrap.addEventListener('pointermove', onPointerMove)
+    wrap.addEventListener('pointerup', endDrag)
+    wrap.addEventListener('pointercancel', endDrag)
+    wrap.addEventListener('pointerleave', endDrag)
 
     const observer =
       typeof IntersectionObserver !== 'undefined'
@@ -399,7 +687,7 @@ export function FormationStage() {
             { threshold: 0.05 },
           )
         : null
-    observer?.observe(canvas)
+    observer?.observe(wrap)
 
     const onVisibility = () => {
       s.visible = !document.hidden
@@ -412,11 +700,13 @@ export function FormationStage() {
       resizeObserver?.disconnect()
       observer?.disconnect()
       document.removeEventListener('visibilitychange', onVisibility)
-      canvas.removeEventListener('pointerdown', onPointerDown)
-      canvas.removeEventListener('pointermove', onPointerMove)
-      canvas.removeEventListener('pointerup', endDrag)
-      canvas.removeEventListener('pointercancel', endDrag)
-      canvas.removeEventListener('pointerleave', endDrag)
+      disposed = true
+      dancer?.dispose()
+      wrap.removeEventListener('pointerdown', onPointerDown)
+      wrap.removeEventListener('pointermove', onPointerMove)
+      wrap.removeEventListener('pointerup', endDrag)
+      wrap.removeEventListener('pointercancel', endDrag)
+      wrap.removeEventListener('pointerleave', endDrag)
     }
   }, [reduced])
 
@@ -439,7 +729,7 @@ export function FormationStage() {
               className={[
                 'inline-flex min-h-[44px] items-center rounded-control border px-3.5 text-sm transition-colors duration-200 ease-exhibit',
                 formation.id === mode
-                  ? 'border-brick bg-brick text-paper'
+                  ? 'border-brick bg-brick text-cream'
                   : 'border-line bg-white/60 text-ink-soft hover:border-brick/40 hover:bg-hover hover:text-brick',
               ].join(' ')}
             >
@@ -464,51 +754,48 @@ export function FormationStage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
-        <div
-          ref={wrapRef}
-          className="relative h-[300px] overflow-hidden rounded-card border border-line bg-paper sm:h-[380px] lg:h-[420px]"
-        >
-          <canvas
-            ref={canvasRef}
-            role="img"
-            aria-label={`${active.name}互动示意：队员以点位表示，可拖动旋转视角`}
-            className="block h-full w-full touch-pan-y"
-          />
-          <p className="pointer-events-none absolute left-3 top-3 rounded-[4px] border border-line bg-paper/95 px-2 py-1 text-[11px] text-muted">
-            拖动可旋转视角
+      <div
+        ref={wrapRef}
+        className={
+          tall
+            ? 'yh-formation-tall relative overflow-hidden rounded-card border border-line bg-paper'
+            : 'relative h-[300px] overflow-hidden rounded-card border border-line bg-paper sm:h-[380px] lg:h-[420px]'
+        }
+      >
+        <div ref={glRef} className="absolute inset-0" />
+        <canvas
+          ref={canvasRef}
+          role="img"
+          aria-label={
+            modelOn
+              ? `${active.name}互动示意：可拖动旋转视角，点一下角色放大`
+              : `${active.name}互动示意：队员以点位表示，可拖动旋转视角`
+          }
+          className="absolute inset-0 block h-full w-full touch-pan-y"
+        />
+        <div className="pointer-events-none absolute left-3 right-3 top-3 z-10 flex flex-wrap items-start justify-between gap-2">
+          <p className="rounded-[4px] border border-line bg-paper/95 px-2 py-1 text-[11px] text-muted">
+            {modelOn ? '拖动转视角，点一下放大' : '拖动可旋转视角'}
           </p>
-        </div>
-
-        <div className="card space-y-3">
-          <div className="flex items-baseline justify-between gap-2">
-            <h3 className="font-serif text-lg text-ink">{active.name}</h3>
-            <span
-              className="text-xs text-muted"
-              role="status"
-              aria-live="polite"
-            >
+          <div className="flex items-baseline gap-2 rounded-[4px] border border-line bg-paper/95 px-2 py-1">
+            <h3 className="font-serif text-base text-ink">{active.name}</h3>
+            <span className="text-[11px] text-muted" role="status" aria-live="polite">
               {moving ? '变阵中' : '行进中'}
             </span>
           </div>
-          <p className="text-sm leading-6 text-ink-soft">{active.summary}</p>
-          <dl className="space-y-2 text-sm">
-            <div>
-              <dt className="text-xs tracking-widest text-muted">走位</dt>
-              <dd className="mt-0.5 leading-6 text-ink-soft">{active.route}</dd>
-            </div>
-            <div>
-              <dt className="text-xs tracking-widest text-muted">来源</dt>
-              <dd className="mt-0.5 text-xs text-muted">
-                {active.sourceIds.join('、')} · 潮阳英歌地方标准
-              </dd>
-            </div>
-          </dl>
-          <p className="border-t border-line pt-3 text-xs leading-5 text-muted">
-            点位与连线只表示空间关系，人数、间距与路线均为示意，不对应某支队伍的固定套路。
-          </p>
+        </div>
+        <div className="pointer-events-none absolute bottom-3 right-3 z-10 w-[min(44%,200px)] overflow-hidden rounded-md border border-line bg-black/20 p-1">
+          <img
+            src="/media/yingge/anim/club-swing-demo.gif"
+            alt=""
+            className="block h-auto w-full opacity-95"
+            loading="lazy"
+            width={200}
+            height={200}
+          />
         </div>
       </div>
+      {zoomOpen ? <DancerZoom onClose={closeZoom} /> : null}
     </div>
   )
 }

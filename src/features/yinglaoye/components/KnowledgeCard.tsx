@@ -73,7 +73,7 @@ export default function KnowledgeCard({ entry, meta, defaultOpen = false }: Prop
       ) : null}
 
       <Link to={entryHref(entry)} className="mt-auto pt-3 text-sm link-inline">
-        完整条目与来源 →
+        完整条目 →
       </Link>
     </article>
   )

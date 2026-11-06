@@ -133,6 +133,12 @@ app.post('/api/ask', async (c) => {
 
   const prepared = prepareAsk(request, content)
   if (prepared.direct) {
+    const clip = prepared.direct.clip
+    const citations = (clip?.sourceIds ?? [])
+      .map((id) => content.sources.find((source) => source.id === id))
+      .filter((source): source is (typeof content.sources)[number] => Boolean(source))
+      .map((source) => ({ id: source.id, title: source.title, url: source.url ?? '' }))
+    const pronounceMiss = prepared.direct.kind === 'pronounce' && !clip
     c.header('Cache-Control', 'no-cache, no-transform')
     c.header('X-Accel-Buffering', 'no')
     return streamSSE(c, async (stream) => {
@@ -140,13 +146,25 @@ app.post('/api/ask', async (c) => {
         event: 'done',
         data: JSON.stringify({
           text: prepared.direct?.text ?? '',
-          citations: [],
+          citations,
           navs: prepared.direct?.navs ?? [],
-          // 实时活动问题属于「资料里没有」，前端可据此显示谨慎提示
-          uncertain: prepared.direct?.kind === 'realtime',
+          // 实时问题，以及对不上听潮录音的「怎么说」，都按资料不足处理
+          uncertain: prepared.direct?.kind === 'realtime' || pronounceMiss,
           truncated: false,
           direct: true,
           clarify: prepared.direct?.kind === 'clarify',
+          ...(clip
+            ? {
+                clip: {
+                  id: clip.id,
+                  text: clip.text,
+                  meaning: clip.meaning,
+                  file: clip.file,
+                  path: clip.path,
+                  ...(clip.pinyin ? { pinyin: clip.pinyin } : {}),
+                },
+              }
+            : {}),
         }),
       })
     })

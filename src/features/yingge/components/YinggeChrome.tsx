@@ -81,13 +81,9 @@ export function YinggeHeader({ kicker, title, lead, current }: HeaderProps) {
   )
 }
 
-/** 页脚来源块：统一呈现方式，写明引用编号与「互动示意」边界 */
-export function SourceNote({ children }: { children: ReactNode }) {
-  return (
-    <div className="rounded-card border border-line bg-white/60 px-4 py-3 text-sm leading-6 text-ink-soft">
-      {children}
-    </div>
-  )
+/** 来源展示已从产品 UI 移除；保留该导出以兼容既有模块边界。 */
+export function SourceNote(_props: { children: ReactNode }) {
+  return null
 }
 
 export function PageSection({

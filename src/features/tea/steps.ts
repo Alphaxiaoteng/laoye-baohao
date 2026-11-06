@@ -18,7 +18,7 @@ export interface BrewStep {
   tip: string
   /** 项目页原文中的对应环节，便于核对，必须能在 tea-steps 正文里找到 */
   sourceStage: string
-  /** 可选手势（实验功能用） */
+  /** 可选手势，用来翻步 */
   gesture: Gesture
   gestureName: string
   gestureIcon: string
@@ -99,6 +99,8 @@ const DWELL_LONG_CHARS = 26
  * 保证单步不会快到看不清，也不会慢到让人等。
  */
 export function stepDwellMs(step: BrewStep): number {
+  // 出汤要留出三只杯子逐个倒满的时间
+  if (step.id === 4) return 4200
   const chars = [...`${step.title}${step.tip}`].length
   const ratio = (chars - DWELL_SHORT_CHARS) / (DWELL_LONG_CHARS - DWELL_SHORT_CHARS)
   const clamped = Math.min(1, Math.max(0, ratio))

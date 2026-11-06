@@ -1,0 +1,615 @@
+/**
+ * 首页「英歌」章节：一面画廊墙，不是一张圆角大图。
+ *
+ * 左：4:5 示意主视觉，悬停 / 键盘聚焦时叠播同构图动图（data-active 驱动）。
+ * 右上：横向实拍，两张同场照片慢淡切（data-crossfade 由共享运行时控制）。
+ * 两块错位小方片：脸谱裁自同一张实拍，双槌用馆内器物图，都裱在纸白上、带角度。
+ * 全部规则收在 .collage-yingge 下：方角、无渐变、无投影、无细框，珊瑚红只给入口按钮。
+ */
+
+.collage-panel.collage-yingge {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* 双类必须写全：home.css 的 `.collage-panel { padding: 0 5vw }` 与本文件单类选择器同权重、
+     且打包后排在后面，会把上留白吃成 0，滚到章节顶部时标题就被顶栏压住。 */
+  padding: clamp(84px, 10vh, 132px) 5vw;
+  color: var(--text);
+}
+
+.yingge-wall {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3.5vw, 48px);
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* 文案块：单独一页幅，再进图墙 */
+.yingge-copy--lead {
+  position: relative;
+  max-width: 38rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.yingge-copy-actions {
+  margin-top: clamp(18px, 2vw, 26px);
+}
+
+.yingge-mosaic {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(16px, 2.2vw, 40px);
+  row-gap: clamp(22px, 2.6vw, 42px);
+  width: 100%;
+  align-items: start;
+}
+
+/* ===== 版位：主视觉占左侧六列两行，实拍在右上，槌在右下 ===== */
+
+.yingge-frame--main {
+  position: relative;
+  grid-column: 1 / span 6;
+  grid-row: 1 / span 2;
+}
+
+.yingge-frame--wide {
+  grid-column: 7 / span 6;
+  grid-row: 1;
+  margin-top: clamp(0px, 1.6vw, 24px);
+}
+
+.yingge-plate {
+  margin: 0;
+}
+
+/* ===== 图版：方角、裁切，不加框不加影 ===== */
+
+.yingge-media {
+  position: relative;
+  overflow: hidden;
+  background-color: #fffdf8;
+}
+
+.yingge-frame--main .yingge-media {
+  aspect-ratio: 4 / 5;
+}
+
+.yingge-frame--wide .yingge-media {
+  aspect-ratio: 3 / 2;
+}
+
+.yingge-media > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  border-radius: 0;
+}
+
+/* 同构图动图：只在悬停或键盘聚焦（data-active）时叠上去，触屏直接展示 */
+.yingge-media-motion {
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.collage-yingge[data-active='true'] .yingge-media-motion {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .yingge-media-motion {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+/* ===== 两块错位方片：同一套纸白裱边，各自带角度 ===== */
+
+.yingge-tile {
+  position: absolute;
+  z-index: 3;
+  width: clamp(124px, 11vw, 162px);
+}
+
+/* 脸谱方片贴在主视觉左下角：锚在主视觉框内，永远压不到下方图注 */
+.yingge-tile--face {
+  left: 2%;
+  bottom: 15%;
+}
+
+.yingge-tile--clubs {
+  grid-column: 10 / span 3;
+  grid-row: 2;
+  justify-self: end;
+  align-self: end;
+  position: relative;
+  right: auto;
+  bottom: auto;
+  margin-top: clamp(-28px, -1.5vw, -12px);
+  width: clamp(116px, 10vw, 150px);
+}
+
+.yingge-tile-turn {
+  transform: rotate(-6deg);
+}
+
+.yingge-tile--clubs .yingge-tile-turn {
+  transform: rotate(5deg);
+}
+
+.yingge-tile .yingge-plate {
+  padding: 6px;
+  background-color: #fffdf8;
+}
+
+.yingge-tile--clubs .yingge-plate {
+  padding: clamp(10px, 1vw, 16px);
+}
+
+.yingge-tile .yingge-media {
+  aspect-ratio: 1 / 1;
+  background-color: transparent;
+}
+
+.yingge-tile--face .yingge-media > img {
+  object-fit: contain;
+  object-position: center center;
+}
+
+.yingge-tile--clubs .yingge-media > img {
+  object-fit: contain;
+}
+
+/* ===== 文物线索：幽灵序号 + 胶囊栏 + 双线展签 + 图框追光 =====
+   home.css 里也有同名 .clue-pill / .museum-plaque / [data-cue] 规则，且打包后排在后面。
+   这里把盒子、颜色、伪元素与状态全部写全并用双类抬高特异性，
+   保证共享层怎么改，本章的展签都可读、追光也不会和共享层的滤镜叠成两层。 */
+
+.collage-yingge .chapter-ghost-num {
+  position: absolute;
+  top: clamp(-78px, -5.2vw, -36px);
+  left: 50%;
+  z-index: -1;
+  transform: translateX(-50%);
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: clamp(96px, 12vw, 176px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: rgba(240, 74, 58, 0.1);
+  pointer-events: none;
+  user-select: none;
+}
+
+.collage-yingge .clue-rail {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: clamp(20px, 2.2vw, 28px) 0 0;
+}
+
+.collage-yingge .clue-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 9px 16px 9px 13px;
+  border: 1px solid rgba(61, 47, 38, 0.2);
+  border-radius: 999px;
+  background-color: rgba(61, 47, 38, 0.05);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+/* 胶囊前的珊瑚红尖角，是本章唯一的珊瑚红提示（主按钮之外） */
+.collage-yingge .clue-pill::before {
+  content: '›';
+  color: #f04a3a;
+  opacity: 0.65;
+  line-height: 1;
+}
+
+
+.collage-yingge .clue-pill:hover {
+  background-color: rgba(61, 47, 38, 0.1);
+  border-color: rgba(61, 47, 38, 0.34);
+  color: var(--text);
+}
+
+/* 当前线索：墨块实心，和入口按钮一样是不带圆角的硬边 */
+.collage-yingge .clue-pill[aria-selected='true'] {
+  background-color: #3d2f26;
+  border-color: #3d2f26;
+  color: #fff7ef;
+}
+
+.collage-yingge .clue-pill:focus-visible {
+  outline: 3px solid #f04a3a;
+  outline-offset: 3px;
+}
+
+.collage-yingge .clue-pill-num {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.62;
+}
+
+/* 故宫多宝阁式双线展签：深色漆面 + 内外两道细线 + 米白字，留白多、字少。 */
+.collage-yingge .museum-plaque {
+  position: relative;
+  max-width: 34rem;
+  margin: clamp(18px, 2vw, 26px) auto 0;
+  padding: clamp(13px, 1.4vw, 17px) clamp(16px, 2vw, 22px);
+  border: 1px solid rgba(218, 197, 169, 0.5);
+  background-color: rgba(26, 36, 30, 0.94);
+  color: #f4ece0;
+  text-align: center;
+  backdrop-filter: none;
+}
+
+.collage-yingge .museum-plaque::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(218, 197, 169, 0.26);
+  pointer-events: none;
+}
+
+.collage-yingge .museum-plaque-title {
+  margin: 0;
+  color: #fdf6ea;
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.08em;
+}
+
+.collage-yingge .museum-plaque-note {
+  margin: 6px 0 0;
+  color: rgba(253, 246, 234, 0.72);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* 追光：非当前线索的图框淡到 0.74 并落回原位，当前那一块抬起 6px。
+   位移用独立 translate 属性，和 useCollageMotion 写在 transform 上的视差互不覆盖；
+   共享层的 filter 压暗与大黑色投影在本章显式关掉，免得两套「变暗」叠在一起。 */
+.collage-panel.collage-yingge[data-spotlight] [data-cue] {
+  opacity: 0.74;
+  translate: 0 0;
+  filter: none;
+  transform: none;
+  box-shadow: none;
+  overflow: visible;
+  transition: opacity 420ms ease, translate 420ms ease;
+}
+
+/* 脸谱方片嵌在主视觉框内：整框一起淡会把 cue=1 的脸谱也压到 0.74，
+   所以主画框只淡它自己的图版，方片单独吃自己的透明度。 */
+.collage-panel.collage-yingge[data-spotlight] .yingge-frame--main {
+  opacity: 1;
+}
+
+.collage-panel.collage-yingge[data-spotlight] .yingge-frame--main > .yingge-plate {
+  opacity: 0.74;
+  transition: opacity 420ms ease;
+}
+
+.collage-panel.collage-yingge[data-spotlight='0'] .yingge-frame--main > .yingge-plate {
+  opacity: 1;
+}
+
+.collage-panel.collage-yingge[data-spotlight='0'] [data-cue='0'],
+.collage-panel.collage-yingge[data-spotlight='1'] [data-cue='1'],
+.collage-panel.collage-yingge[data-spotlight='2'] [data-cue='2'] {
+  opacity: 1;
+  translate: 0 -6px;
+}
+
+/* 共享层给 [data-cue] 加了 position: relative（单类权重），会把这块绝对定位的
+   脸谱方片顶回文档流。这里用双类把它钉回主视觉左下角。 */
+.collage-panel.collage-yingge .yingge-tile--face {
+  position: absolute;
+}
+
+.collage-panel.collage-yingge [data-cue] img {
+  animation: none;
+}
+
+/* 共享层给每个图框的悬停扫光会盖住赛道图注，本章用自己的柔光，关掉它。 */
+.collage-panel.collage-yingge [data-cue]::after {
+  content: none;
+}
+
+/* ===== 常驻微动态：错拍呼吸 + 主画框柔光扫掠 ===== */
+
+@keyframes yingge-tile-breathe {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -7px;
+  }
+}
+
+.collage-yingge .yingge-tile-turn {
+  animation: yingge-tile-breathe 7.6s ease-in-out infinite alternate;
+}
+
+.collage-yingge .yingge-tile--clubs .yingge-tile-turn {
+  animation-duration: 6.1s;
+  animation-delay: -3.4s;
+}
+
+@keyframes yingge-glow-sweep {
+  0% {
+    opacity: 0;
+    translate: -130% 0;
+  }
+  16% {
+    opacity: 0.42;
+  }
+  44% {
+    opacity: 0;
+    translate: 130% 0;
+  }
+  100% {
+    opacity: 0;
+    translate: 130% 0;
+  }
+}
+
+.collage-yingge .yingge-frame--main .yingge-media::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 42%;
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 250, 240, 0) 0%,
+    rgba(255, 250, 240, 0.5) 50%,
+    rgba(255, 250, 240, 0) 100%
+  );
+  pointer-events: none;
+  animation: yingge-glow-sweep 11s ease-in-out infinite;
+}
+
+/* ===== 文案 ===== */
+
+.yingge-title {
+  margin: 0 0 clamp(16px, 1.6vw, 22px);
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: clamp(31px, 3.4vw, 50px);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.yingge-lede {
+  margin: 0 0 14px;
+  max-width: 30em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.yingge-hint {
+  margin: 0;
+  max-width: 24em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.yingge-source {
+  margin: 0;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--faint);
+  text-align: center;
+}
+
+.yingge-source--footer {
+  margin-top: clamp(8px, 1vw, 14px);
+}
+
+.collage-yingge figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: var(--faint);
+  /* 13px 的英文署名比中文更容易顶破窄框架，允许在词中断行 */
+  overflow-wrap: anywhere;
+}
+
+/* ===== 入口按钮：珊瑚红只出现在这里 ===== */
+
+.collage-yingge .collage-cta {
+  display: inline-block;
+  padding: 15px 27px;
+  background-color: #f04a3a;
+  color: #fff7ef;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: 0;
+  transition: background-color 200ms ease;
+}
+
+.collage-yingge .collage-cta:hover {
+  background-color: #d63c2d;
+}
+
+/* 珊瑚红按钮上再用珊瑚红描边看不清，focus 一律换成纸白 */
+.collage-yingge .collage-cta:focus-visible {
+  outline: 3px solid #3d2f26;
+  outline-offset: 4px;
+}
+
+/* ===== 单栏：保留三种宽度与左右错位，不整张等比缩小 ===== */
+
+@media (max-width: 820px) {
+  .yingge-copy--lead {
+    text-align: left;
+    max-width: none;
+    margin: 0;
+  }
+
+  .collage-yingge .chapter-ghost-num {
+    left: 0;
+    transform: none;
+  }
+
+  .collage-yingge .clue-rail {
+    justify-content: flex-start;
+  }
+
+  .collage-yingge .museum-plaque {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+    text-align: left;
+  }
+
+  .yingge-lede,
+  .yingge-hint {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+  }
+
+  .yingge-source--footer {
+    text-align: left;
+    max-width: none;
+  }
+
+  .yingge-mosaic {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(20px, 3.6vw, 30px);
+  }
+
+  .yingge-frame,
+  .yingge-tile {
+    position: static;
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* 桌面那条把脸谱方片钉回绝对定位的规则会压过这里的单类，窄屏要还回文档流 */
+  .collage-panel.collage-yingge .yingge-tile--face {
+    position: static;
+  }
+
+  .yingge-frame--main {
+    order: 1;
+    width: 84%;
+    align-self: flex-start;
+  }
+
+  .yingge-frame--wide {
+    order: 2;
+    width: 70%;
+    align-self: flex-end;
+  }
+
+  /* 脸谱方片在主视觉框内：66.7% × 0.84 ≈ 占整墙 56% */
+  .yingge-tile--face {
+    width: calc(56% / 0.84);
+    margin: 14px 0 0 2%;
+  }
+
+  .yingge-tile--clubs {
+    order: 3;
+    width: 44%;
+    align-self: flex-end;
+    margin-right: 5%;
+  }
+}
+
+@media (max-width: 620px) {
+  .collage-panel.collage-yingge {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .yingge-title {
+    font-size: 30px;
+  }
+
+  .yingge-lede {
+    font-size: 16px;
+  }
+
+  .yingge-frame--main {
+    width: 84%;
+  }
+
+  .yingge-frame--wide {
+    width: 70%;
+  }
+}
+
+/* ===== 减少动态：内容全留，只停位移与叠播 ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .collage-yingge .yingge-media-motion {
+    display: none;
+  }
+
+  .collage-yingge .collage-cta {
+    transition: none;
+  }
+
+  .collage-yingge [data-cue],
+  .collage-yingge .clue-pill {
+    transition: none;
+  }
+
+  .collage-yingge .yingge-tile-turn {
+    animation: none;
+  }
+
+  .collage-yingge .yingge-frame--main .yingge-media::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+.collage-yingge[data-motion='reduced'] .yingge-media-motion {
+  display: none;
+}

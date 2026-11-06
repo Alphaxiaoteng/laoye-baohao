@@ -1,0 +1,507 @@
+/**
+ * 首页「潮汕美食」章节：右侧一只牛肉丸汤碗占主位，左侧竖幅卤鹅垂下，
+ * 中间小方块是铁板上的蚝烙；标题与两句短文案落在鹅与碗之间的留白里，
+ * 按钮跟着短文案落地，下面留空。下方一条窄幅慢淡切（粿条汤 / 牛肉火锅），
+ * 碗的右下方再落一只热气动图，五张图用四种比例错开，靠视差深度差而不是卡片堆叠。
+ *
+ * 约束：图片方角、无渐变、无投影、无细框；珊瑚红只出现在入口按钮上。
+ * 外围留白与底色改由本文件的根规则给出：home.css 的 `.collage-panel { padding: 0 5vw }`
+ * 和单类选择器同权重且排在后面，会被吃成上留白 0、标题顶进顶栏，所以根选择器写全双类。
+ * 所有选择器都带 .collage-food 前缀，避免与共用规则（.collage-panel figure / h2 / p）抢优先级。
+ */
+
+.collage-panel.collage-food {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(84px, 10vh, 132px) 5vw;
+  background-color: #f4e8d8;
+  color: #3d2f26;
+}
+
+.collage-food .food-layout {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(14px, 1.7vw, 28px);
+  row-gap: clamp(26px, 3.4vw, 52px);
+  align-items: start;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* ===== 留白里的文案：标题两行封顶，正文 16px 起 ===== */
+
+.collage-food .food-copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-column: 3 / 7;
+  grid-row: 1;
+  align-self: stretch;
+  padding-top: clamp(4px, 1.2vw, 20px);
+}
+
+.collage-food .food-title {
+  margin: 0 0 clamp(16px, 1.6vw, 22px);
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: clamp(32px, 3.4vw, 50px);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: 0.01em;
+  color: #3d2f26;
+}
+
+.collage-food .food-lede {
+  margin: 0 0 12px;
+  max-width: 30ch;
+  font-size: 17px;
+  line-height: 1.85;
+  color: #5c4d42;
+}
+
+.collage-food .food-hint {
+  margin: 0 0 clamp(22px, 2.2vw, 30px);
+  max-width: 30ch;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #6b5d52;
+}
+
+.collage-food .collage-cta {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: clamp(18px, 2vw, 26px);
+  padding: 15px 27px;
+  background-color: #f04a3a;
+  color: #fff7ef;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: 0;
+  transition: background-color 200ms ease;
+}
+
+.collage-food .collage-cta:hover {
+  background-color: #d63c2d;
+}
+
+.collage-food .collage-cta:focus-visible {
+  outline: 3px solid #3d2f26;
+  outline-offset: 4px;
+}
+
+/* ===== 文物线索：幽灵序号 + 胶囊栏 + 双线展签 + 图框追光 =====
+   home.css 里也有同名 .clue-pill / .museum-plaque / [data-cue] 规则，且打包后排在后面。
+   这里把盒子、颜色、伪元素与状态全部写全并用双类抬高特异性，
+   保证共享层怎么改，本章的展签都可读、追光也不会和共享层的滤镜叠成两层。 */
+
+.collage-food .chapter-ghost-num {
+  position: absolute;
+  top: clamp(-56px, -3.8vw, -26px);
+  left: -0.08em;
+  z-index: -1;
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: clamp(92px, 11vw, 172px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: rgba(61, 47, 38, 0.1);
+  pointer-events: none;
+  user-select: none;
+}
+
+.collage-food .clue-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: clamp(16px, 1.8vw, 22px) 0 0;
+}
+
+.collage-food .clue-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 9px 15px 9px 12px;
+  border: 1px solid rgba(61, 47, 38, 0.2);
+  border-radius: 999px;
+  background-color: rgba(61, 47, 38, 0.05);
+  color: #5c4d42;
+  font-family: inherit;
+  font-size: 12.5px;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+/* 胶囊前的珊瑚红尖角，是本章入口按钮之外唯一的珊瑚红提示 */
+.collage-food .clue-pill::before {
+  content: '›';
+  color: #f04a3a;
+  opacity: 0.65;
+  line-height: 1;
+}
+
+
+.collage-food .clue-pill:hover {
+  background-color: rgba(61, 47, 38, 0.1);
+  border-color: rgba(61, 47, 38, 0.34);
+  color: #2f241d;
+}
+
+.collage-food .clue-pill[aria-selected='true'] {
+  background-color: #3d2f26;
+  border-color: #3d2f26;
+  color: #fff7ef;
+}
+
+.collage-food .clue-pill:focus-visible {
+  outline: 3px solid #f04a3a;
+  outline-offset: 3px;
+}
+
+.collage-food .clue-pill-num {
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.62;
+}
+
+/* 故宫多宝阁式双线展签：深色漆面 + 内外两道细线 + 米白字 */
+.collage-food .museum-plaque {
+  position: relative;
+  margin: clamp(16px, 1.8vw, 22px) 0 0;
+  padding: clamp(12px, 1.3vw, 15px) clamp(14px, 1.8vw, 18px);
+  border: 1px solid rgba(218, 197, 169, 0.5);
+  background-color: rgba(26, 36, 30, 0.94);
+  color: #f4ece0;
+  backdrop-filter: none;
+}
+
+.collage-food .museum-plaque::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(218, 197, 169, 0.26);
+  pointer-events: none;
+}
+
+.collage-food .museum-plaque-title {
+  margin: 0;
+  color: #fdf6ea;
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+}
+
+.collage-food .museum-plaque-note {
+  margin: 6px 0 0;
+  color: rgba(253, 246, 234, 0.72);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* 追光：非当前线索的图框淡到 0.74 并落回原位，当前那一块抬起 6px。
+   位移用独立 translate 属性，和 useCollageMotion 写在 transform 上的视差互不覆盖；
+   共享层的 filter 压暗与大黑色投影在本章显式关掉，免得两套「变暗」叠在一起。 */
+.collage-panel.collage-food[data-spotlight] [data-cue] {
+  opacity: 0.74;
+  translate: 0 0;
+  filter: none;
+  transform: none;
+  box-shadow: none;
+  overflow: visible;
+  transition: opacity 420ms ease, translate 420ms ease;
+}
+
+.collage-panel.collage-food[data-spotlight='0'] [data-cue='0'],
+.collage-panel.collage-food[data-spotlight='1'] [data-cue='1'],
+.collage-panel.collage-food[data-spotlight='2'] [data-cue='2'] {
+  opacity: 1;
+  translate: 0 -6px;
+}
+
+.collage-panel.collage-food [data-cue] img {
+  animation: none;
+}
+
+/* 共享层给每个图框的悬停扫光会盖住菜名图注，本章用自己的暖雾，关掉它。 */
+.collage-panel.collage-food [data-cue]::after {
+  content: none;
+}
+
+/* ===== 常驻微动态：汤碗与热气框的暖雾呼吸 ===== */
+
+@keyframes food-warm-breath {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+.collage-food .food-main .food-frame {
+  animation: food-warm-breath 8.4s ease-in-out infinite;
+}
+
+.collage-food .food-steam .food-frame {
+  animation: food-warm-breath 6.4s ease-in-out infinite;
+  animation-delay: -2.6s;
+}
+
+/* ===== 图版：只靠裁切分景别，方角、无投影、无细框 ===== */
+
+.collage-food .food-frame {
+  position: relative;
+  overflow: hidden;
+  background-color: #fffdf8;
+}
+
+.collage-food .food-frame > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  border-radius: 0;
+}
+
+.collage-food figure > figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: #8a7d72;
+}
+
+/* ===== 主图：偏右的汤碗，1:1 裁片把碗口、汤面与筷子一起框住 ===== */
+
+.collage-food .food-main {
+  grid-column: 8 / -1;
+  grid-row: 1;
+  margin: 0;
+  z-index: 1;
+}
+
+.collage-food .food-main .food-frame {
+  aspect-ratio: 1 / 1;
+}
+
+
+/* ===== 左侧竖幅卤鹅：自上垂下，比碗晚一点起势 ===== */
+
+.collage-food .food-goose {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  margin: clamp(46px, 6vw, 96px) 0 0;
+  z-index: 1;
+}
+
+.collage-food .food-goose .food-frame {
+  aspect-ratio: 2 / 3;
+}
+
+/* ===== 中间小方块：铁板上的蚝烙，往上压住鹅脚一线的空白 ===== */
+
+.collage-food .food-omelette {
+  grid-column: 3 / 5;
+  grid-row: 2;
+  margin: clamp(-84px, -5vw, -40px) 0 0;
+  z-index: 2;
+}
+
+.collage-food .food-omelette .food-frame {
+  aspect-ratio: 1 / 1;
+}
+
+
+/* ===== 窄幅慢淡切：粿条汤与火锅轮换 ===== */
+
+.collage-food .food-crossfade {
+  grid-column: 5 / 8;
+  grid-row: 2;
+  margin: clamp(24px, 3vw, 48px) 0 0;
+  z-index: 2;
+}
+
+.collage-food .food-crossfade .food-frame {
+  aspect-ratio: 4 / 3;
+}
+
+
+/* ===== 热气动图：落在碗的右下方，悬停或聚焦时淡入 GIF ===== */
+
+.collage-food .food-steam {
+  grid-column: 9 / 12;
+  grid-row: 2;
+  margin: 0;
+  z-index: 2;
+}
+
+.collage-food .food-steam .food-frame {
+  aspect-ratio: 16 / 10;
+}
+
+
+.collage-food .food-steam-motion {
+  opacity: 0;
+  transition: opacity 360ms ease;
+}
+
+.collage-food[data-active='true'] .food-steam-motion {
+  opacity: 1;
+}
+
+/* 触屏没有悬停，提示与动图都不出现 */
+@media (hover: none) {
+  .collage-food .food-hover-hint,
+  .collage-food .food-steam .food-steam-motion {
+    display: none;
+  }
+}
+
+/* ===== 图片与资料说明 ===== */
+
+.collage-food .food-note {
+  grid-column: 1 / 8;
+  grid-row: 3;
+  margin: 0;
+  padding-top: clamp(4px, 1vw, 12px);
+  max-width: 64ch;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #8a7d72;
+}
+
+/* ===== 中等屏：碗收一档，留白跟着变窄 ===== */
+
+@media (max-width: 1120px) {
+  .collage-food .food-copy {
+    grid-column: 3 / 8;
+  }
+
+  .collage-food .food-main {
+    grid-column: 8 / -1;
+  }
+
+  .collage-food .food-lede,
+  .collage-food .food-hint {
+    max-width: 28ch;
+  }
+
+  .collage-food .food-steam {
+    grid-column: 8 / 12;
+  }
+}
+
+/* ===== 窄屏：单栏，但保留 84% 右 / 56% 左 / 全宽的交替，不退成卡片 ===== */
+
+@media (max-width: 900px) {
+  .collage-food .food-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .collage-food .food-copy {
+    order: 1;
+    padding-top: 0;
+  }
+
+  .collage-food .food-title {
+    font-size: clamp(30px, 8vw, 38px);
+  }
+
+  .collage-food .food-lede,
+  .collage-food .food-hint {
+    max-width: 34ch;
+  }
+
+  .collage-food .food-main {
+    order: 2;
+    width: 84%;
+    margin: 0 0 0 auto;
+  }
+
+  .collage-food .food-main .food-frame {
+    aspect-ratio: 1 / 1;
+  }
+
+  .collage-food .food-goose {
+    order: 3;
+    width: 56%;
+    margin: 0 auto 0 0;
+  }
+
+  .collage-food .food-goose .food-frame {
+    aspect-ratio: 3 / 4;
+  }
+
+  .collage-food .food-omelette {
+    order: 4;
+    width: 100%;
+    margin: 0;
+  }
+
+  .collage-food .food-omelette .food-frame {
+    aspect-ratio: 5 / 4;
+  }
+
+  .collage-food .food-crossfade {
+    order: 5;
+    width: 84%;
+    margin: 0 0 0 auto;
+  }
+
+  .collage-food .food-crossfade .food-frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .collage-food .food-steam {
+    order: 6;
+    width: 100%;
+    margin: 0;
+  }
+
+  .collage-food .food-note {
+    order: 7;
+    max-width: 46ch;
+  }
+}
+
+/* ===== 减少动态：动图不播，内容全部静态可读 ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .collage-food .food-steam .food-steam-motion {
+    display: none;
+  }
+
+  .collage-food .food-hover-hint {
+    display: none;
+  }
+
+  .collage-food .collage-cta {
+    transition: none;
+  }
+
+  .collage-food [data-cue],
+  .collage-food .clue-pill {
+    transition: none;
+  }
+
+  .collage-food .food-main .food-frame,
+  .collage-food .food-steam .food-frame {
+    animation: none;
+  }
+}

@@ -1,0 +1,111 @@
+/* 营老爷实拍：一屏三列（窄屏一列），轨道横向滑动 */
+
+.still-film {
+  position: relative;
+  margin-top: 4px;
+}
+
+.still-film-chrome {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.still-film-nav {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(36, 50, 41, 0.82);
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.still-film-nav:hover,
+.still-film-nav:focus-visible {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(36, 50, 41, 0.95);
+  outline: none;
+}
+
+.still-film-viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.still-film-track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  transition: transform 0.55s cubic-bezier(0.22, 0.68, 0, 1);
+  will-change: transform;
+}
+
+.still-film-track.is-no-trans {
+  transition: none;
+}
+
+.still-film-slide {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 10px 10px 14px;
+}
+
+.still-film-slide img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.still-film-cap {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.still-film-note {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.still-film--single .still-film-viewport {
+  border-radius: 16px;
+}
+
+.still-film-track--single {
+  transform: none;
+}
+
+.still-film-track--single .still-film-slide {
+  flex-basis: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .still-film-track {
+    transition: none;
+  }
+}

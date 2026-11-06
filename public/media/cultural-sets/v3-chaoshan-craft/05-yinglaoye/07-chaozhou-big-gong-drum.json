@@ -1,0 +1,12 @@
+{
+  "version": "v3-chaoshan-craft",
+  "versionTitle": "版本三：潮汕金漆木雕·屋脊嵌瓷·佛山潮州木版年画在地非遗风 (Chaoshan Gilded Woodcarving, Porcelain Inlay & Folk Woodcut)",
+  "folder": "05-yinglaoye",
+  "id": "07-chaozhou-big-gong-drum",
+  "title": "声景器物·潮州大锣鼓苏锣与深波",
+  "model": "gpt-image-2.6",
+  "size": "1024x1024",
+  "referenceImage": "public/media/home/gdstwhg/parade-float.webp",
+  "prompt": "Authentic Chaoshan intangible cultural heritage craft aesthetic: a synthesis of Chaozhou多层镂空 gilded woodcarving (潮州金漆木雕), iridescent Chaoshan rooftop porcelain-shard inlay (嵌瓷), and traditional Teochew polychrome woodblock printmaking (木版年画). Color harmony anchored in South China Sea indigo (#1B2A32), auspicious Chaoshan vermilion (#B63B2A), pure 24k gold leaf (#E0AE4E), and shell-lime white (#F2ECE1). Crisp carved relief edges, tactile ceramic and woodgrain textures, curated 1:1 square gallery framing with generous clean breathing room, strictly no text, no letters, no watermark. Subject: A ceremonial Chaoshan large bronze gong (深波重锣) suspended in a carved rosewood frame with a padded mallet, warm metallic sheen.",
+  "generatedAt": "2026-11-06T13:50:27.138Z"
+}

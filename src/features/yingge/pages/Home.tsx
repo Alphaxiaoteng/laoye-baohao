@@ -205,16 +205,10 @@ export default function YinggeHome() {
         </PageSection>
       ) : null}
 
-      <PageSection id="sources" title="本模块来源">
+      <PageSection id="interactions" title="互动边界">
         <div className="card space-y-3">
-          <SourceList ids={sources.map((s) => s.id)} />
           <p className="text-xs leading-6 text-muted">
-            页面里的互动（阵形点位、合成节拍）都是示意，不替代任何一支队伍的实际演练；
-            完整来源表见
-            <Link to="/sources" className="link-inline mx-1">
-              资料来源
-            </Link>
-            页。
+            页面里的互动（阵形点位、合成节拍）都是示意，不替代任何一支队伍的实际演练。
           </p>
         </div>
       </PageSection>

@@ -21,16 +21,28 @@ export interface NavSuggestion {
   path: string
 }
 
+/** 问「怎么说」时附上的一条听潮录音。文件必须是站内已有路径。 */
+export interface AskClip {
+  id: string
+  text: string
+  meaning: string
+  file: string
+  path: string
+  pinyin?: string
+}
+
 export type AskDone = {
   type: 'done'
   text: string
   citations: Citation[]
   navs: NavSuggestion[]
   uncertain: boolean
-  /** 服务端确定性回答（浏览回顾 / 澄清），不需要引用 */
+  /** 服务端确定性回答（浏览回顾 / 澄清 / 怎么说），不需要再叫模型 */
   direct?: boolean
   /** 服务端先追问澄清，而非直接作答 */
   clarify?: boolean
+  /** 唯一对上的听潮录音；没有对上时不出现 */
+  clip?: AskClip
 }
 
 export type AskEvent =
@@ -45,6 +57,27 @@ export class AskHttpError extends Error {
     super(message)
     this.name = 'AskHttpError'
     this.code = code
+  }
+}
+
+/** 只收下站内听潮文件。缺字段、外链或编造路径一律丢掉，避免前端去播不存在的音频。 */
+export function parseAskClip(value: unknown): AskClip | undefined {
+  if (!value || typeof value !== 'object') return undefined
+  const bag = value as Record<string, unknown>
+  const id = typeof bag.id === 'string' ? bag.id.trim() : ''
+  const text = typeof bag.text === 'string' ? bag.text.trim() : ''
+  const file = typeof bag.file === 'string' ? bag.file.trim() : ''
+  if (!id || !text || !file.startsWith('/media/listen/')) return undefined
+  const meaning = typeof bag.meaning === 'string' ? bag.meaning.trim() : ''
+  const pinyin = typeof bag.pinyin === 'string' ? bag.pinyin.trim() : ''
+  const path = typeof bag.path === 'string' && bag.path.startsWith('/listen') ? bag.path : '/listen'
+  return {
+    id,
+    text,
+    meaning,
+    file,
+    path,
+    ...(pinyin ? { pinyin } : {}),
   }
 }
 
@@ -99,6 +132,7 @@ export function parseEventBlock(block: string): AskEvent | null {
             n.path.startsWith('/'),
         )
       : []
+    const clip = parseAskClip(bag.clip)
     return {
       type: 'done',
       text: typeof bag.text === 'string' ? bag.text : '',
@@ -107,6 +141,7 @@ export function parseEventBlock(block: string): AskEvent | null {
       uncertain: bag.uncertain === true,
       direct: bag.direct === true,
       clarify: bag.clarify === true,
+      ...(clip ? { clip } : {}),
     }
   }
   return null

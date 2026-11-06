@@ -31,7 +31,7 @@ export default function TeaGesture() {
   const liveRef = useRef<Gesture>('NONE')
   const holdRef = useRef(0)
 
-  usePageTitle('手势体验')
+  usePageTitle('手势翻步')
   usePageContext({
     module: 'tea',
     moduleTitle: '工夫茶',
@@ -98,18 +98,14 @@ export default function TeaGesture() {
         <span className="mx-2" aria-hidden="true">
           /
         </span>
-        <span>手势体验</span>
+        <span>手势翻步</span>
       </nav>
 
       <header className="max-w-3xl space-y-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="text-sm tracking-[0.2em] text-brick">五步演示</p>
-          <span className="chip text-brown">实验功能</span>
-        </div>
-        <h1 className="font-serif text-3xl text-ink">手势体验</h1>
+        <p className="text-sm tracking-[0.2em] text-brick">温杯、注水、出汤</p>
+        <h1 className="font-serif text-3xl text-ink">手势翻步</h1>
         <p className="text-[15px] leading-7 text-ink-soft">
-          同一套五步流程，加上可选的手势翻页。手势动作只用于演示互动，不对应仪式含义；
-          不开摄像头也能用点击、触屏或键盘完成。
+          用手势翻到下一步。不开摄像头，点「下一步」也能走完。手势只用来翻步，不对应仪式含义。
         </p>
         <p className="text-xs leading-5 text-muted">
           摄像头权限只会在你主动点击「开启摄像头」后请求；识别在本机浏览器运行，视频帧不上传。

@@ -34,9 +34,11 @@ export interface AgentStageProps {
   /** 正在检索/生成时给出状态文案，纯展示，不参与请求 */
   busy?: boolean
   className?: string
+  /** 抽屉顶栏极简：只显示头像与「潮Bot」，长说明放到消息区 */
+  compact?: boolean
 }
 
-export function AgentStage({ busy = false, className = '' }: AgentStageProps) {
+export function AgentStage({ busy = false, className = '', compact = false }: AgentStageProps) {
   const hostRef = useRef<HTMLDivElement | null>(null)
   const [mode, setMode] = useState<'2d' | '3d'>('2d')
 
@@ -74,52 +76,73 @@ export function AgentStage({ busy = false, className = '' }: AgentStageProps) {
     }
   }, [])
 
+  if (compact) {
+    return (
+      <div className={`relative flex min-h-0 min-w-0 flex-1 items-center gap-2 ${className}`} data-agent-stage={mode}>
+        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-line bg-cream/50">
+          <div
+            ref={hostRef}
+            className="absolute inset-0 transition-opacity duration-240 ease-exhibit"
+            style={{ opacity: mode === '3d' ? 1 : 0 }}
+            aria-hidden={mode === '3d' ? undefined : true}
+          />
+          {mode === '2d' ? (
+            <div className="flex h-full w-full items-center justify-center">
+              <div className={`relative scale-[0.92] ${busy ? 'is-busy' : ''}`}>
+                <XiaochuiSprite height={40} busy={busy} decorative={false} />
+              </div>
+            </div>
+          ) : null}
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-serif text-sm font-semibold leading-tight text-ink">潮Bot</p>
+          {busy ? (
+            <p className="mt-0.5 truncate text-[10px] leading-tight text-muted">正在翻站内资料…</p>
+          ) : null}
+        </div>
+        {mode === '2d' ? (
+          <span className="sr-only">
+            潮Bot · 只依据本站资料作答，资料不足会直说「不确定」。按当前页面检索。三维形象暂不可用，已回退为二维形象。
+          </span>
+        ) : null}
+      </div>
+    )
+  }
+
   return (
     <div
-      className={`relative overflow-hidden border-b border-white/10 ${className}`}
+      className={`relative flex min-h-0 min-w-0 flex-1 items-center gap-2 ${className}`}
       data-agent-stage={mode}
-      style={{
-        backgroundImage:
-          'radial-gradient(120% 90% at 12% 0%, rgba(240,74,58,0.24), transparent 58%), linear-gradient(135deg, rgba(63,80,59,0.62), rgba(36,50,41,0.24))',
-      }}
     >
-      {/* 装饰线：珊瑚与鹿棕各一道，对应英歌槌的两端 */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute left-4 top-3 h-px w-10 bg-coral/60"
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute right-4 bottom-3 h-px w-10 bg-brown/60"
-      />
+      {/* 顶栏左侧小头像槽位；3D 就绪后覆盖在同尺寸区域内 */}
+      <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-line bg-cream/50">
+        <div
+          ref={hostRef}
+          className="absolute inset-0 transition-opacity duration-240 ease-exhibit"
+          style={{ opacity: mode === '3d' ? 1 : 0 }}
+          aria-hidden={mode === '3d' ? undefined : true}
+        />
+        {mode === '2d' ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <div className={`relative ${busy ? 'is-busy' : ''}`}>
+              <XiaochuiSprite height={44} busy={busy} decorative={false} />
+            </div>
+          </div>
+        ) : null}
+      </div>
 
-      {/* 3D 挂载点始终保留尺寸，加载成功时淡入覆盖二维形象 */}
-      <div
-        ref={hostRef}
-        className="absolute inset-0 transition-opacity duration-240 ease-exhibit"
-        style={{ opacity: mode === '3d' ? 1 : 0 }}
-        aria-hidden={mode === '3d' ? undefined : true}
-      />
-
+      <p
+        className="min-w-0 flex-1 truncate text-[11px] leading-snug text-muted"
+        title={
+          busy ? '正在翻站内资料…' : '潮Bot · 只依据本站资料作答，资料不足会直说「不确定」。按当前页面检索。'
+        }
+      >
+        <span className="font-serif font-semibold text-ink">潮Bot</span>
+        <span aria-hidden="true"> · </span>
+        {busy ? <span>正在翻站内资料…</span> : <>只依据本站资料作答，不足会说「不确定」；按当前页面检索。</>}
+      </p>
       {mode === '2d' ? (
-        <div className="relative flex h-full items-center gap-3 px-4">
-          <div className={`relative shrink-0 ${busy ? 'is-busy' : ''}`}>
-            <XiaochuiSprite height={96} busy={busy} decorative={false} />
-          </div>
-          <div className="min-w-0">
-            <p className="font-serif text-[13px] font-semibold tracking-wide text-ink">
-              英歌小槌
-            </p>
-            <p className="mt-1 text-xs leading-5 text-muted">
-              只依据本站资料作答，资料不足会直说“不确定”。
-            </p>
-            <p className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-brown">
-              <span aria-hidden="true" className="seal-dot !h-1 !w-1 !bg-brown" />
-              {busy ? '正在翻站内资料…' : '按当前页面检索'}
-            </p>
-          </div>
-          {mode === '2d' ? <span className="sr-only">三维形象暂不可用，已回退为二维形象。</span> : null}
-        </div>
+        <span className="sr-only">三维形象暂不可用，已回退为二维形象。</span>
       ) : null}
     </div>
   )

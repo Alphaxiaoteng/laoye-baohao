@@ -51,6 +51,124 @@
 </style>
 <body style="margin:0;padding:0;overflow:hidden;border:0;">
 <script>
+// 嵌入站内 iframe 时跳过第 0 页封面（木疙瘩 activePageId）
+(function () {
+  try {
+    if (!window.URLSearchParams) return;
+    var sp = new URLSearchParams(window.location.search);
+    if (sp.get('skipIntro') !== '1' && sp.get('skip_intro') !== '1') return;
+    var CREATIVE = '6a45de2a14ff4e80ed02b1fd';
+    var START_PAGE = '15tuogo2w08';
+    var key = 'Mugeda.data.id_' + CREATIVE;
+    var re = /"activePageId"\s*:\s*"15otp1rcl1u"/;
+    var before = window[key];
+    if (typeof before !== 'string' || before.indexOf('"activePageId"') < 0) return;
+    if (!re.test(before)) return;
+    window[key] = before.replace(re, '"activePageId":"' + START_PAGE + '"');
+  } catch (e) {}
+})();
+</script>
+<script>
+(function () {
+  if (!/[?&]embed=1(?:&|$)/.test(location.search)) return;
+  var CREATIVE = 'id_6a45de2a14ff4e80ed02b1fd';
+  var PRIZE = '15t7i4oeuzi';
+  var HALL = '15otp1rcl1u';
+  var seen = typeof WeakSet === 'function' ? new WeakSet() : null;
+
+  function dropPrizeClicks(node) {
+    if (!node || typeof node !== 'object') return;
+    if (seen && seen.has(node)) return;
+    if (seen) seen.add(node);
+    if (typeof node.behavior === 'string' && node.behavior.indexOf(PRIZE) !== -1) {
+      try {
+        var list = JSON.parse(node.behavior);
+        if (Array.isArray(list)) {
+          node.behavior = JSON.stringify(list.filter(function (item) {
+            return JSON.stringify(item || '').indexOf(PRIZE) < 0;
+          }));
+        }
+      } catch (err) {}
+    }
+    var keys = Object.keys(node);
+    for (var i = 0; i < keys.length; i++) dropPrizeClicks(node[keys[i]]);
+  }
+
+  function strip(data) {
+    if (!data || typeof data !== 'object' || data.__laoyeEmbed) return data;
+    if (Array.isArray(data.pages)) {
+      data.pages = data.pages.filter(function (page) {
+        return !page || (page.gi !== PRIZE && page.guid !== PRIZE);
+      });
+      for (var i = 0; i < data.pages.length; i++) {
+        var page = data.pages[i];
+        if (!page || (page.gi !== HALL && page.guid !== HALL) || !Array.isArray(page.ly)) continue;
+        page.ly = page.ly.filter(function (layer) {
+          return !layer || (layer.nm !== '\u89c6\u9891' && layer.nm !== '\u6295\u5f71');
+        });
+      }
+    }
+    dropPrizeClicks(data);
+    try { Object.defineProperty(data, '__laoyeEmbed', { value: true }); } catch (err) { data.__laoyeEmbed = true; }
+    return data;
+  }
+
+  var root = window.Mugeda = window.Mugeda || {};
+  var bag = root.data = root.data || {};
+  var current = bag[CREATIVE];
+  try {
+    Object.defineProperty(bag, CREATIVE, {
+      configurable: true,
+      enumerable: true,
+      get: function () { return current; },
+      set: function (value) {
+        try { current = strip(value); }
+        catch (err) { current = value; }
+      }
+    });
+  } catch (err) {}
+
+  function clip() {
+    var ani = window.Mugeda && window.Mugeda.currentAni;
+    var scene = ani && ani._scene;
+    return scene && scene._movieClip;
+  }
+
+  function halls(mc) {
+    var scenes = mc && mc._scenes;
+    if (!scenes || scenes.length < 2) return [];
+    return Array.prototype.slice.call(scenes, 1);
+  }
+
+  window.laoyeTour = {
+    ready: function () { return halls(clip()).length > 0; },
+    count: function () { return halls(clip()).length; },
+    index: function () {
+      var mc = clip();
+      var list = halls(mc);
+      if (!mc || list.length === 0) return 0;
+      var frame = mc._currentFrame || 0;
+      for (var i = 0; i < list.length; i++) {
+        var start = list[i]._startFrame || 0;
+        var next = i + 1 < list.length ? (list[i + 1]._startFrame || start + 1) : start + (list[i]._numFrames || 1);
+        if (next <= start) next = start + 1;
+        if (frame >= start && frame < next) return i;
+      }
+      return frame < (list[0]._startFrame || 0) ? 0 : list.length - 1;
+    },
+    go: function (index) {
+      var mc = clip();
+      var list = halls(mc);
+      if (!mc || index < 0 || index >= list.length || typeof mc.gotoAndPlay !== 'function') return false;
+      mc._manual = false;
+      mc.gotoAndPlay(list[index]._startFrame || 0, null, 20);
+      return true;
+    }
+  };
+})();
+</script>
+
+<script>
     var _mrmcp = {
     "weixinAppId": "wx75babd529e23776c",
     "redirect_url": "%LINK%?redir=",

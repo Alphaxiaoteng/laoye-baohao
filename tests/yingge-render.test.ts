@@ -1,8 +1,10 @@
+import { readFileSync } from 'node:fs'
 import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import { YinggeRoutes } from '../src/features/yingge'
+import { YINGGE_STORY_REDIRECT } from '../src/features/yingge/pages/Story'
 
 /**
  * 渲染冒烟测试：英歌模块五条路由各渲染一遍。
@@ -28,24 +30,47 @@ function render(path: string): string {
 }
 
 describe('英歌模块页面可以渲染', () => {
-  it('/museum/yingge 有五要素贴图、下滑段落与来源说明', () => {
+  it('/museum/yingge 有数字馆、阵形与角色，本页依据在底部', () => {
     const html = render('/museum/yingge')
     expect(html).toContain('<h1')
-    expect(html).toContain('先看一场')
-    expect(html).toContain('再看懂身体、双槌与锣鼓。')
-    expect(html).toContain('英歌五要素')
-    expect(html).toContain('身体')
-    expect(html).toContain('双槌')
-    expect(html).toContain('锣鼓')
+    expect(html).toContain('英歌舞')
+    expect(html).not.toContain('脚步先于槌')
+    expect(html).not.toContain('<video')
+    expect(html).not.toContain('槌与锣鼓')
+    expect(html).not.toContain('只示意循环结构')
+    expect(html).not.toContain('培训与节目编排')
     expect(html).toContain('角色')
     expect(html).toContain('阵形')
-    // 贴图用本站素材
-    expect(html).toContain('/media/yingge/objects/icon-clubs.webp')
-    // 互动边界声明必须留在首页
-    expect(html).toContain('都是示意')
-    expect(html).toContain('本模块来源')
-    // 第二页入口
-    expect(html).toContain('/museum/yingge/story')
+    expect(html).toContain('上一个')
+    expect(html).toContain('下一个')
+    expect(html).toContain('/media/yingge/objects/icon-command-flag.webp')
+    expect(html).toContain('id="museum"')
+    expect(html).toContain('云游英歌舞')
+    expect(html).toContain('进入后直接播放展厅')
+    expect(html).not.toContain('skipIntro=1')
+    const museum = readFileSync('src/features/yingge/pages/HomeV2.tsx', 'utf8')
+    expect(museum).toContain("const MUGEDA_PAGE = '/exhibits/yingge/mugeda/index.html'")
+    expect(museum).toContain("const MUGEDA_SRC = '/exhibits/yingge/mugeda/index.html?embed=1'")
+    expect(museum).toContain("const MUGEDA_ENTRY_PAGE = '15otp1rcl1u'")
+    expect(museum).toContain('mugedaEntryPage = MUGEDA_ENTRY_PAGE')
+    expect(museum).toContain('setSrc(MUGEDA_SRC)')
+    expect(html).toContain('后退')
+    expect(html).toContain('前进')
+    expect(html).toContain('返回')
+    expect(html).toContain('本页依据')
+    expect(html).not.toContain('进入第二页')
+    expect(html).not.toContain('id="story"')
+    expect(html).not.toContain('从「捣珍」到广场')
+  })
+
+  it('/museum/yingge/story 重定向到历史介绍叙事锚点，不再渲染第二页', () => {
+    expect(YINGGE_STORY_REDIRECT).toBe('/docs#doc-yingge-story')
+    const route = YinggeRoutes.find((item) => item.path === '/museum/yingge/story')
+    expect(route?.element).toBeTruthy()
+    const html = render('/museum/yingge/story')
+    expect(html).not.toContain('英歌舞 · 第二页')
+    expect(html).not.toContain('进入第二页')
+    expect(html).not.toContain('从「捣珍」到广场')
   })
 
   it('/museum/yingge/formations 有互动示意声明与可切换阵形', () => {

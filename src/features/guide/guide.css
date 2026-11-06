@@ -1,237 +1,690 @@
-/* 潮汕攻略页：8787 深墨青底座 + 细线卡片；只做排版与轻动效，不引入新底色。 */
+/* 潮汕攻略：站内原创指南阅读器。
+   只用全站暖纸 / 深墨 / 珊瑚红 token：纸底上放奶油色卡片，标题宋体，结构交给 SVG。 */
 
-.guide-hero {
-  position: relative;
-  padding: 4px 0 0;
+.guide-page {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
 }
 
-.guide-chip {
-  display: inline-flex;
-  min-height: 36px;
-  align-items: center;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 0 14px;
+/* ---------- 列表页页头 ---------- */
+
+.guide-lead {
+  display: flex;
+  max-width: 42rem;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.guide-lead h1 {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(30px, 5vw, 46px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.guide-dek {
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.guide-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+
+.guide-kicker > span + span::before {
+  content: '·';
+  margin-right: 12px;
+  color: var(--line);
+}
+
+.guide-kicker-city {
+  font-family: var(--font-serif, serif);
   font-size: 13px;
-  color: var(--muted);
-  transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+  letter-spacing: 0.1em;
+  color: var(--coral);
 }
 
-.guide-chip:hover {
-  color: var(--text);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.guide-chip.is-active {
-  border-color: var(--coral);
-  background: rgba(240, 74, 58, 0.14);
-  color: var(--text);
-}
-
-.guide-chip:focus-visible {
-  outline: 2px solid var(--coral);
-  outline-offset: 2px;
-}
+/* ---------- 卡片 ---------- */
 
 .guide-grid {
   display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.guide-grid > li {
-  animation: guide-rise 0.5s cubic-bezier(0.22, 0.68, 0, 1) both;
-}
-
-@keyframes guide-rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
+  gap: 22px;
 }
 
 .guide-card {
   display: flex;
-  height: 100%;
-  flex-direction: row;
+  min-width: 0;
+  flex-direction: column;
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper-surface);
+}
+
+.guide-card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--paper-deep);
+  border-bottom: 1px solid var(--line);
+}
+
+.guide-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.guide-cover-art {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.guide-cover-sea {
+  fill: rgba(74, 92, 66, 0.16);
+}
+
+.guide-cover-wave {
+  fill: none;
+  stroke: rgba(74, 92, 66, 0.4);
+  stroke-width: 1.6;
+}
+
+.guide-cover-sun {
+  fill: rgba(240, 74, 58, 0.16);
+  stroke: rgba(240, 74, 58, 0.42);
+  stroke-width: 1.4;
+}
+
+.guide-cover-beam {
+  fill: none;
+  stroke: rgba(61, 47, 38, 0.34);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.guide-card-body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 20px;
+}
+
+.guide-card-title {
+  font-family: var(--font-serif, serif);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.42;
+  color: var(--text);
+}
+
+.guide-card-dek {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.guide-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--faint);
+}
+
+.guide-card-meta > span + span::before {
+  content: '·';
+  margin-right: 12px;
+  color: var(--line);
+}
+
+.guide-open {
+  display: inline-flex;
+  min-height: 44px;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  border: 1px solid var(--coral);
+  border-radius: 999px;
+  background: transparent;
+  padding: 0 18px;
+  font-size: 13.5px;
+  color: var(--coral);
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.guide-open:hover {
+  background: var(--coral);
+  color: var(--paper-surface);
+}
+
+.guide-open:focus-visible,
+.guide-back:focus-visible,
+.guide-inline-link:focus-visible,
+.guide-route-scroll:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+.guide-open-arrow {
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.18s ease;
+}
+
+.guide-open:hover .guide-open-arrow {
+  transform: translateX(3px);
+}
+
+/* ---------- 阅读视图 ---------- */
+
+.guide-reader {
+  display: flex;
+  width: 100%;
+  max-width: 54rem;
+  margin-inline: auto;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.guide-back {
+  display: inline-flex;
+  min-height: 44px;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper-surface);
+  padding: 0 18px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+
+.guide-back:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+.guide-back--foot {
+  margin-top: 8px;
+}
+
+.guide-reader-head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.guide-reader-title {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(26px, 3.6vw, 38px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.guide-reader-dek {
+  max-width: 44rem;
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.guide-reader-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.guide-reader-meta > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.guide-reader-meta dt {
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+
+.guide-reader-meta dd {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.guide-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guide-hero-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.035);
-  transition: transform 0.35s cubic-bezier(0.22, 0.68, 0, 1), border-color 0.25s ease,
-    background-color 0.25s ease;
-}
-
-.guide-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.28);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.guide-cover {
-  position: relative;
-  flex: none;
-  width: 40%;
-  min-height: 196px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.guide-cover img {
-  height: 100%;
-  width: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.22, 0.68, 0, 1);
+  display: block;
 }
 
-.guide-card:hover .guide-cover img {
-  transform: scale(1.04);
-}
-
-.guide-cover-fallback {
+.guide-hero figcaption,
+.guide-photo figcaption {
   display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.guide-credit {
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--faint);
+}
+
+/* ---------- 事实卡 ---------- */
+
+.guide-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper-surface);
+  padding: 18px 20px 20px;
+}
+
+.guide-facts h2 {
   font-family: var(--font-serif, serif);
-  font-size: 18px;
-  letter-spacing: 0.2em;
-  color: rgba(242, 241, 234, 0.35);
-}
-
-.guide-city,
-.guide-kind {
-  position: absolute;
-  top: 10px;
-  border-radius: 999px;
-  padding: 3px 9px;
-  font-size: 11px;
-  line-height: 1.4;
-  backdrop-filter: blur(8px);
-}
-
-.guide-city {
-  left: 10px;
-  background: rgba(36, 50, 41, 0.72);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.guide-kind {
-  right: 10px;
-  background: rgba(240, 74, 58, 0.9);
-  color: #fff;
+.guide-facts dl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
+.guide-fact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+}
+
+.guide-fact dt {
+  flex: none;
+  min-width: 4.5rem;
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--faint);
+}
+
+.guide-fact dd {
+  min-width: 0;
+  flex: 1 1 14rem;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+}
+
+/* ---------- 正文 ---------- */
 
 .guide-body {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  gap: 8px;
-  padding: 14px 15px 15px;
+  gap: 26px;
 }
 
-.guide-title {
+.guide-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guide-section h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   font-family: var(--font-serif, serif);
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.45;
   color: var(--text);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
-.guide-excerpt {
-  font-size: 13px;
-  line-height: 1.75;
-  color: var(--muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
+.guide-section h2::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 2px;
+  background: var(--coral);
+  transform: translateY(-6px);
 }
 
-.guide-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-size: 11.5px;
-  color: rgba(190, 200, 187, 0.75);
+.guide-section p {
+  max-width: 46rem;
+  font-size: 15.5px;
+  line-height: 1.9;
+  color: var(--ink-soft);
 }
 
-.guide-foot {
-  display: flex;
-  flex-wrap: wrap;
+.guide-inline-link {
+  display: inline-flex;
+  min-height: 44px;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.guide-author {
-  font-size: 12px;
-  color: var(--faint, #9fae9c);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 45%;
-}
-
-.guide-link {
-  font-size: 12px;
+  align-self: flex-start;
+  font-size: 13.5px;
   color: var(--coral);
-  text-decoration: none;
-  transition: color 0.18s ease;
-}
-
-.guide-link:hover {
-  color: #ff7a6c;
   text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
-.guide-note {
-  border-top: 1px solid var(--line);
-  padding-top: 20px;
+.guide-inline-link:hover {
+  color: var(--brick-dark);
+}
+
+/* ---------- 区块（路线 / 吃的 / 现场 / 注意事项） ---------- */
+
+.guide-block {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.guide-block h2 {
+  font-family: var(--font-serif, serif);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.guide-block-note {
   font-size: 13px;
-  line-height: 1.85;
+  line-height: 1.8;
+  color: var(--faint);
+}
+
+.guide-block-note--solo {
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  background: rgba(74, 92, 66, 0.05);
+  padding: 14px 16px;
+}
+
+/* ---------- 线路 SVG ---------- */
+
+.guide-route {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper-surface);
+  padding: 14px 16px 6px;
+}
+
+.guide-route-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+
+.guide-route-order {
+  font-family: var(--font-serif, serif);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--coral);
+}
+
+.guide-route-label {
+  font-family: var(--font-serif, serif);
+  font-size: 15.5px;
+  color: var(--text);
+}
+
+.guide-route-area {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+
+.guide-route-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(61, 47, 38, 0.3) transparent;
+}
+
+.guide-route-svg {
+  display: block;
+  max-width: none;
+}
+
+.guide-route-track {
+  stroke: rgba(61, 47, 38, 0.24);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+}
+
+.guide-route-dot {
+  fill: var(--paper-surface);
+  stroke: rgba(61, 47, 38, 0.28);
+  stroke-width: 1.4;
+}
+
+.guide-route-stop:last-of-type .guide-route-dot {
+  stroke: var(--coral);
+}
+
+.guide-route-no {
+  fill: var(--ink);
+  font-family: var(--font-serif, serif);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.guide-route-stop:last-of-type .guide-route-no {
+  fill: var(--coral);
+}
+
+.guide-route-name {
+  fill: var(--text);
+  font-size: 12.5px;
+}
+
+.guide-route-note {
+  fill: var(--faint);
+  font-size: 10.5px;
+}
+
+.guide-route-flag {
+  fill: var(--coral);
+  stroke: none;
+}
+
+/* ---------- 食物小图谱 ---------- */
+
+.guide-food {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px 18px;
+}
+
+.guide-food-item {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 253, 248, 0.7);
+}
+
+.guide-food-glyph {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  color: var(--brown);
+}
+
+.guide-food-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.guide-food-text strong {
+  font-family: var(--font-serif, serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.guide-food-text span {
+  font-size: 12.5px;
+  line-height: 1.65;
   color: var(--muted);
 }
 
-@media (max-width: 900px) {
+/* ---------- 实拍 ---------- */
+
+.guide-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.guide-photos--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px 16px;
+}
+
+.guide-photos--grid .guide-photo:first-child {
+  grid-column: 1 / -1;
+}
+
+.guide-photo {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.guide-photo img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  object-fit: cover;
+  display: block;
+}
+
+.guide-photos--grid .guide-photo:first-child img {
+  aspect-ratio: 16 / 9;
+}
+
+/* ---------- 注意事项 ---------- */
+
+.guide-cautions {
+  border-top: 1px solid var(--line);
+}
+
+.guide-cautions ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.guide-cautions li {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.guide-cautions li::marker {
+  color: var(--coral);
+}
+
+/* ---------- 窄屏 ---------- */
+
+@media (max-width: 700px) {
   .guide-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 18px;
   }
-  .guide-card {
-    flex-direction: column;
+
+  .guide-card-body {
+    padding: 16px 16px 18px;
   }
-  .guide-cover {
-    width: 100%;
-    min-height: 0;
-    aspect-ratio: 16 / 10;
+
+  .guide-reader {
+    gap: 22px;
+  }
+
+  .guide-photos--grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-fact dt {
+    min-width: 100%;
+  }
+
+  .guide-route {
+    padding: 12px 12px 4px;
   }
 }
 
+/* 尊重系统减少动效设置 */
 @media (prefers-reduced-motion: reduce) {
-  .guide-grid > li {
-    animation: none;
-  }
-  .guide-card,
-  .guide-cover img {
-    transition: none;
+  .guide-page,
+  .guide-page * {
+    transition: none !important;
+    animation: none !important;
   }
 }

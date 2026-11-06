@@ -11,7 +11,6 @@ import { useProgressStore } from '../store/progress'
 import VerifyBadge from '../components/VerifyBadge'
 import StepPager from '../components/StepPager'
 import CollectButton from '../components/CollectButton'
-import { SourceList } from '../components/SourceBadge'
 import { usePageContext, usePageTitle } from '../lib/usePageContext'
 
 export default function RecipePage() {
@@ -142,12 +141,11 @@ export default function RecipePage() {
         />
       </section>
 
-      <section aria-labelledby="recipe-sources" className="space-y-3">
-        <h2 id="recipe-sources" className="section-title">
-          本食谱来源
-        </h2>
+      <section aria-labelledby="recipe-steps" className="space-y-3">
         <div className="card">
-          <SourceList ids={recipe.sourceIds} />
+          <p className="text-sm leading-6 text-ink-soft">
+            用量与工序按内容库整理；未标注的营养成分本站不填。
+          </p>
         </div>
       </section>
 

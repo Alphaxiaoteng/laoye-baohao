@@ -177,14 +177,16 @@
 }
 
 /* ---------- 茶巾 ---------- */
+/* 落在茶盘左侧空位：左缘在盘内，右缘让开壶身，下缘让开品茗杯 */
 .tea-stage .tea-cloth {
   position: absolute;
   z-index: 2;
-  bottom: 3%;
-  left: 2.5%;
-  width: 22%;
-  height: 11%;
-  transform: rotate(-5deg);
+  top: 48%;
+  left: 10%;
+  width: 12%;
+  height: 8%;
+  transform: rotate(-4deg);
+  transform-origin: center;
   border-radius: 5px 9px 4px 11px;
   background:
     repeating-linear-gradient(90deg, rgba(255, 240, 220, 0.06) 0 1px, transparent 1px 3px),
@@ -251,9 +253,9 @@
   position: absolute;
   z-index: 1;
   right: 11%;
-  bottom: 1%;
+  bottom: 21%;
   left: 13%;
-  height: 15%;
+  height: 10%;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at 50% 50%,
@@ -269,10 +271,10 @@
   content: '';
   position: absolute;
   z-index: 0;
-  bottom: -2%;
+  bottom: 20%;
   left: 24%;
   width: 46%;
-  height: 13%;
+  height: 7%;
   border-radius: 50%;
   background: radial-gradient(ellipse at 50% 40%, rgba(126, 66, 34, 0.45), transparent 70%);
   filter: blur(5px);
@@ -325,22 +327,25 @@
 /* ---------- 注水 / 出汤 ---------- */
 .tea-stage .pour-stream {
   position: absolute;
-  top: -11%;
+  top: -8%;
   left: 47%;
   z-index: 6;
-  width: 4px;
-  height: 44%;
+  width: 7px;
+  height: 42%;
   transform: translateX(-50%);
-  border-radius: 3px;
+  border-radius: 8px;
   background: linear-gradient(
     to bottom,
-    rgba(232, 244, 238, 0.06),
-    rgba(236, 246, 240, 0.46) 34%,
-    rgba(244, 250, 246, 0.72) 80%,
-    rgba(255, 255, 255, 0.4)
+    rgba(255, 255, 255, 0.15),
+    rgba(232, 246, 240, 0.55) 18%,
+    rgba(214, 236, 228, 0.92) 70%,
+    rgba(255, 255, 255, 0.35)
   );
-  filter: blur(0.4px);
-  animation: tea-pour-pulse 0.5s infinite alternate;
+  box-shadow:
+    inset 2px 0 0 rgba(255, 255, 255, 0.55),
+    0 0 8px rgba(220, 240, 232, 0.45);
+  overflow: hidden;
+  animation: tea-flow 0.55s linear infinite;
 }
 
 .tea-stage .pour-stream::after {
@@ -356,24 +361,66 @@
   filter: blur(1.5px);
 }
 
-.tea-stage .pour-out {
+.tea-stage .pour-out,
+.tea-stage .cup-pour {
   position: absolute;
-  top: 30%;
-  left: 29.5%;
-  z-index: 5;
-  width: 3px;
-  height: 46%;
-  transform: rotate(9deg);
-  transform-origin: 50% 0;
-  border-radius: 2px;
+  z-index: 6;
+  width: 8px;
+  border-radius: 8px;
   background: linear-gradient(
     to bottom,
-    rgba(214, 150, 74, 0.2),
-    rgba(214, 150, 74, 0.78) 22%,
-    rgba(226, 163, 85, 0.92) 70%,
-    rgba(180, 110, 44, 0.5)
+    rgba(255, 214, 150, 0.15),
+    rgba(214, 140, 62, 0.55) 16%,
+    rgba(196, 112, 42, 0.95) 72%,
+    rgba(255, 220, 160, 0.4)
   );
-  animation: tea-out-pulse 0.45s infinite alternate;
+  box-shadow:
+    inset 2px 0 0 rgba(255, 236, 210, 0.7),
+    0 0 10px rgba(214, 150, 74, 0.35);
+  overflow: hidden;
+  animation: tea-flow 0.48s linear infinite;
+}
+
+.tea-stage .pour-out {
+  top: 28%;
+  left: 31%;
+  height: 38%;
+  transform: rotate(8deg);
+  transform-origin: 50% 0;
+}
+
+.tea-stage .cup-pour {
+  top: -62%;
+  left: 50%;
+  height: 70%;
+  transform: translateX(-50%);
+}
+
+.tea-stage .cup-pour::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 22px;
+  height: 8px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(226, 163, 85, 0.7), transparent 70%);
+  animation: tea-splash 0.7s ease-out infinite;
+}
+
+@keyframes tea-splash {
+  0% {
+    transform: translateX(-50%) scale(0.6);
+    opacity: 0.2;
+  }
+  70% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateX(-50%) scale(1.35);
+    opacity: 0;
+  }
 }
 
 /* ---------- 品茗杯 ---------- */
@@ -513,12 +560,12 @@
 }
 
 .tea-stage .steam span {
-  width: 6px;
-  height: 34px;
+  width: 8px;
+  height: 46px;
   border-radius: 50%;
-  background: linear-gradient(to top, rgba(255, 246, 232, 0.42), rgba(255, 246, 232, 0));
-  filter: blur(3px);
-  animation: tea-rise 3.2s infinite ease-in;
+  background: linear-gradient(to top, rgba(255, 250, 242, 0.82), rgba(255, 246, 232, 0));
+  filter: blur(2px);
+  animation: tea-rise 2.5s infinite ease-in;
 }
 
 .tea-stage .steam span:nth-child(2) {
@@ -600,6 +647,10 @@
   opacity: 0.85;
 }
 
+.tea-single .scene-caption {
+  display: none;
+}
+
 @media (max-width: 480px) {
   /* 窄屏：茶席整体偏小，把壶与杯稍微放大，避免器物缩成小图标 */
   .tea-stage .tea-pot {
@@ -633,41 +684,29 @@
    只给一层细线，器物靠自身材质说话，不再做漆木拟物。
    ================================================================== */
 
-/* 茶席外框：深墨青毛玻璃展柜 */
+/* 茶席外框：暖纸毛玻璃展柜（内嵌深色茶桌，外框跟全站纸底一致） */
 .tea-stage-panel {
   padding: clamp(8px, 2vw, 14px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--glass-line);
   border-radius: 18px;
-  background-color: rgba(45, 61, 49, 0.42);
-  background-image: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 255, 255, 0.05)
-  );
+  background-color: var(--glass-base);
+  background-image: var(--glass-fill);
   backdrop-filter: blur(24px) saturate(145%);
   -webkit-backdrop-filter: blur(24px) saturate(145%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 18px 60px rgba(13, 21, 15, 0.16);
+  box-shadow: var(--glass-shadow);
 }
 
 /* 步骤操作区：同一块玻璃，只是内边距更大 */
 .tea-panel {
   position: relative;
   padding: clamp(18px, 3vw, 28px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--glass-line);
   border-radius: 18px;
-  background-color: rgba(45, 61, 49, 0.42);
-  background-image: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 255, 255, 0.05)
-  );
+  background-color: var(--glass-base);
+  background-image: var(--glass-fill);
   backdrop-filter: blur(24px) saturate(145%);
   -webkit-backdrop-filter: blur(24px) saturate(145%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 18px 60px rgba(13, 21, 15, 0.16);
+  box-shadow: var(--glass-shadow);
 }
 
 /* 进度点：细线圆点，已走完鹿棕、当前珊瑚红 */
@@ -682,8 +721,8 @@
   width: 11px;
   height: 11px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  background: rgba(61, 47, 38, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(61, 47, 38, 0.18);
   transition:
     transform 240ms var(--ease-exhibit),
     background-color 240ms var(--ease-exhibit),
@@ -699,7 +738,7 @@
   transform: scale(1.3);
   background: var(--coral);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 0 1px rgba(255, 253, 248, 0.45),
     0 0 0 3px rgba(240, 74, 58, 0.16),
     0 0 12px rgba(240, 74, 58, 0.3);
 }
@@ -709,10 +748,10 @@
   display: inline-block;
   max-width: 100%;
   padding: 0.5rem 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--line);
   border-left: 2px solid rgba(222, 118, 34, 0.6);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--paper-surface);
   color: var(--muted);
   font-size: 12px;
   line-height: 1.65;
@@ -745,7 +784,7 @@
 .tea-btn-primary {
   border-color: var(--coral);
   background-color: var(--coral);
-  color: #fff;
+  color: var(--paper-surface);
   font-weight: 600;
 }
 
@@ -761,19 +800,19 @@
 }
 
 .tea-btn-ghost {
-  border-color: rgba(255, 255, 255, 0.24);
-  background-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--line);
+  background-color: rgba(255, 253, 248, 0.72);
   color: var(--text);
 }
 
 .tea-btn-ghost:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(61, 47, 38, 0.22);
+  background-color: var(--hover);
 }
 
 .tea-btn-ghost:active {
   transform: translateY(1px);
-  background-color: rgba(255, 255, 255, 0.18);
+  background-color: var(--pressed);
 }
 
 .tea-btn:disabled,
@@ -789,23 +828,51 @@
   outline-offset: 3px;
 }
 
-/* 一键演示：茶席上方只有一颗主按钮（暂停时旁边多一颗重置） */
-.tea-playbar {
+/* 播放、重置、进度点和步骤名收在茶席下方同一条里 */
+.tea-dock-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 12px 16px;
 }
 
-.tea-play-btn {
-  min-width: 148px;
-  letter-spacing: 0.1em;
+.tea-dock-play {
+  min-width: 7.5rem;
+  letter-spacing: 0.08em;
 }
 
-.tea-play-btn[aria-pressed='true'] {
-  box-shadow:
-    0 0 0 3px rgba(240, 74, 58, 0.16),
-    0 0 18px rgba(240, 74, 58, 0.28);
+.tea-dock-play[aria-pressed='true'] {
+  box-shadow: 0 0 0 3px rgba(240, 74, 58, 0.16);
+}
+
+.tea-dock .tea-progress {
+  justify-content: flex-start;
+}
+
+.tea-dock-status {
+  flex: 1 1 14rem;
+  min-width: min(100%, 14rem);
+}
+
+.tea-dock-title {
+  font-family: 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', STSong, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.tea-dock-tip {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.tea-dock-sound {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
 }
 
 /* 完成页的「茶」印：珊瑚色印章圆牌 */
@@ -860,22 +927,105 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tea-stage .tea-pot {
+  .tea-stage .tea-pot,
+  .tea-stage .steam span,
+  .tea-stage .pour-stream,
+  .tea-stage .pour-out,
+  .tea-stage .pour-stream span,
+  .tea-stage .pour-out span {
     transition: none;
+    animation: none;
   }
 }
 
 /* ---------- 动画 ---------- */
 @keyframes tea-rise {
   0% {
-    transform: translateY(0) scaleX(1);
+    transform: translateY(8px) scaleX(0.8);
     opacity: 0;
   }
-  20% {
+  18% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-68px) scaleX(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes tea-flow {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 0 16px, 0 0;
+  }
+}
+
+@keyframes tea-bead {
+  0% {
+    top: -6%;
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  100% {
+    top: 94%;
+    opacity: 0.12;
+  }
+}
+
+@keyframes tea-ink-rise {
+  0% {
+    transform: translateY(12px) scaleY(0.4) rotate(-8deg);
+    opacity: 0;
+  }
+  28% {
     opacity: 0.85;
   }
   100% {
-    transform: translateY(-52px) scaleX(1.7);
+    transform: translateY(-72px) scaleY(1.45) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes tea-ink-bleed {
+  0%,
+  100% {
+    filter: blur(0.2px);
+    opacity: 0.78;
+  }
+  50% {
+    filter: blur(1.5px);
+    opacity: 1;
+  }
+}
+
+@keyframes tea-flat-rise {
+  0% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-48px);
+    opacity: 0;
+  }
+}
+
+@keyframes tea-sketch-rise {
+  0% {
+    transform: translateY(6px) skewX(-8deg);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(-56px) skewX(16deg);
     opacity: 0;
   }
 }
@@ -948,10 +1098,29 @@
 /* ---- 单页模式：茶席 + 右侧步骤，器物上可直接点击 ---- */
 
 .tea-single {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  align-items: start;
+  align-items: stretch;
+  width: 100%;
+  max-width: none;
+}
+
+/* 茶席占满上方整行，热区层和茶盘同宽，百分比才落在器物上 */
+.tea-single .tea-stage-panel {
+  width: auto;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.tea-single .tea-interactive-wrap {
+  width: 100%;
+}
+
+.tea-single .tea-stage .tea-board {
+  width: 100%;
+  max-width: none;
+  min-height: clamp(280px, 42vw, 420px);
 }
 
 .tea-interactive-wrap {
@@ -998,12 +1167,6 @@
   height: 28%;
 }
 
-@media (max-width: 900px) {
-  .tea-single {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* 当前步骤提示：只在器物后面点一盏柔光，不画死板的方框 */
 .tea-hotspot.is-hint {
   border-color: transparent;
@@ -1037,4 +1200,603 @@
   .tea-hotspot.is-hint {
     animation: none;
   }
+}
+
+/* 水流里往下跑的水珠：注水和出汤靠它看出在动 */
+.tea-stage .pour-stream span,
+.tea-stage .pour-out span,
+.tea-stage .cup-pour span {
+  position: absolute;
+  left: 50%;
+  width: 5px;
+  height: 8px;
+  margin-left: -2.5px;
+  border-radius: 40% 40% 50% 50%;
+  pointer-events: none;
+  animation: tea-bead 0.62s linear infinite;
+}
+
+.tea-stage .pour-stream span {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.tea-stage .pour-out span,
+.tea-stage .cup-pour span {
+  background: #f0c27a;
+}
+
+.tea-stage .pour-stream span:nth-child(2),
+.tea-stage .pour-out span:nth-child(2),
+.tea-stage .cup-pour span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.tea-stage .pour-stream span:nth-child(3),
+.tea-stage .pour-out span:nth-child(3),
+.tea-stage .cup-pour span:nth-child(3) {
+  animation-delay: 0.41s;
+}
+
+/* 风格列表：一行一个，贴在茶席左侧 */
+.tea-layout {
+  display: flex;
+  width: 100%;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.tea-culture {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tea-culture-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tea-culture-tabs button {
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper-surface);
+  padding: 0 14px;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tea-culture-tabs button.is-on {
+  border-color: var(--coral);
+  background: rgba(240, 74, 58, 0.14);
+  color: var(--text);
+}
+
+.tea-culture-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper-surface);
+  padding: 16px 18px;
+}
+
+.tea-culture-panel h3 {
+  margin: 0;
+  font-family: var(--font-serif, serif);
+  font-size: 18px;
+  color: var(--text);
+}
+
+.tea-culture-panel p {
+  margin: 0;
+  max-width: 40rem;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.tea-looks {
+  display: flex;
+  width: 7.5rem;
+  flex: none;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 热区的百分比跟着这块画布，不跟着外面的玻璃框 */
+.tea-single .tea-interactive-wrap {
+  position: relative;
+}
+
+.tea-look {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper-surface);
+  color: var(--text);
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tea-look::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border-radius: 50%;
+  background: linear-gradient(#d7a27a, #6a3420);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.tea-look[data-look='ink']::before {
+  background: radial-gradient(circle at 35% 35%, #6b6b6b, #111 72%);
+  box-shadow: none;
+}
+
+.tea-look[data-look='flat']::before {
+  border-radius: 2px;
+  background: #e25b2a;
+  box-shadow: 2px 2px 0 #1a1612;
+}
+
+.tea-look[data-look='sketch']::before {
+  background: transparent;
+  border: 1.5px dashed #f4ead8;
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.tea-look.is-on {
+  border-color: var(--coral);
+  background: rgba(240, 74, 58, 0.16);
+}
+
+.tea-look:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .tea-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tea-layout .tea-stage-panel {
+    order: -1;
+  }
+
+  .tea-looks {
+    width: 100%;
+  }
+}
+
+/* ==================================================================
+   四种画法。器物位置不动，换的是桌面、填色、笔触和水流怎么动。
+   ================================================================== */
+
+.tea-stage.tea-look-ink .tea-board {
+  border: 1px solid #2a2a2a;
+  border-radius: 2px;
+  background-color: #f3ecdf;
+  background-image:
+    radial-gradient(28% 22% at 16% 78%, rgba(20, 20, 20, 0.16), transparent 70%),
+    radial-gradient(22% 18% at 82% 18%, rgba(20, 20, 20, 0.12), transparent 72%),
+    radial-gradient(70% 40% at 50% 100%, rgba(0, 0, 0, 0.06), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(80, 70, 50, 0.04) 0 1px, transparent 1px 4px);
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-ink .board-light {
+  opacity: 0.25;
+}
+
+.tea-stage.tea-look-ink .tea-tray {
+  border: 1px solid rgba(25, 25, 25, 0.4);
+  border-radius: 1px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-ink .tea-tray::after,
+.tea-stage.tea-look-ink .tray-ripple {
+  display: none;
+}
+
+.tea-stage.tea-look-ink .tray-channel {
+  background: transparent;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-ink .tray-channel::before {
+  border-color: rgba(20, 20, 20, 0.28);
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-ink .tea-cloth {
+  background: #cfc8bc;
+  box-shadow: none;
+  filter: grayscale(1);
+}
+
+.tea-stage.tea-look-ink .leaf-dish-base {
+  background: #ded8cc;
+  box-shadow: none;
+  filter: grayscale(1) contrast(1.2);
+}
+
+.tea-stage.tea-look-ink .pot-svg {
+  filter: grayscale(1) contrast(2.2) brightness(0.42);
+}
+
+.tea-stage.tea-look-ink .cup-svg {
+  filter: grayscale(1) contrast(1.35) brightness(1.05);
+}
+
+.tea-stage.tea-look-ink .tea-pot::after,
+.tea-stage.tea-look-ink .pot-shadow {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.tea-stage.tea-look-ink .tea-leaves span,
+.tea-stage.tea-look-ink .dry-leaves span {
+  background: #1a1a1a;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-ink .steam span {
+  width: 3px;
+  height: 52px;
+  border-radius: 46% 54% 40% 60%;
+  background: linear-gradient(to top, rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0));
+  filter: blur(0.5px);
+  animation-name: tea-ink-rise;
+  animation-duration: 3.6s;
+}
+
+.tea-stage.tea-look-ink .pour-stream,
+.tea-stage.tea-look-ink .pour-out {
+  width: 3px;
+  border-radius: 2px;
+  background: #141414;
+  animation: tea-ink-bleed 1.35s ease-in-out infinite;
+}
+
+.tea-stage.tea-look-ink .pour-stream::after {
+  background: radial-gradient(ellipse at 50% 50%, rgba(20, 20, 20, 0.45), transparent 72%);
+}
+
+.tea-stage.tea-look-ink .pour-stream span,
+.tea-stage.tea-look-ink .pour-out span {
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  border-radius: 50%;
+  background: #111;
+  filter: blur(1.2px);
+  animation-duration: 1.25s;
+}
+
+.tea-stage.tea-look-flat .tea-board {
+  border: 3px solid #1a1612;
+  border-radius: 6px;
+  background: #f6d7a4;
+  background-image: none;
+  box-shadow: 7px 7px 0 #1a1612;
+}
+
+.tea-stage.tea-look-flat .board-light,
+.tea-stage.tea-look-flat .tea-tray::after,
+.tea-stage.tea-look-flat .tray-ripple,
+.tea-stage.tea-look-flat .tea-pot::after,
+.tea-stage.tea-look-flat .pot-shadow,
+.tea-stage.tea-look-flat .pot-sheen,
+.tea-stage.tea-look-flat .pot-soft,
+.tea-stage.tea-look-flat .pot-noise,
+.tea-stage.tea-look-flat .pot-cast,
+.tea-stage.tea-look-flat .cup-gloss,
+.tea-stage.tea-look-flat .cup-cast {
+  display: none;
+}
+
+.tea-stage.tea-look-flat .tea-tray {
+  border: 3px solid #1a1612;
+  border-radius: 4px;
+  background: #f0c27a;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-flat .tray-channel {
+  background: #e7b15f;
+  box-shadow: none;
+  border-radius: 2px;
+}
+
+.tea-stage.tea-look-flat .tray-channel::before {
+  display: none;
+}
+
+.tea-stage.tea-look-flat .tea-cloth {
+  border: 2px solid #1a1612;
+  border-radius: 2px;
+  background: #8c6239;
+  box-shadow: 3px 3px 0 #1a1612;
+}
+
+.tea-stage.tea-look-flat .tea-cloth::before {
+  display: none;
+}
+
+.tea-stage.tea-look-flat .leaf-dish-base {
+  border: 2px solid #1a1612;
+  border-radius: 50%;
+  background: #6f9a62;
+  box-shadow: 3px 3px 0 #1a1612;
+}
+
+.tea-stage.tea-look-flat .leaf-dish-base::before {
+  display: none;
+}
+
+.tea-stage.tea-look-flat .pot-body {
+  fill: #e25b2a;
+  stroke: #1a1612;
+  stroke-width: 2.4px;
+}
+
+.tea-stage.tea-look-flat .pot-spout {
+  fill: #c4471c;
+  stroke: #1a1612;
+  stroke-width: 2px;
+}
+
+.tea-stage.tea-look-flat .pot-lid {
+  fill: #ff8a5b;
+  stroke: #1a1612;
+  stroke-width: 2px;
+}
+
+.tea-stage.tea-look-flat .pot-handle {
+  stroke: #1a1612;
+  stroke-width: 11px;
+}
+
+.tea-stage.tea-look-flat .pot-mouth {
+  fill: #241811;
+  stroke: #1a1612;
+  stroke-width: 2px;
+}
+
+.tea-stage.tea-look-flat .pot-foot {
+  fill: #1a1612;
+  stroke: none;
+}
+
+.tea-stage.tea-look-flat .cup-body,
+.tea-stage.tea-look-flat .cup-foot {
+  fill: #fffaf3;
+  stroke: #1a1612;
+  stroke-width: 2px;
+}
+
+.tea-stage.tea-look-flat .cup-rim {
+  fill: #fff;
+  stroke: #1a1612;
+  stroke-width: 2px;
+}
+
+.tea-stage.tea-look-flat .cup-well {
+  fill: #1a1612;
+  stroke: none;
+}
+
+.tea-stage.tea-look-flat .cup-tea {
+  fill: #f0b429;
+}
+
+.tea-stage.tea-look-flat .tea-leaves span,
+.tea-stage.tea-look-flat .dry-leaves span {
+  border-radius: 2px;
+  background: #2f6b32;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-flat .steam span {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  background: #fff;
+  filter: none;
+  box-shadow: 0 0 0 2px #1a1612;
+  animation-name: tea-flat-rise;
+  animation-duration: 1.45s;
+  animation-timing-function: steps(6, end);
+}
+
+.tea-stage.tea-look-flat .pour-stream,
+.tea-stage.tea-look-flat .pour-out {
+  width: 8px;
+  border-radius: 0;
+  filter: none;
+  animation: none;
+}
+
+.tea-stage.tea-look-flat .pour-stream {
+  background: #3b82f6;
+}
+
+.tea-stage.tea-look-flat .pour-out {
+  background: #f0b429;
+}
+
+.tea-stage.tea-look-flat .pour-stream::after {
+  display: none;
+}
+
+.tea-stage.tea-look-flat .pour-stream span,
+.tea-stage.tea-look-flat .pour-out span {
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 1px;
+  filter: none;
+  animation-timing-function: steps(4, end);
+}
+
+.tea-stage.tea-look-flat .pour-stream span {
+  background: #dbeafe;
+  box-shadow: 0 0 0 2px #1d4ed8;
+}
+
+.tea-stage.tea-look-flat .pour-out span {
+  background: #fff6d8;
+  box-shadow: 0 0 0 2px #1a1612;
+}
+
+.tea-stage.tea-look-sketch .tea-board {
+  border: 2px solid #2c261f;
+  border-radius: 3px;
+  background-color: #f6f0e4;
+  background-image:
+    linear-gradient(90deg, transparent 28px, rgba(196, 92, 74, 0.35) 28px, rgba(196, 92, 74, 0.35) 29px, transparent 29px),
+    repeating-linear-gradient(0deg, transparent 0 21px, rgba(90, 120, 150, 0.16) 21px 22px);
+  box-shadow: 4px 3px 0 rgba(44, 38, 31, 0.18);
+}
+
+.tea-stage.tea-look-sketch .board-light,
+.tea-stage.tea-look-sketch .tea-tray::after,
+.tea-stage.tea-look-sketch .tray-ripple,
+.tea-stage.tea-look-sketch .tea-pot::after,
+.tea-stage.tea-look-sketch .pot-shadow,
+.tea-stage.tea-look-sketch .pot-sheen,
+.tea-stage.tea-look-sketch .pot-soft,
+.tea-stage.tea-look-sketch .pot-noise,
+.tea-stage.tea-look-sketch .pot-cast,
+.tea-stage.tea-look-sketch .cup-gloss,
+.tea-stage.tea-look-sketch .cup-cast,
+.tea-stage.tea-look-sketch .leaf-dish-base::before,
+.tea-stage.tea-look-sketch .tea-cloth::before {
+  display: none;
+}
+
+.tea-stage.tea-look-sketch .tea-tray {
+  border: 1.5px dashed #2c261f;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-sketch .tray-channel {
+  background: transparent;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-sketch .tray-channel::before {
+  border-style: dashed;
+  border-color: rgba(44, 38, 31, 0.45);
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-sketch .tea-cloth {
+  border: 1.5px solid #2c261f;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-sketch .leaf-dish-base {
+  border: 1.5px dashed #2c261f;
+  background: transparent;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-sketch .pot-body,
+.tea-stage.tea-look-sketch .pot-spout,
+.tea-stage.tea-look-sketch .pot-lid,
+.tea-stage.tea-look-sketch .pot-foot,
+.tea-stage.tea-look-sketch .pot-mouth,
+.tea-stage.tea-look-sketch .cup-body,
+.tea-stage.tea-look-sketch .cup-rim,
+.tea-stage.tea-look-sketch .cup-foot,
+.tea-stage.tea-look-sketch .cup-well {
+  fill: #f6f0e4;
+  stroke: #2c261f;
+  stroke-width: 1.6px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.tea-stage.tea-look-sketch .pot-handle {
+  stroke: #2c261f;
+  stroke-width: 2.6px;
+}
+
+.tea-stage.tea-look-sketch .cup-tea {
+  fill: none;
+  stroke: #6b4423;
+  stroke-width: 1.3px;
+  stroke-dasharray: 2 1.6;
+}
+
+.tea-stage.tea-look-sketch .tea-leaves span,
+.tea-stage.tea-look-sketch .dry-leaves span {
+  background: transparent;
+  border: 1.5px solid #2c261f;
+  box-shadow: none;
+}
+
+.tea-stage.tea-look-sketch .steam span {
+  width: 10px;
+  height: 40px;
+  border-radius: 0;
+  background: none;
+  border-left: 1.5px dashed #3a3228;
+  filter: none;
+  animation-name: tea-sketch-rise;
+  animation-duration: 2.3s;
+}
+
+.tea-stage.tea-look-sketch .pour-stream,
+.tea-stage.tea-look-sketch .pour-out {
+  width: 2px;
+  border-radius: 0;
+  filter: none;
+  background: repeating-linear-gradient(to bottom, #2c261f 0 5px, transparent 5px 10px);
+  background-size: 100% 10px;
+  animation: tea-flow 0.36s linear infinite;
+}
+
+.tea-stage.tea-look-sketch .pour-out {
+  background-image: repeating-linear-gradient(to bottom, #6b4423 0 5px, transparent 5px 10px);
+}
+
+.tea-stage.tea-look-sketch .pour-stream::after {
+  display: none;
+}
+
+.tea-stage.tea-look-sketch .pour-stream span,
+.tea-stage.tea-look-sketch .pour-out span {
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  background: transparent;
+  border: 1.5px solid #2c261f;
+  border-radius: 50%;
+  filter: none;
+}
+
+.tea-stage.tea-look-sketch .pour-out span {
+  border-color: #6b4423;
 }

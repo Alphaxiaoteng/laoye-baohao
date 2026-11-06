@@ -1,20 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { usePageContext, usePageTitle } from '../../../lib/usePageContext'
-import { entriesOfModule, sourcesOfModule } from '../../../lib/content'
+import { sourcesOfModule } from '../../../lib/content'
 import { SourceList } from '../../../components/SourceBadge'
-import { BeatGrid } from '../components/BeatGrid'
 import { FormationStage } from '../components/FormationStage'
-import { MEDIA, OBJECTS, TEAM_ROLES } from '../data'
+import { TEAM_ROLES } from '../data'
 import './yingge-home.css'
+import './yingge-story.css'
 
-/** 首屏五要素：对应下滑的五个演示段落 */
-const ELEMENTS = [
-  { id: 'body', label: '身体', sub: '脚步与重心', image: MEDIA.secondClub },
-  { id: 'clubs', label: '双槌', sub: '对击与节奏', image: '/media/yingge/objects/icon-clubs.webp' },
-  { id: 'drum', label: '锣鼓', sub: '鼓点带队', image: '/media/yingge/objects/icon-drum.webp' },
-  { id: 'roles', label: '角色', sub: '谁在什么位置', image: '/media/yingge/objects/icon-painted-face.webp' },
-  { id: 'formation', label: '阵形', sub: '队形怎么走', image: '/media/yingge/objects/icon-command-flag.webp' },
+/** 下滑导航：锚点仍在，便于旧链接与会话记忆跳段 */
+const QUICK_NAV = [
+  { href: '#museum', label: '数字馆' },
+  { href: '#formation', label: '阵形' },
+  { href: '#roles', label: '角色' },
 ]
 
 /** 下滑到视口时淡入：只切换 class，不做滚动劫持 */
@@ -46,37 +44,206 @@ function useReveal<T extends HTMLElement>() {
   return ref
 }
 
-function ClubTap() {
-  const [hits, setHits] = useState(0)
-  const done = hits >= 8
+/** 点「开启」之后的展厅页。播放器读父页面的这个值，从该页起始帧直接播放。 */
+const MUGEDA_ENTRY_PAGE = '15otp1rcl1u'
+const MUGEDA_PAGE = '/exhibits/yingge/mugeda/index.html'
+const MUGEDA_SRC = '/exhibits/yingge/mugeda/index.html?embed=1'
+
+type MugedaParentWindow = Window & { mugedaEntryPage?: string }
+
+type LaoyeTour = {
+  ready: () => boolean
+  count: () => number
+  index: () => number
+  go: (index: number) => boolean
+}
+
+function readTour(frame: HTMLIFrameElement | null) {
+  try {
+    const tour = (frame?.contentWindow as (Window & { laoyeTour?: LaoyeTour }) | null)?.laoyeTour
+    return tour?.ready() ? tour : null
+  } catch {
+    return null
+  }
+}
+
+function YinggeMuseum() {
+  const [loaded, setLoaded] = useState(false)
+  const [slow, setSlow] = useState(false)
+  const [src, setSrc] = useState<string | null>(null)
+  const [tourIndex, setTourIndex] = useState(0)
+  const [tourCount, setTourCount] = useState(0)
+  const stageRef = useRef<HTMLDivElement | null>(null)
+  const frameRef = useRef<HTMLIFrameElement | null>(null)
+
+  if (typeof window !== 'undefined') {
+    ;(window as MugedaParentWindow).mugedaEntryPage = MUGEDA_ENTRY_PAGE
+  }
+
+  useEffect(() => {
+    ;(window as MugedaParentWindow).mugedaEntryPage = MUGEDA_ENTRY_PAGE
+    setSrc(MUGEDA_SRC)
+    return () => {
+      delete (window as MugedaParentWindow).mugedaEntryPage
+    }
+  }, [])
+
+  useEffect(() => {
+    if (loaded) return undefined
+    const timer = window.setTimeout(() => setSlow(true), 8000)
+    return () => window.clearTimeout(timer)
+  }, [loaded])
+
+  useEffect(() => {
+    if (!loaded) return undefined
+    const sync = () => {
+      const tour = readTour(frameRef.current)
+      if (!tour) return
+      setTourCount(tour.count())
+      setTourIndex(tour.index())
+    }
+    sync()
+    const timer = window.setInterval(sync, 400)
+    return () => window.clearInterval(timer)
+  }, [loaded])
+
+  function moveTour(index: number) {
+    const tour = readTour(frameRef.current)
+    if (!tour) return
+    const next = Math.max(0, Math.min(tour.count() - 1, index))
+    if (!tour.go(next)) return
+    setTourIndex(next)
+    setTourCount(tour.count())
+  }
+
+  function stepTour(direction: -1 | 1) {
+    const tour = readTour(frameRef.current)
+    if (!tour) return
+    moveTour(tour.index() + direction)
+  }
+
+  async function enterFullscreen() {
+    const el = stageRef.current
+    if (!el) return
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen()
+      else await el.requestFullscreen()
+    } catch {
+      // 浏览器拒绝全屏时不影响页面内浏览
+    }
+  }
+
   return (
-    <div className="club-tap">
-      <button
-        key={hits}
-        type="button"
-        className={`club-pair ${done ? 'is-done' : ''}`}
-        onClick={() => !done && setHits((h) => Math.min(8, h + 1))}
-        aria-label={done ? '已完成一击组合' : `跟着点一下，第 ${hits + 1} 下`}
-      >
-        <span className="club club-left" aria-hidden="true" />
-        <span className="club club-right" aria-hidden="true" />
-        <span className="club-spark" aria-hidden="true" />
+    <>
+      <section id="museum" className="ys-stage-section" data-reveal>
+        <div className="ys-stage-head">
+          <div>
+            <h2 className="font-serif text-2xl text-ink">云游英歌舞</h2>
+            <p className="mt-1 text-xs leading-6 text-muted">
+              离线镜像自原发布页，全部资源已本地托管。进入后直接播放展厅。浏览器若拦截有声自动播放，只影响声音。
+            </p>
+          </div>
+          <button type="button" className="btn-secondary !min-h-[40px] !text-sm" onClick={enterFullscreen}>
+            全屏观看
+          </button>
+        </div>
+
+        <div ref={stageRef} className="ys-stage">
+          {!loaded ? (
+            <div className="ys-loading" role="status" aria-live="polite">
+              <span className="ys-spinner" aria-hidden="true" />
+              <span className="flex flex-col items-center gap-2">
+                <span>数字馆加载中…</span>
+                {slow ? (
+                  <a href={MUGEDA_PAGE} target="_blank" rel="noopener noreferrer" className="ys-fallback-link">
+                    加载较慢？在新窗口打开
+                  </a>
+                ) : null}
+              </span>
+            </div>
+          ) : null}
+          {src ? (
+            <iframe
+              ref={frameRef}
+              src={src}
+              title="云游英歌舞"
+              className={loaded ? 'is-loaded' : ''}
+              onLoad={() => setLoaded(true)}
+              allow="autoplay; fullscreen"
+            />
+          ) : null}
+          <div className="ys-stage-nav">
+            <button type="button" onClick={() => stepTour(-1)} disabled={tourCount === 0 || tourIndex <= 0}>
+              后退
+            </button>
+            <button type="button" onClick={() => moveTour(0)} disabled={tourCount === 0}>
+              返回
+            </button>
+            <button type="button" onClick={() => stepTour(1)} disabled={tourCount === 0 || tourIndex >= tourCount - 1}>
+              前进
+            </button>
+          </div>
+        </div>
+        <p className="mt-2 text-[11.5px] leading-6 text-muted">
+          展内内容与署名由原始项目提供。
+        </p>
+      </section>
+    </>
+  )
+}
+
+const ROLE_ICONS = [
+  { id: 'captain', src: '/media/yingge/objects/icon-command-flag.webp' },
+  { id: 'coach', src: '/media/yingge/objects/icon-clubs.webp' },
+  { id: 'makeup', src: '/media/yingge/objects/icon-painted-face.webp' },
+  { id: 'director', src: '/media/yingge/objects/icon-drum.webp' },
+  { id: 'lead', src: '/media/yingge/objects/icon-gong.webp' },
+  { id: 'baton', src: '/media/yingge/roles/second-club.webp' },
+  { id: 'troupe', src: '/media/yingge/roles/performer-alley.webp' },
+  { id: 'band', src: '/media/yingge/objects/icon-gong.webp' },
+] as const
+
+function RolesSwitcher() {
+  const [index, setIndex] = useState(0)
+  const rootRef = useRef<HTMLDivElement | null>(null)
+  const count = TEAM_ROLES.length
+
+  function step(direction: number) {
+    setIndex((current) => (current + direction + count) % count)
+  }
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return undefined
+    let lockedUntil = 0
+    const onWheel = (event: WheelEvent) => {
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
+      if (Math.abs(delta) < 4) return
+      event.preventDefault()
+      const now = performance.now()
+      if (now < lockedUntil) return
+      lockedUntil = now + 280
+      step(delta > 0 ? 1 : -1)
+    }
+    root.addEventListener('wheel', onWheel, { passive: false })
+    return () => root.removeEventListener('wheel', onWheel)
+  }, [count])
+
+  const role = TEAM_ROLES[index]
+  const icon = ROLE_ICONS[index]
+
+  return (
+    <div ref={rootRef} className="yh-role-switch" role="region" aria-label="队伍角色，左右切换">
+      <button type="button" className="yh-role-arrow" onClick={() => step(-1)} aria-label="上一个角色">
+        上一个
       </button>
-      <div className="club-dots" aria-hidden="true">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <span key={i} className={i < hits ? 'is-on' : ''} />
-        ))}
-      </div>
-      <p className="text-xs leading-6 text-muted" role="status">
-        {done
-          ? '点满了 8 下。这只是节奏示意，不评价动作标准。'
-          : `点槌对击，${hits}/8。真实英歌是双槌随鼓点上下左右对击，不是各打各的。`}
-      </p>
-      {done ? (
-        <button type="button" className="btn-quiet !min-h-[36px] !text-xs" onClick={() => setHits(0)}>
-          再来一组
-        </button>
-      ) : null}
+      <figure className="yh-role-frame">
+        <img src={icon?.src ?? '/media/yingge/objects/icon-command-flag.webp'} alt="" />
+        <figcaption>{role?.name}</figcaption>
+      </figure>
+      <button type="button" className="yh-role-arrow" onClick={() => step(1)} aria-label="下一个角色">
+        下一个
+      </button>
     </div>
   )
 }
@@ -84,219 +251,68 @@ function ClubTap() {
 export default function YinggeHome() {
   usePageTitle('英歌舞')
   usePageContext({ module: 'yingge', moduleTitle: '英歌舞' })
+  const location = useLocation()
+  const navigate = useNavigate()
   const revealRoot = useReveal<HTMLDivElement>()
-  const [active, setActive] = useState('body')
 
-  const entries = entriesOfModule('yingge')
-  const sources = sourcesOfModule('yingge')
-  const clubs = OBJECTS.find((o) => o.id === 'clubs')
-
-  function go(id: string) {
-    setActive(id)
-    const el = document.getElementById(id)
-    if (!el) return
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
+  useEffect(() => {
+    const id = location.hash.replace(/^#/, '')
+    if (id === 'story') {
+      navigate('/docs#doc-yingge-story', { replace: true })
+      return undefined
+    }
+    if (!id) return undefined
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ block: 'start', behavior: 'auto' })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [location.hash, navigate])
 
   return (
     <div ref={revealRoot} className="yingge-home">
       <header className="yh-hero">
         <div className="yh-hero-copy" data-reveal>
-          <p className="text-xs tracking-[0.3em] text-brick">老爷保号 · 英歌舞</p>
-          <h1 className="mt-3 font-serif text-[30px] leading-[1.25] text-ink sm:text-[42px]">
-            先看一场，
-            <br className="hidden sm:block" />
-            再看懂身体、双槌与锣鼓。
-          </h1>
-          <p className="mt-4 max-w-xl text-[15px] leading-8 text-ink-soft">
+          <h1 className="font-serif text-[30px] font-semibold leading-tight text-ink sm:text-[40px]">英歌舞</h1>
+          <p className="mt-3 max-w-xl text-[15px] leading-7 text-muted">
             英歌是流传于广东、福建等地的民间广场舞蹈，2006 年以「英歌」列入第一批国家级非物质文化遗产名录（Ⅲ—8）。
-            下面五块贴图对应五个演示，点一下会滚到那一段。
           </p>
-        </div>
-
-        <div className="yh-tiles" role="group" aria-label="英歌五要素">
-          {ELEMENTS.map((el, index) => (
-            <button
-              key={el.id}
-              type="button"
-              className={`yh-tile ${active === el.id ? 'is-active' : ''}`}
-              style={{ animationDelay: `${index * 120}ms` }}
-              onClick={() => go(el.id)}
-              aria-pressed={active === el.id}
-            >
-              <span className="yh-tile-img">
-                <img src={el.image} alt="" aria-hidden="true" loading="eager" decoding="async" />
-              </span>
-              <span className="yh-tile-label">{el.label}</span>
-              <span className="yh-tile-sub">{el.sub}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="yh-hint" aria-hidden="true">
-          向下滚动，五段演示会自动展开
-          <span className="yh-hint-line" />
+          <nav className="yh-quicknav" aria-label="本页段落">
+            {QUICK_NAV.map((item) => (
+              <a key={item.href} href={item.href} className="yh-quicknav-a">
+                {item.label}
+              </a>
+            ))}
+            <Link to="/docs#doc-yingge-story" className="yh-quicknav-a">
+              叙事线索
+            </Link>
+          </nav>
         </div>
       </header>
 
-      <section id="body" className="yh-section" data-reveal>
-        <div className="yh-section-head">
-          <span className="yh-index">01</span>
-          <h2>身体：脚步先于槌</h2>
-        </div>
-        <div className="yh-split">
-          <div className="space-y-3">
-            <p className="text-[15px] leading-8 text-ink-soft">
-              英歌的力量先来自下肢：半蹲、蹉步、提腿、转身，重心压低，队形才走得稳。
-              双槌的动作是在脚步之上加出来的，不是站着挥胳膊。
-            </p>
-            <p className="text-xs leading-6 text-muted">
-              下面这段是公开演出片段，看的时候注意队员的膝盖弯曲、落脚位置和队形间距，
-              而不是只盯着槌。
-            </p>
-            <video
-              className="yh-video"
-              controls
-              preload="none"
-              playsInline
-              poster={MEDIA.poster}
-              src={MEDIA.video}
-            >
-              你的浏览器不支持视频播放。
-            </video>
-          </div>
-          <figure className="yh-figure">
-            <img src={MEDIA.performerAlley} alt="英歌队员在巷道中列队行进" loading="lazy" />
-            <figcaption>参考素材：队员在巷道列队。人数与队形因队伍而异。</figcaption>
-          </figure>
-        </div>
-      </section>
+      {/* 01 数字馆 */}
+      <YinggeMuseum />
 
-      <section id="clubs" className="yh-section" data-reveal>
+      <section id="formation" className="yh-section" data-reveal>
         <div className="yh-section-head">
           <span className="yh-index">02</span>
-          <h2>双槌：对击，不是各打各的</h2>
+          <h2>阵形</h2>
         </div>
-        <div className="yh-split">
-          <div className="space-y-3">
-            <p className="text-[15px] leading-8 text-ink-soft">
-              {clubs?.detail}
-            </p>
-            <ClubTap />
-          </div>
-          <figure className="yh-figure">
-            <img src="/media/yingge/objects/objects-archive.webp" alt="英歌槌与器物参考图" loading="lazy" />
-            <figcaption>器物图只作辨认参考，不代表任何一支队伍的实际配置。</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section id="drum" className="yh-section" data-reveal>
-        <div className="yh-section-head">
-          <span className="yh-index">03</span>
-          <h2>锣鼓：鼓点带队，不是伴奏</h2>
-        </div>
-        <p className="max-w-2xl text-[15px] leading-8 text-ink-soft">
-          指挥用鼓点发号令，队伍跟着鼓点换速度、换队形。下面三种板式的节拍由浏览器现场合成，
-          只示意循环结构，不对应任何真实鼓谱。
-        </p>
         <div className="yh-panel">
-          <BeatGrid />
+          <FormationStage tall />
         </div>
       </section>
 
       <section id="roles" className="yh-section" data-reveal>
         <div className="yh-section-head">
-          <span className="yh-index">04</span>
-          <h2>角色：先问他在队伍里做什么</h2>
+          <span className="yh-index">03</span>
+          <h2>角色</h2>
         </div>
-        <p className="max-w-2xl text-[15px] leading-8 text-ink-soft">
-          许多英歌队借用《水浒传》英雄，但人数、角色、脸谱与道具因队伍而异。
-          先看位置与功能，再核对器物与队伍资料。
-        </p>
-        <ul className="yh-roles">
-          {TEAM_ROLES.map((role) => (
-            <li key={role.name}>
-              <strong>{role.name}</strong>
-              <span>{role.duty}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="yh-objects">
-          {OBJECTS.slice(0, 6).map((obj) => (
-            <figure key={obj.id}>
-              <img src={obj.image} alt="" aria-hidden="true" loading="lazy" />
-              <figcaption>{obj.name}</figcaption>
-            </figure>
-          ))}
-        </div>
+        <RolesSwitcher />
       </section>
 
-      <section id="formation" className="yh-section" data-reveal>
-        <div className="yh-section-head">
-          <span className="yh-index">05</span>
-          <h2>阵形：点位是示意，不是复刻</h2>
-        </div>
-        <p className="max-w-2xl text-[15px] leading-8 text-ink-soft">
-          七种基础队形来自汕头市地方标准（DB 4405/T 315—2025）的名称与走位要点；
-          下面的点位是抽象坐标，只表达谁在谁的哪一侧、往哪走。
-        </p>
-        <div className="yh-panel">
-          <FormationStage />
-        </div>
-      </section>
-
-      <section className="yh-next" data-reveal>
-        <div>
-          <h2 className="font-serif text-2xl text-ink">还有第二页：完整叙事与数字馆</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-7 text-ink-soft">
-            看英歌怎么从历史、人物与队伍里长出来，以及一个可以自己点着走的英歌馆。
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Link to="/museum/yingge/story" className="btn-primary">
-            进入第二页
-          </Link>
-          <Link to="/docs#doc-yingge" className="btn-secondary">
-            看考据文本
-          </Link>
-        </div>
-      </section>
-
-      {entries.length > 0 ? (
-        <section className="yh-section" data-reveal>
-          <div className="yh-section-head">
-            <span className="yh-index">06</span>
-            <h2>本模块条目</h2>
-          </div>
-          <ul className="yh-entries">
-            {entries.map((entry) => (
-              <li key={entry.id}>
-                <Link to={`/museum/yingge/${entry.id}`}>
-                  <span className="font-serif text-base text-ink">{entry.title}</span>
-                  <span className="line-clamp-1 text-xs text-muted">{entry.summary}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <section className="yh-section" data-reveal>
-        <div className="yh-section-head">
-          <span className="yh-index">07</span>
-          <h2>本模块来源</h2>
-        </div>
-        <div className="yh-panel space-y-3">
-          <SourceList ids={sources.map((s) => s.id)} />
-          <p className="text-xs leading-6 text-muted">
-            页面里的阵形点位与合成节拍都是示意，不替代任何一支队伍的实际演练；完整来源表见
-            <Link to="/sources" className="link-inline mx-1">
-              资料来源
-            </Link>
-            。
-          </p>
-        </div>
+      <section className="ys-sources" data-reveal>
+        <h2 className="section-title">继续探索</h2>
+        <p>阵形、角色、影像与锣鼓可以在本站继续查看。</p>
       </section>
     </div>
   )

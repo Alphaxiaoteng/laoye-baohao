@@ -1,0 +1,12 @@
+{
+  "version": "v2-palace-lacquer",
+  "versionTitle": "版本二：故宫多宝阁黑漆描金 × 宋代院体静物光影风 (Imperial Dark Lacquer & Song Court Still-Life)",
+  "folder": "01-home",
+  "id": "01-seal-emblem",
+  "title": "老爷保号·总馆朱文方印章徽",
+  "model": "gpt-image-2.6",
+  "size": "1024x1024",
+  "referenceImage": "public/media/home/hero/panorama-master.webp",
+  "prompt": "Imperial Palace Museum Digital Duobaoge (数字多宝阁) curatorial aesthetic fused with Song Dynasty court academy realism (院体工笔重彩). Set against a deep polished ebony-lacquer and dark ink-pine void (#141C18 to #0D120F), illuminated by a single dramatic museum spotlight from top-left. Hyper-tactile heritage materials: luminous gilded lacquer, translucent porcelain glaze, aged bronze, hand-woven silk, and warm incense smoke. Strict 1:1 square composition with 50% velvety dark negative space, subtle gold-dust rim highlights (#B08A5A), timeless museum gravitas, strictly no text, no watermark, no artificial neon. Subject: A ceremonial square carving seal emblem crafted from aged red-stone and gilded wood, featuring abstract motifs of Yingge wooden clubs, a Gongfu teapot, a porcelain soup bowl, and a deity lantern harmoniously intertwined at the center.",
+  "generatedAt": "2026-11-06T13:30:45.754Z"
+}

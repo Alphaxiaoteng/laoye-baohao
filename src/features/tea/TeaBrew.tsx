@@ -81,7 +81,7 @@ export default function TeaBrew() {
             回到工夫茶首页
           </Link>
           <Link to="/museum/tea/gesture" className="btn-quiet !min-h-[40px] !text-sm">
-            试试手势体验（实验功能）
+            用手势翻步
           </Link>
         </div>
       </div>

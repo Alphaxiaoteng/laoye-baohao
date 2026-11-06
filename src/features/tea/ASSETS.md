@@ -14,7 +14,7 @@
 | `src/utils/gestures.test.ts` | `tests/tea-gestures.test.ts` | 从 `node:test` 改为 Vitest 断言，补 0 手与双手折叠用例 |
 | `src/utils/HandTracker.ts` | `src/features/tea/handTracker.ts` | 去掉 CDN 回退，只加载本站 `public/media/tea/models`；动态 import 识别库；GPU 失败回退 CPU |
 | `src/hooks/useHandGesture.ts` | `src/features/tea/useHandGesture.ts` | 增加显式 start/stop、加载/错误状态、严格时间戳、卸载清理与连续失败保护 |
-| `src/components/CameraView.tsx` | `src/features/tea/GesturePanel.tsx` | 改为可选面板；权限/无设备/模型失败均给替代说明；加入实验功能与隐私提示 |
+| `src/components/CameraView.tsx` | `src/features/tea/GesturePanel.tsx` | 改为可选面板；权限/无设备/模型失败均给替代说明；手势是点击之外的翻步，并保留隐私提示 |
 | `src/index.css`（茶席部分） | `src/features/tea/tea.css` | 配色改为 cream / brick / ink；选择器全部收在 `.tea-stage` 下；增加响应式与 `prefers-reduced-motion` 由全局样式接管 |
 
 未复制：TeaDemo 的 `StartScreen.tsx`、`App.tsx`、Google Fonts 外链、原项目的牌面命名与文案。

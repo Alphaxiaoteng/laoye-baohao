@@ -40,6 +40,17 @@ export interface NavLike {
   path: string
 }
 
+/** 问「怎么说 / 怎么读」时附上的听潮录音。只来自 content 里已有词条，且必须有本地文件。 */
+export interface ListenClip {
+  id: string
+  text: string
+  meaning: string
+  file: string
+  pinyin?: string
+  path: string
+  sourceIds: string[]
+}
+
 export type RetrievalIntent = 'current' | 'step' | 'cross' | 'navigate' | 'lookup' | 'recall'
 
 export interface RetrievalPlan {
@@ -49,11 +60,13 @@ export interface RetrievalPlan {
   step?: number
   stepText?: string
   crossModules: string[]
-  /** 不需要调用模型的确定性回答（澄清 / 浏览回顾 / 导航 / 实时问题） */
+  /** 不需要调用模型的确定性回答（澄清 / 浏览回顾 / 导航 / 实时问题 / 怎么说） */
   direct?: {
     text: string
     navs: NavLike[]
-    kind: 'clarify' | 'recall' | 'navigate' | 'realtime'
+    kind: 'clarify' | 'recall' | 'navigate' | 'realtime' | 'pronounce'
+    /** 只有唯一一条、且文件就在听潮内容里时才有 */
+    clip?: ListenClip
   }
 }
 
@@ -337,6 +350,192 @@ function storyDoc(chapter: StoryChapter): IndexDoc {
     verify: chapter.fiction ? 'fiction' : '',
     sourceIds: [],
     path: `/story/${chapter.id}`,
+  }
+}
+
+const PRONOUNCE_LEAD = '(?:请问|我想问一下|我想问|问一下|帮我)?'
+const PRONOUNCE_HOW = '(?:怎么|怎样|如何)\\s*(?:说|读|念|讲)(?:一下|一遍)?'
+const PRONOUNCE_DIALECT = '(?:潮汕话|潮州话|潮语|方言)'
+const PRONOUNCE_END = '[？?。！!呀啊呢吧吗\\s]*'
+const PRONOUNCE_BLOCK = /资料|为什么|区别|联系|起源|步骤|条目|什么时候|哪里|哪些|这一步|这步/
+const LISTEN_SLUGS = new Set(['greeting', 'tea-food', 'courtesy', 'culture'])
+
+/** 听潮词条里出现的繁体，折成用户会打的简体后再做整句相等比较 */
+const HAN_FOLD: Record<string, string> = {
+  飽: '饱',
+  樂: '乐',
+  體: '体',
+  謝: '谢',
+  氣: '气',
+  無: '无',
+  緊: '紧',
+  變: '变',
+  話: '话',
+  麵: '面',
+  雞: '鸡',
+  別: '别',
+  聽: '听',
+  頭: '头',
+  歲: '岁',
+  說: '说',
+  讀: '读',
+  麼: '么',
+  來: '来',
+  個: '个',
+  們: '们',
+  這: '这',
+  門: '门',
+  東: '东',
+}
+
+export function foldHan(input: string): string {
+  let out = ''
+  for (const ch of String(input ?? '').normalize('NFKC')) out += HAN_FOLD[ch] ?? ch
+  return out.replace(/[\s·・:：,，。.、（）()「」“”"'‘’？?！!]/g, '').toLowerCase()
+}
+
+function meaningHead(meaning: string | undefined): string {
+  const raw = (meaning ?? '').trim()
+  if (!raw) return ''
+  const cut = raw.indexOf('（')
+  const head = (cut >= 0 ? raw.slice(0, cut) : raw).trim()
+  return head || raw
+}
+
+function cleanPronounceTarget(raw: string): string {
+  const text = raw.trim().replace(/^[，,、\s]+|[，,、\s]+$/g, '')
+  const wrapped = text
+    .replace(new RegExp(`^(?:用)?${PRONOUNCE_DIALECT}的?`), '')
+    .replace(new RegExp(`(?:的)?${PRONOUNCE_DIALECT}$`), '')
+    .trim()
+  return wrapped || text
+}
+
+/**
+ * 「xxx怎么说 / xxx用潮汕话怎么说 / 怎么读」才算读音问题。
+ * 对不上时返回 null，交给原来的检索，避免把「资料里怎么说」吞掉。
+ */
+export function extractPronounceTarget(question: string): { target: string } | null {
+  const q = String(question ?? '').replace(/\s+/g, ' ').trim()
+  if (!q || q.length > 48) return null
+  if (PRONOUNCE_BLOCK.test(q)) return null
+  if (!new RegExp(PRONOUNCE_HOW).test(q)) return null
+
+  const body = q.replace(new RegExp(`^${PRONOUNCE_LEAD}\\s*`), '')
+  const patterns = [
+    new RegExp(`^(.+?)\\s*用\\s*${PRONOUNCE_DIALECT}\\s*${PRONOUNCE_HOW}${PRONOUNCE_END}$`),
+    new RegExp(`^(?:用\\s*)?${PRONOUNCE_DIALECT}\\s*${PRONOUNCE_HOW}\\s*(.*)${PRONOUNCE_END}$`),
+    new RegExp(`^${PRONOUNCE_HOW}\\s*(.*)${PRONOUNCE_END}$`),
+    new RegExp(`^(.*?)\\s*${PRONOUNCE_HOW}${PRONOUNCE_END}$`),
+  ]
+  for (const pattern of patterns) {
+    const match = body.match(pattern)
+    if (!match) continue
+    let raw = (match[1] ?? '').trim()
+    if (!raw && pattern === patterns[1]) {
+      const only = body.match(new RegExp(`^(${PRONOUNCE_DIALECT})\\s*${PRONOUNCE_HOW}${PRONOUNCE_END}$`))
+      if (only?.[1]) raw = only[1]
+    }
+    return { target: cleanPronounceTarget(raw) }
+  }
+  return null
+}
+
+function listenAliases(item: AudioItem): string[] {
+  const found = new Set<string>()
+  const text = foldHan(item.text || '')
+  if (text.length >= 2) found.add(text)
+  for (const part of meaningHead(item.meaning).split(/[、，,；;]/)) {
+    const folded = foldHan(part)
+    if (folded.length >= 2) found.add(folded)
+  }
+  return [...found]
+}
+
+/** 整句相等才算对上。多条同时命中时全部返回，调用方不得挑一条来播。 */
+export function matchListenItems(items: AudioItem[], target: string): AudioItem[] {
+  const want = foldHan(target)
+  if (want.length < 2) return []
+  return items.filter((item) => listenAliases(item).includes(want))
+}
+
+function listenPath(category: string | undefined): string {
+  return category && LISTEN_SLUGS.has(category) ? `/listen/${category}` : '/listen'
+}
+
+function pronouncePlan(question: string, items: AudioItem[]): RetrievalPlan | null {
+  const parsed = extractPronounceTarget(question)
+  if (!parsed) return null
+  const target = parsed.target.trim()
+  const shell = {
+    intent: 'lookup' as const,
+    docs: [] as RetrievedDoc[],
+    crossModules: [] as string[],
+  }
+  if (!target) {
+    return {
+      ...shell,
+      direct: {
+        kind: 'pronounce',
+        navs: [],
+        text: '没有写清要说的是哪一句。资料里对不上听潮录音，不确定该怎么说，也不会另编读音。',
+      },
+    }
+  }
+  const hits = matchListenItems(items, target)
+  if (hits.length === 0) {
+    return {
+      ...shell,
+      direct: {
+        kind: 'pronounce',
+        navs: [],
+        text: `资料里没有和「${target}」对得上的听潮录音，不确定该怎么说，也不会另编读音或句子。`,
+      },
+    }
+  }
+  if (hits.length > 1) {
+    const names = hits.map((item) => item.text).filter(Boolean).join('、')
+    return {
+      ...shell,
+      direct: {
+        kind: 'pronounce',
+        navs: [],
+        text: `「${target}」在听潮里对上了不止一条（${names}），不确定该播哪一条，所以先不播。`,
+      },
+    }
+  }
+  const item = hits[0]!
+  const head = meaningHead(item.meaning)
+  const file = (item.file ?? '').trim()
+  if (!file.startsWith('/media/')) {
+    const gloss = head ? `，释义：${head}` : ''
+    return {
+      ...shell,
+      direct: {
+        kind: 'pronounce',
+        navs: [],
+        text: `听潮里有「${item.text}」${gloss}，但这条没有可播放的录音，所以不播放，也不会另编读音。`,
+      },
+    }
+  }
+  const gloss = head ? `释义：${head}。` : ''
+  const pinyin = (item.pinyin ?? '').trim()
+  return {
+    ...shell,
+    direct: {
+      kind: 'pronounce',
+      navs: [],
+      text: `听潮里有这一句：「${item.text}」。${gloss}下面播放这条站内录音，只播一次。`,
+      clip: {
+        id: item.id,
+        text: item.text,
+        meaning: head,
+        file,
+        ...(pinyin ? { pinyin } : {}),
+        path: listenPath(item.category),
+        sourceIds: Array.isArray(item.sourceIds) ? item.sourceIds.filter((id) => typeof id === 'string') : [],
+      },
+    },
   }
 }
 
@@ -654,6 +853,9 @@ export function createRetriever(content: ContentBundle): Retriever {
     const stepQuestion = STEP_QUESTION.test(question)
     const current = resolveCurrent(req, anaphora)
     const crossModules = detectCrossModules(question)
+
+    const pronounce = pronouncePlan(question, content.audio)
+    if (pronounce) return pronounce
 
     if (RECALL_QUESTION.test(question) || RECALL_HISTORY.test(question)) return recallPlan(req)
 

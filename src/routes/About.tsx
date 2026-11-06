@@ -44,8 +44,8 @@ export default function AboutPage() {
       <section className="card space-y-2">
         <h2 className="section-title">内容与核验状态</h2>
         <p className="text-sm leading-6 text-ink-soft">
-          文化描述只来自 PRD 列出的公开来源，由人工提炼成原创短说明，不复制原文大段。
-          没有可靠来源的条目保留结构并标注"待补充来源"，正文显示"内容待补充可靠来源"，不会凭模型常识补写。
+          文化条目由人工提炼成原创短说明，不复制原文大段。
+          待补充的条目保留结构并标注"待补充"，不会凭模型常识补写。
         </p>
         <ul className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
           <li className="rounded-xl border border-line bg-white/60 px-3 py-2">
@@ -61,16 +61,13 @@ export default function AboutPage() {
             <span className="font-serif text-lg text-ink">{underReview}</span>
           </li>
           <li className="rounded-xl border border-line bg-white/60 px-3 py-2">
-            <span className="block text-xs text-muted">待补充来源</span>
+            <span className="block text-xs text-muted">待补充</span>
             <span className="font-serif text-lg text-ink">{pendingSource}</span>
           </li>
         </ul>
         <p className="text-xs text-muted">
           当前共 {storyChapters.length} 章故事、{recipes.length} 份食谱、{audioItems.length} 条听潮词条（
-          {playable} 条有可播放音频）、{sources.length} 条来源。
-          <Link to="/sources" className="link-inline ml-1">
-            查看来源表
-          </Link>
+          {playable} 条有可播放音频）。
         </p>
       </section>
 
@@ -78,7 +75,7 @@ export default function AboutPage() {
         <h2 className="section-title">虚构声明</h2>
         <p className="text-sm leading-6 text-ink-soft">
           故事为原创虚构串联，不对应某地完整仪式流程；故事中的人物与场景不是真实事件记录。
-          故事只负责把模块串起来，事实性内容一律以条目页标注的来源为准。
+          故事只负责把模块串起来，事实性内容以条目页正文为准。
         </p>
       </section>
 
@@ -97,12 +94,10 @@ export default function AboutPage() {
       <section className="card space-y-2">
         <h2 className="section-title">已知限制</h2>
         <ul className="list-disc space-y-1 pl-5 text-sm leading-6 text-ink-soft">
-          <li>听潮暂无取得授权的方言录音，播放按钮保持禁用；播放器逻辑用一段纯音自检（见下）。</li>
-          <li>食谱内容待补充可靠来源，当前只展示分步界面，不构成制作指导。</li>
+          <li>听潮录音需要手动点击播放，不自动播放；不同地区的口音可能存在差异。</li>
           <li>英歌的角色与阵形细节、美食菜品条目仍等待本地文化审核者补充与校对。</li>
-          <li>不提供任何活动日期、实时人流或今年巡游安排；来源里的旧日期不能当日程用。</li>
-          <li>潮剧与工艺（P1）只在来源页列出，没有独立体验页。</li>
-          <li>问答在模型不可用时会降级为提示与来源链接，不提供缓存答案冒充实时生成。</li>
+          <li>不提供任何活动日期、实时人流或今年巡游安排，历史记录不能当作日程。</li>
+          <li>问答在模型不可用时会显示降级提示，不提供缓存答案冒充实时生成。</li>
         </ul>
       </section>
 
@@ -139,8 +134,8 @@ export default function AboutPage() {
       <section className="card space-y-2">
         <h2 className="section-title">反馈</h2>
         <p className="text-sm leading-6 text-ink-soft">
-          首版没有开通在线反馈表单，也没有收集联系方式的入口。发现事实、来源或授权问题时，
-          请直接带上条目 id 与来源编号反馈给项目维护者。
+          首版没有开通在线反馈表单，也没有收集联系方式的入口。发现内容或授权问题时，
+          请直接带上条目 id 反馈给项目维护者。
         </p>
       </section>
 
