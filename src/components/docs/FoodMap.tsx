@@ -48,13 +48,13 @@ export default function FoodMap({ recipes }: { recipes: Recipe[] }) {
         </defs>
         <rect className="dg-frame" x="0" y="0" width="760" height="400" rx="12" />
 
-        <text className="dg-col" x="16" y="30">
+        <text className="dg-col" x="16" y="34">
           食材（据食谱）
         </text>
-        <text className="dg-col" x="292" y="30">
+        <text className="dg-col" x="292" y="34">
           处理（据步骤）
         </text>
-        <text className="dg-col" x="532" y="30">
+        <text className="dg-col" x="532" y="34">
           成菜
         </text>
 
@@ -65,7 +65,7 @@ export default function FoodMap({ recipes }: { recipes: Recipe[] }) {
         ) : null}
 
         {rows.map((row) => {
-          const y = 52 + row.index * 84
+          const y = 60 + row.index * 84
           return (
             <g key={row.id}>
               <rect className="df-node" x="16" y={y} width="232" height="66" rx="10" />
