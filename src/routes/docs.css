@@ -332,6 +332,14 @@
   color: var(--faint);
 }
 
+.docs-svg-hint {
+  display: none;
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--faint);
+}
+
 .docs-diagram-pair {
   display: grid;
   gap: 14px;
@@ -1336,6 +1344,10 @@
 
   .docs-svg-scroll.is-wide > .docs-svg {
     min-width: 620px;
+  }
+
+  .docs-svg-hint {
+    display: block;
   }
 
   .docs-entry,
