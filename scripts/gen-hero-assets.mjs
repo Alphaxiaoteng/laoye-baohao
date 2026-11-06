@@ -1,17 +1,19 @@
 /**
  * 首页 Hero 生图管线：zexapi gpt-image-2.6 / gpt-image-2.6-gif。
  *
- *   ZEX_API_KEY=xxx node scripts/gen-hero-assets.mjs panorama   # 1 张横屏全景母图
- *   ZEX_API_KEY=xxx node scripts/gen-hero-assets.mjs gif        # 4 张分区动图（需先有全景）
+ *   ZEX_API_KEY=xxx node scripts/gen-hero-assets.mjs panels   # 4 张板块独立图（极简二次元写实风）
+ *   ZEX_API_KEY=xxx node scripts/gen-hero-assets.mjs gif      # 以板块图为参考生成 4 张同构图动图
  *
  * Key 只从环境变量读，不落盘；产物到 public/media/home/hero/。
  */
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs'
+import { execSync } from 'node:child_process'
 
 const BASE = 'https://zexapi.com'
 const KEY = process.env.ZEX_API_KEY
 const OUT = 'public/media/home/hero'
-const MODE = process.argv[2] || 'panorama'
+const MODE = process.argv[2] || 'panels'
+const FORCE = process.argv.includes('--force')
 
 if (!KEY) {
   console.error('需要 ZEX_API_KEY 环境变量')
@@ -19,85 +21,80 @@ if (!KEY) {
 }
 mkdirSync(OUT, { recursive: true })
 
-/** 统一画风前缀：所有产物共用，保证四栏拼起来是一幅画 */
-const STYLE =
-  'New-Chinese-style heritage scroll illustration, intricate gongbi line work meets modern flat guochao poster art, ' +
-  'deep ink-teal background (#243229), vermilion coral-red accents (#f04a3a), warm antique-gold highlights, ' +
-  'subtle rice-paper grain, cinematic soft lighting, rich detail, no text, no watermark, no border. '
+/** 统一画风：日系二次元场景插画 + 写实光影 + 极简留白（不要太密的工笔画） */
+const PANEL_STYLE =
+  'Japanese anime background art, realistic cinematic light and shadow with clean anime illustration (Makoto Shinkai inspired), ' +
+  'minimalist composition with generous negative space, ONE clear subject, deep ink-teal palette (#243229) with subtle vermilion coral accents, ' +
+  'soft warm rim light, calm tasteful mood, detailed subject against a simple uncluttered dark background, no text, no watermark, no border. '
 
-const PANORAMA_PROMPT =
-  STYLE +
-  'One continuous ultra-wide horizontal panorama of Chaoshan intangible cultural heritage, richly detailed and tasteful, four scenes flowing seamlessly left to right: ' +
-  '(1) far left: Yingge dance — two heroic dancers in ornate opera face paint and embroidered costumes striking paired wooden sticks mid-leap, big framed drums, embroidered banners and a qilin; ' +
-  '(2) center-left: Chaozhou gongfu tea — a vermilion clay teapot pouring a thin arc of tea into three small white porcelain cups on a carved wooden tea tray, a charcoal clay stove with glowing olive-pit coals, gentle steam; ' +
-  '(3) center-right: Chaoshan cuisine — a bowl of beef-ball kway teow soup with rising steam, sliced braised goose on a blue-and-white porcelain plate, a golden oyster omelette on an iron griddle; ' +
-  '(4) far right: Yinglaoye night procession — a gilded deity palanquin carried through an old arcade street at night, red lanterns, firecracker sparks, a bonfire and lion dancers. ' +
-  'Background layered with Chaoshan arcade shophouses, paifang gates, porcelain-inlaid roof ridges, gold-lacquer wood carvings, drifting auspicious clouds and incense smoke, ' +
-  'every corner filled with refined detail, museum-grade composition, the whole image reads as ONE painting, no panel dividers.'
-
-/** 四张分区动图：与全景同风格、同题材，方便 hover 时叠播不突兀 */
-const GIF_PANELS = [
+/** 每个文化模块一张独立图 */
+const STILL_PANELS = [
   {
     id: 'yingge',
     prompt:
-      STYLE +
-      'Yingge dancers in ornate opera face paint striking paired wooden sticks, subtle looping motion: sticks clashing with tiny gold sparks, costume ribbons and pheasant feathers swaying, drumsticks bouncing. Dark ink-teal backdrop with vermilion banners.',
+      PANEL_STYLE +
+      'A single Yingge dancer in ornate Chinese opera face paint and embroidered costume, frozen mid-leap striking two wooden sticks, ' +
+      'dynamic heroic pose, placed slightly left of center, vast empty dark teal background with a faint drum silhouette and a few floating embers.',
   },
   {
     id: 'tea',
     prompt:
-      STYLE +
-      'A vermilion clay teapot pouring a thin continuous arc of tea into three small white porcelain cups on a wooden tray, looping motion: tea stream flowing, steam curling upward slowly, tiny ripples in the cups. Dark ink-teal backdrop, warm gold light.',
+      PANEL_STYLE +
+      'A vermilion clay teapot pouring a thin arc of tea into one small white porcelain cup on a simple dark wooden tea tray, ' +
+      'gentle steam curling upward, quiet minimal tea setting, dark teal background, warm side light.',
   },
   {
     id: 'food',
     prompt:
-      STYLE +
-      'A bowl of Chaoshan beef-ball kway teow soup with sliced braised goose beside it, looping motion: gentle steam rising and swirling, soup surface shimmering, chopsticks lifting one beef ball slightly. Dark ink-teal backdrop, appetizing warm light.',
+      PANEL_STYLE +
+      'A single bowl of Chaoshan beef-ball kway teow noodle soup, a few beef balls and chopped celery on top, gentle steam, ' +
+      'on a plain dark wooden table, dark teal minimal background, appetizing soft light, lots of empty space around the bowl.',
   },
   {
     id: 'yinglaoye',
     prompt:
-      STYLE +
-      'Yinglaoye night procession with a gilded deity palanquin and red lanterns, looping motion: bonfire flames flickering, lantern light swaying, firecracker sparks drifting up, incense smoke curling. Dark ink-teal night backdrop.',
+      PANEL_STYLE +
+      'A gilded Chinese deity palanquin with glowing red lanterns at night in a quiet old street, a few silhouetted carriers, ' +
+      'sparse drifting embers, dark teal night sky, minimal composition with wide empty space, warm lantern glow.',
   },
 ]
 
-async function generate(model, prompt, size) {
-  const res = await fetch(`${BASE}/v1/images/generations`, {
+/** 动图仅加动态描述，构图沿用参考图 */
+const GIF_MOTION = {
+  yingge:
+    'Subtle looping motion: the dancer strikes the two sticks with tiny gold sparks, costume ribbons swaying gently, embers drifting.',
+  tea: 'Subtle looping motion: tea stream flowing continuously, steam curling upward slowly, tiny ripples in the cup.',
+  food: 'Subtle looping motion: gentle steam rising and swirling, soup surface shimmering softly.',
+  yinglaoye:
+    'Subtle looping motion: lantern glow swaying, embers drifting up, faint smoke curling around the palanquin.',
+}
+
+async function callApi(path, body) {
+  const res = await fetch(`${BASE}${path}`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, prompt, size, response_format: 'url' }),
+    body: JSON.stringify(body),
   })
   const text = await res.text()
-  if (!res.ok) throw new Error(`${res.status}: ${text.slice(0, 300)}`)
-  const json = JSON.parse(text)
-  const url = json?.data?.[0]?.url
-  if (!url) throw new Error(`无 url 返回: ${text.slice(0, 300)}`)
+  if (!res.ok) throw new Error(`${res.status}: ${text.slice(0, 200)}`)
+  const url = JSON.parse(text)?.data?.[0]?.url
+  if (!url) throw new Error(`无 url 返回: ${text.slice(0, 200)}`)
   return url
 }
 
-/** 图生图：以高清切片为参考，保证动图与静态画卷同构图、同风格 */
-async function generateEdit(model, prompt, size, refImagePath) {
-  const { readFileSync } = await import('node:fs')
+const generate = (model, prompt, size) =>
+  callApi('/v1/images/generations', { model, prompt, size, response_format: 'url' })
+
+/** 图生图：以板块图为参考，动图与静态底图同构图、同风格 */
+function generateEdit(model, prompt, size, refImagePath) {
   const base64 = readFileSync(refImagePath).toString('base64')
-  const res = await fetch(`${BASE}/v1/images/edits`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model,
-      prompt,
-      size,
-      response_format: 'url',
-      image: [`data:image/png;base64,${base64}`],
-    }),
+  return callApi('/v1/images/edits', {
+    model,
+    prompt,
+    size,
+    response_format: 'url',
+    image: [`data:image/png;base64,${base64}`],
   })
-  const text = await res.text()
-  if (!res.ok) throw new Error(`${res.status}: ${text.slice(0, 300)}`)
-  const json = JSON.parse(text)
-  const url = json?.data?.[0]?.url
-  if (!url) throw new Error(`无 url 返回: ${text.slice(0, 300)}`)
-  return url
 }
 
 async function download(url, path) {
@@ -108,50 +105,54 @@ async function download(url, path) {
   console.log(`  保存 ${path} (${(buf.length / 1024) | 0}KB)`)
 }
 
-if (MODE === 'panorama') {
-  console.log('生成高清全景母图 gpt-image-2.6 3024x1296 (21:9 2K)…')
-  // 524 偶发上游超时：最多重试 3 次，间隔 20s
-  let url = ''
+/** 失败重试（524 上游超时常见） */
+async function withRetry(fn, label) {
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
-      url = await generate('gpt-image-2.6', PANORAMA_PROMPT, '3024x1296')
-      break
+      return await fn()
     } catch (err) {
-      console.error(`  第 ${attempt} 次失败:`, err.message.slice(0, 120))
+      console.error(`  ${label} 第 ${attempt} 次失败:`, err.message.slice(0, 120))
       if (attempt === 3) throw err
-      await new Promise((r) => setTimeout(r, 20000))
+      await new Promise((r) => setTimeout(r, 15000))
     }
   }
-  console.log('  url:', url)
-  await download(url, `${OUT}/panorama-master.png`)
+}
 
-  // 切成 4 片高清切片（每片 = 一个板块底图，拼起来还是整幅画）
-  const { execSync } = await import('node:child_process')
-  const dims = execSync(`sips -g pixelWidth -g pixelHeight ${OUT}/panorama-master.png`).toString()
-  const W = Number(dims.match(/pixelWidth: (\d+)/)?.[1])
-  const H = Number(dims.match(/pixelHeight: (\d+)/)?.[1])
-  const sw = Math.floor(W / 4)
-  console.log(`母图 ${W}x${H}，每片 ${sw}x${H}`)
-  for (let i = 0; i < 4; i++) {
-    execSync(`ffmpeg -y -i ${OUT}/panorama-master.png -vf "crop=${sw}:${H}:${i * sw}:0" ${OUT}/slice-${i}.png 2>/dev/null`)
-    execSync(`ffmpeg -y -i ${OUT}/slice-${i}.png -quality 85 ${OUT}/slice-${i}.webp 2>/dev/null`)
-    console.log(`  slice-${i}.webp 完成`)
-  }
-} else if (MODE === 'gif') {
-  for (const panel of GIF_PANELS) {
-    if (existsSync(`${OUT}/${panel.id}.gif`)) {
-      console.log(`跳过已存在 ${panel.id}.gif`)
+if (MODE === 'panels') {
+  for (const panel of STILL_PANELS) {
+    if (!FORCE && existsSync(`${OUT}/panel-${panel.id}.webp`)) {
+      console.log(`跳过已有板块图 panel-${panel.id}.webp（重生成请加 --force）`)
       continue
     }
-    console.log(`生成动图 ${panel.id} (gpt-image-2.6-gif 1280x720)…`)
+    console.log(`生成板块图 ${panel.id} (gpt-image-2.6 1248x832)…`)
     try {
-      const url = await generate('gpt-image-2.6-gif', panel.prompt, '1280x720')
+      const url = await withRetry(() => generate('gpt-image-2.6', panel.prompt, '1248x832'), panel.id)
+      console.log('  url:', url)
+      await download(url, `${OUT}/panel-${panel.id}.png`)
+      execSync(`ffmpeg -y -i ${OUT}/panel-${panel.id}.png -quality 85 ${OUT}/panel-${panel.id}.webp 2>/dev/null`)
+      console.log(`  panel-${panel.id}.webp 完成`)
+    } catch (err) {
+      console.error(`  ${panel.id} 放弃:`, err.message.slice(0, 150))
+    }
+    await new Promise((r) => setTimeout(r, 4000))
+  }
+} else if (MODE === 'gif') {
+  for (const panel of STILL_PANELS) {
+    if (!FORCE && existsSync(`${OUT}/${panel.id}.gif`)) {
+      console.log(`跳过已有动图 ${panel.id}.gif（重生成请加 --force）`)
+      continue
+    }
+    console.log(`生成同构图动图 ${panel.id} (gpt-image-2.6-gif edits)…`)
+    try {
+      const url = await withRetry(
+        () => generateEdit('gpt-image-2.6-gif', PANEL_STYLE + GIF_MOTION[panel.id], '1248x832', `${OUT}/panel-${panel.id}.png`),
+        panel.id,
+      )
       console.log('  url:', url)
       await download(url, `${OUT}/${panel.id}.gif`)
     } catch (err) {
-      console.error(`  ${panel.id} 失败:`, err.message)
+      console.error(`  ${panel.id} 放弃:`, err.message.slice(0, 150))
     }
-    // 串行 + 间隔，避免限流
     await new Promise((r) => setTimeout(r, 4000))
   }
 } else {

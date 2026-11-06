@@ -97,9 +97,9 @@ export default function RecipeModal({ recipe, onClose }: Props) {
             <img
               src={image.src}
               alt={image.alt}
-              width={640}
-              height={400}
-              className="mb-4 h-32 w-full rounded-xl border border-line object-cover sm:h-40"
+              width={1024}
+              height={1024}
+              className="mb-4 h-48 w-full rounded-xl border border-line bg-white object-contain"
             />
           ) : null}
           <p className="text-[11px] tracking-[0.3em] text-brick">食谱</p>

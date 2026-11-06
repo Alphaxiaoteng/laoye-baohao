@@ -211,13 +211,6 @@ export default function JournalPage() {
           aria-label="手记文本预览"
           className="w-full rounded-xl border border-line bg-white/80 px-3 py-3 font-mono text-xs leading-6 text-ink-soft"
         />
-        <p className="text-xs text-muted">
-          来源与核验状态见
-          <Link to="/sources" className="link-inline mx-1">
-            资料来源
-          </Link>
-          页。
-        </p>
       </section>
     </div>
   )

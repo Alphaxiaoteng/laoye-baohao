@@ -209,9 +209,7 @@ function Row({ item }: { item: Item }) {
     <>
       <MediaBox media={item.media} />
       <span className="mz-row-copy">
-        <span className="mz-row-meta">{item.meta}</span>
         <h3 className="mz-row-title">{item.title}</h3>
-        <span className="mz-row-caption">{item.caption}</span>
       </span>
       <span className="mz-row-go" aria-hidden="true">
         →
@@ -307,9 +305,7 @@ export default function MuseumIndex() {
           MUSEUM · 四个模块
         </p>
         <h1 className="museum-title">文化馆</h1>
-        <p className="museum-lead">
-          一条一条看。图片、图示与展馆原页在前，字压到标题和一句图注。
-        </p>
+        <p className="museum-lead">先看图，再点进去。</p>
       </header>
 
       <div className="museum-tabs" role="group" aria-label="按模块筛选">
@@ -341,16 +337,13 @@ export default function MuseumIndex() {
                 ))}
               </ul>
             ) : (
-              <p className="mz-empty">这个模块的条目还在整理中，先到资料来源页确认登记状态。</p>
+              <p className="mz-empty">这个模块的条目还在整理中，可以先到其他展馆看看。</p>
             )}
           </section>
         ))}
       </div>
 
-      <p className="museum-note">
-        照片为 Wikimedia Commons 授权资料，已自托管（署名与许可见落地页「原始资料照片」）；图示为自绘示意图，
-        不代表任何一地的标准做法。条目的地区、年份、来源与核验状态都写在详情页里。
-      </p>
+      <p className="museum-note">照片已自托管，图示为示意图；地区与出处写在详情页。</p>
     </div>
   )
 }

@@ -25,7 +25,7 @@ export default function PhotoCredits() {
           </li>
         ))}
       </ul>
-      <p className="text-xs leading-6 text-muted">{PHOTO_NOTE}；授权沿用原图，未做合成。</p>
+      <p className="text-xs leading-6 text-muted">{PHOTO_NOTE}</p>
     </section>
   )
 }

@@ -1,4 +1,4 @@
-/* 英歌第二页：叙事 + 数字馆内嵌。 */
+/* 英歌首页后段：三条线索 + 数字馆内嵌。 */
 
 .ys-page {
   display: flex;
@@ -17,7 +17,7 @@
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--paper-surface);
   padding: 18px 18px 20px;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@
 
 .ys-chapters article:hover {
   transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.28);
+  border-color: rgba(61, 47, 38, 0.24);
 }
 
 .ys-k {
@@ -36,7 +36,7 @@
   color: var(--coral);
 }
 
-.ys-chapters h2 {
+.ys-chapters h3 {
   font-family: var(--font-serif, serif);
   font-size: 17px;
   line-height: 1.5;
@@ -55,7 +55,7 @@
   bottom: -10px;
   font-family: var(--font-serif, serif);
   font-size: 54px;
-  color: rgba(255, 255, 255, 0.05);
+  color: rgba(36, 28, 23, 0.06);
 }
 
 .ys-stage-section {
@@ -103,10 +103,38 @@
   opacity: 1;
 }
 
+.ys-stage-nav {
+  position: absolute;
+  z-index: 3;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.ys-stage-nav button {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 253, 248, 0.28);
+  background: rgba(13, 21, 16, 0.78);
+  color: #fffdf8;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.ys-stage-nav button:disabled {
+  opacity: 0.38;
+}
+
+.ys-stage-nav button:not(:disabled):hover {
+  border-color: rgba(255, 253, 248, 0.7);
+}
+
 .ys-loading {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,7 +148,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.18);
+  border: 2px solid rgba(255, 253, 248, 0.5);
   border-top-color: var(--coral);
   animation: ys-spin 0.9s linear infinite;
 }

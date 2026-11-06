@@ -38,7 +38,7 @@ export default function CityCaseCard({ item }: Props) {
         </p>
         <p className="text-sm leading-6 text-ink-soft">{item.point}</p>
         <p className="mt-auto pt-1 text-xs leading-5 text-muted">{PHOTO_NOTE}</p>
-        <span className="text-sm link-inline">看条目与来源 →</span>
+        <span className="text-sm link-inline">查看完整条目 →</span>
       </div>
     </Link>
   )

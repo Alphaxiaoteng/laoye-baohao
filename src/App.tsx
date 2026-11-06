@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import Nav from './components/Nav'
-import Footer from './components/Footer'
 import StorageNotice from './components/StorageNotice'
 import AudioPlayerProvider from './components/AudioPlayerProvider'
 import AskDrawer from './components/AskDrawer'
@@ -13,7 +12,6 @@ import EntryPage from './routes/EntryPage'
 import RecipePage from './routes/RecipePage'
 import ListenPage from './routes/Listen'
 import JournalPage from './routes/Journal'
-import SourcesPage from './routes/Sources'
 import AboutPage from './routes/About'
 import DocsPage from './routes/Docs'
 import HomeHero from './features/home/HomeHero'
@@ -69,7 +67,7 @@ export default function App() {
         id="main"
         className={
           pathname === '/'
-            ? 'route-fade mx-auto w-full max-w-none flex-1 px-0 pb-24 pt-0'
+            ? 'route-fade mx-auto flex w-full max-w-none min-h-0 flex-1 px-0 pb-0 pt-0'
             : 'route-fade mx-auto w-full max-w-content flex-1 px-4 pb-36 pt-6 sm:pb-28'
         }
       >
@@ -91,10 +89,9 @@ export default function App() {
           <Route path="/museum/:module/:entry" element={<EntryPage />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
 
-          {/* 独立功能页：听潮 / 手记 / 来源 / 关于 / 文献汇总 */}
+          {/* 独立功能页：听潮 / 手记 / 关于 / 文献汇总 */}
           <Route path="/listen" element={<ListenPage />} />
           <Route path="/journal" element={<JournalPage />} />
-          <Route path="/sources" element={<SourcesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/docs" element={<DocsPage />} />
           <Route path="/skill" element={<SkillPage />} />
@@ -113,7 +110,6 @@ export default function App() {
         </Routes>
       </main>
 
-      <Footer />
       <AudioPlayerProvider />
       <AskDrawer />
     </div>

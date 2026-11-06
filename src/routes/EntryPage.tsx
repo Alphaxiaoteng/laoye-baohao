@@ -13,7 +13,7 @@ import {
 import { useProgressStore } from '../store/progress'
 import VerifyBadge from '../components/VerifyBadge'
 import CollectButton from '../components/CollectButton'
-import { SourceList } from '../components/SourceBadge'
+import { Prose } from '../components/Prose'
 import FormationDiagram from '../components/figures/FormationDiagram'
 import ProcessionDiagram from '../components/figures/ProcessionDiagram'
 import { BeatTap, FormationExplorer } from '../components/interactions/YinggeInteractive'
@@ -107,18 +107,15 @@ export default function EntryPage() {
               {PENDING_SOURCE_TEXT}
             </p>
             <p className="text-sm leading-6 text-ink-soft">
-              这一条还没有找到可靠的公开资料，本站不凭印象补写。你可以先到来源页看已整理的资料状态，
-              或在右下角「问一问」里问其他已核验的条目。
+              这一条还在整理中，本站不凭印象补写。你可以先阅读同模块的其他条目，
+              或在右下角「问一问」里继续提问。
             </p>
-            <Link to="/sources" className="link-inline text-sm">
-              查看资料来源与核验状态
-            </Link>
           </>
         ) : (
-          <p className="body-text">{body.text}</p>
+          <Prose className="body-text" text={body.text} />
         )}
         <p className="text-xs text-muted">
-          本页文化描述只来自下方登记来源；未完成本地文化审核的条目会标注「待本地审核」。
+          未完成本地文化审核的条目会标注「待本地审核」。
         </p>
       </section>
 
@@ -202,15 +199,6 @@ export default function EntryPage() {
           </div>
         </section>
       ) : null}
-
-      <section aria-labelledby="entry-sources" className="space-y-3">
-        <h2 id="entry-sources" className="section-title">
-          本条目来源
-        </h2>
-        <div className="card">
-          <SourceList ids={entry.sourceIds} />
-        </div>
-      </section>
 
       <div className="flex flex-wrap items-center gap-3 border-t border-line pt-5">
         <CollectButton id={entry.id} />

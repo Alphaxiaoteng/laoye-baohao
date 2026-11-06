@@ -1,0 +1,630 @@
+/**
+ * 首页「工夫茶」章节：横向茶席偏右，壶嘴 / 水线 / 小杯 / 茶盘裁片在左侧低位错落。
+ *
+ * 与英歌章节的差别：不用满幅大图，而是「一张示意图裁成多景别」+「一张实拍茶盘慢淡切」，
+ * 靠版式宽窄、上下错位和不同视差深度搭出茶席；珊瑚红只留给入口按钮。
+ * 全部规则收在 .collage-tea 下，页面底色仍是品牌深墨青。
+ *
+ * 命名空间不是风格问题而是正确性问题：茶模块自身 src/features/tea/tea.css 里有裸
+ * `.tea-layout { display: flex }`，全站 CSS 打包后它排在本文件之后，同权重就会把这里的
+ * grid 覆盖成 flex——标题被压成一字一行、主图塌成一条。所以这里每条规则都带
+ * `.collage-tea` 前缀（根节点再加 `.collage-panel` 双类），用特异性把版式锁在首页内。
+ */
+
+.collage-panel.collage-tea {
+  --tea-pour: url('/media/home/hero/panel-tea.webp');
+  --tea-tray: url('/media/home/teochew-kanghu-tea.webp');
+  position: relative;
+  overflow: hidden;
+  /* 双类锁死上下留白：home.css 的 `.collage-panel { padding: 0 5vw }` 同权重且排在后面，
+     单类会被吃成 0，滚到章节顶部时标题被顶栏压住。 */
+  padding: clamp(84px, 10vh, 132px) 5vw;
+  background-color: #f4e8d8;
+  color: #3d2f26;
+}
+
+.collage-tea .tea-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 4.6fr) minmax(0, 7.4fr);
+  column-gap: clamp(20px, 3.2vw, 56px);
+  row-gap: clamp(30px, 4vw, 58px);
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* ===== 左上文案：标题两行封顶，正文 16px 起 ===== */
+
+.collage-tea .tea-copy {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  padding-top: clamp(2px, 1vw, 14px);
+}
+
+.collage-tea .tea-title {
+  /* 字号与字重交给首页章节的统一 h2（home.css）；这里只补标题与正文之间的呼吸 */
+  margin: 0 0 clamp(16px, 1.6vw, 22px);
+}
+
+.collage-tea .tea-lede {
+  margin: 0 0 12px;
+  max-width: 31ch;
+  font-size: 17px;
+  line-height: 1.85;
+  color: #5c4d42;
+}
+
+.collage-tea .tea-hint {
+  margin: 0 0 clamp(22px, 2.2vw, 30px);
+  max-width: 31ch;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #6b5d52;
+}
+
+.collage-tea .collage-cta {
+  display: inline-block;
+  margin-top: clamp(18px, 2vw, 26px);
+  padding: 15px 27px;
+  background-color: #f04a3a;
+  color: #fff7ef;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: 0;
+  transition: background-color 200ms ease;
+}
+
+.collage-tea .collage-cta:hover {
+  background-color: #d63c2d;
+}
+
+.collage-tea .collage-cta:focus-visible {
+  outline: 3px solid #3d2f26;
+  outline-offset: 4px;
+}
+
+/* ===== 文物线索：幽灵序号 + 胶囊栏 + 双线展签 + 图框追光 =====
+   home.css 里也有同名 .clue-pill / .museum-plaque / [data-cue] 规则，且打包后排在后面。
+   这里把盒子、颜色、伪元素与状态全部写全并用双类抬高特异性，
+   保证共享层怎么改，本章的展签都可读、追光也不会和共享层的滤镜叠成两层。 */
+
+.collage-tea .chapter-ghost-num {
+  position: absolute;
+  top: clamp(-58px, -4vw, -28px);
+  left: -0.06em;
+  z-index: -1;
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: clamp(96px, 12vw, 184px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: rgba(61, 47, 38, 0.1);
+  pointer-events: none;
+  user-select: none;
+}
+
+.collage-tea .clue-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: clamp(18px, 2vw, 24px) 0 0;
+}
+
+.collage-tea .clue-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 9px 16px 9px 13px;
+  border: 1px solid rgba(61, 47, 38, 0.2);
+  border-radius: 999px;
+  background-color: rgba(61, 47, 38, 0.05);
+  color: #5c4d42;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+/* 胶囊前的珊瑚红尖角，是本章入口按钮之外唯一的珊瑚红提示 */
+.collage-tea .clue-pill::before {
+  content: '›';
+  color: #f04a3a;
+  opacity: 0.65;
+  line-height: 1;
+}
+
+
+.collage-tea .clue-pill:hover {
+  background-color: rgba(61, 47, 38, 0.1);
+  border-color: rgba(61, 47, 38, 0.34);
+  color: #2f241d;
+}
+
+.collage-tea .clue-pill[aria-selected='true'] {
+  background-color: #3d2f26;
+  border-color: #3d2f26;
+  color: #fff7ef;
+}
+
+.collage-tea .clue-pill:focus-visible {
+  outline: 3px solid #f04a3a;
+  outline-offset: 3px;
+}
+
+.collage-tea .clue-pill-num {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.62;
+}
+
+/* 故宫多宝阁式双线展签：深色漆面 + 内外两道细线 + 米白字 */
+.collage-tea .museum-plaque {
+  position: relative;
+  margin: clamp(18px, 2vw, 24px) 0 0;
+  padding: clamp(13px, 1.4vw, 16px) clamp(16px, 2vw, 20px);
+  border: 1px solid rgba(218, 197, 169, 0.5);
+  background-color: rgba(26, 36, 30, 0.94);
+  color: #f4ece0;
+  backdrop-filter: none;
+}
+
+.collage-tea .museum-plaque::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(218, 197, 169, 0.26);
+  pointer-events: none;
+}
+
+.collage-tea .museum-plaque-title {
+  margin: 0;
+  color: #fdf6ea;
+  font-family: 'Source Han Serif CN', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.08em;
+}
+
+.collage-tea .museum-plaque-note {
+  margin: 6px 0 0;
+  color: rgba(253, 246, 234, 0.72);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* 追光：非当前线索的图框淡到 0.74 并落回原位，当前那一块抬起 6px。
+   位移用独立 translate 属性，和 useCollageMotion 写在 transform 上的视差互不覆盖；
+   共享层的 filter 压暗与大黑色投影在本章显式关掉，免得两套「变暗」叠在一起。 */
+.collage-panel.collage-tea[data-spotlight] [data-cue] {
+  opacity: 0.74;
+  translate: 0 0;
+  filter: none;
+  transform: none;
+  box-shadow: none;
+  overflow: visible;
+  transition: opacity 420ms ease, translate 420ms ease;
+}
+
+.collage-panel.collage-tea[data-spotlight='0'] [data-cue='0'],
+.collage-panel.collage-tea[data-spotlight='1'] [data-cue='1'],
+.collage-panel.collage-tea[data-spotlight='2'] [data-cue='2'] {
+  opacity: 1;
+  translate: 0 -6px;
+}
+
+.collage-panel.collage-tea [data-cue] img {
+  animation: none;
+}
+
+/* 共享层给每个图框的悬停扫光会盖住茶席图注，本章用自己的光泽，关掉它。 */
+.collage-panel.collage-tea [data-cue]::after {
+  content: none;
+}
+
+/* ===== 图版：图片一律方角，不用投影，只靠裁切与版式分层 ===== */
+
+.collage-tea .tea-frame {
+  position: relative;
+  overflow: hidden;
+  background-color: #fffdf8;
+}
+
+.collage-tea .tea-frame > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  border-radius: 0;
+}
+
+.collage-tea .tea-crop {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background-image: var(--tea-pour);
+  background-repeat: no-repeat;
+}
+
+/* home.css 的 `.collage-panel figcaption` 是同权重（0,1,1）且排在后面，
+   这里用双类前缀把它压回去，图注灰阶与字号才落在茶席自己的层级上。 */
+.collage-panel.collage-tea figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: #8a7d72;
+}
+
+/* ===== 主图：偏右的横向茶席 ===== */
+
+.collage-tea .tea-main {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+.collage-tea .tea-main .tea-frame {
+  aspect-ratio: 16 / 10;
+}
+
+/* 蒸汽层：主图的同比例复制，只在蒸汽那一列开一条裁切窗。
+   窗口内若隐若现地上下漂移，窗口边缘与主图同底同比例，看不出接缝；
+   再给这层一点低幅度视差，鼠标划过时比主图稍慢地错开。 */
+.collage-tea .tea-steam {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  clip-path: inset(4% 42% 36% 40%);
+}
+
+.collage-tea .tea-steam img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  animation:
+    tea-steam-drift 14s ease-in-out infinite alternate,
+    tea-steam-rise 9s ease-in-out infinite;
+}
+
+@keyframes tea-steam-drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+/* 常驻微动态：蒸汽层缓慢上浮并把浓度呼吸一遍。
+   translate 是独立变换属性，和上面的 transform 叠加，两段动画互不覆盖。 */
+@keyframes tea-steam-rise {
+  0%,
+  100% {
+    opacity: 0.5;
+    translate: 0 2px;
+  }
+  50% {
+    opacity: 1;
+    translate: 0 -7px;
+  }
+}
+
+/* ===== 左侧低位细节：壶嘴 / 小杯 / 茶盘，互相压边 ===== */
+
+.collage-tea .tea-details {
+  display: grid;
+  grid-column: 1;
+  grid-row: 2;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(10px, 1.1vw, 18px);
+  align-content: start;
+}
+
+.collage-tea .tea-detail {
+  margin: 0;
+}
+
+.collage-tea .tea-detail--pot {
+  grid-column: 1 / span 3;
+  grid-row: 1;
+}
+
+.collage-tea .tea-detail--pot .tea-frame {
+  aspect-ratio: 1 / 1;
+}
+
+.collage-tea .tea-detail--pot .tea-crop {
+  background-size: 360% auto;
+  background-position: 62% 29%;
+}
+
+/* 水线局部框的温润光泽：一道窄光缓慢扫过壶嘴这块裁片。 */
+@keyframes tea-water-sheen {
+  0% {
+    opacity: 0;
+    translate: -120% 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0;
+    translate: 120% 0;
+  }
+  100% {
+    opacity: 0;
+    translate: 120% 0;
+  }
+}
+
+.collage-tea .tea-detail--pot .tea-frame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 55%;
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 252, 244, 0) 0%,
+    rgba(255, 252, 244, 0.55) 50%,
+    rgba(255, 252, 244, 0) 100%
+  );
+  pointer-events: none;
+  animation: tea-water-sheen 12s ease-in-out infinite;
+}
+
+.collage-tea .tea-detail--cup {
+  grid-column: 3 / span 3;
+  grid-row: 1;
+  z-index: 2;
+  margin-top: clamp(38px, 4.6vw, 74px);
+}
+
+.collage-tea .tea-detail--cup .tea-frame {
+  aspect-ratio: 1 / 1;
+}
+
+.collage-tea .tea-detail--cup .tea-crop {
+  background-size: 300% auto;
+  background-position: 50% 94%;
+}
+
+.collage-tea .tea-detail--tray {
+  grid-column: 1 / span 6;
+  grid-row: 2;
+  margin-top: clamp(10px, 1.2vw, 20px);
+}
+
+.collage-tea .tea-detail--tray .tea-frame {
+  aspect-ratio: 4 / 1;
+}
+
+.collage-tea .tea-detail--tray .tea-crop {
+  background-image: var(--tea-tray);
+  background-size: 260% auto;
+  background-position: 100% 3%;
+}
+
+/* ===== 右侧证据区：实拍茶盘慢淡切 + 悬停动图 ===== */
+
+.collage-tea .tea-evidence {
+  display: grid;
+  grid-column: 2;
+  grid-row: 2;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 22px);
+  align-content: start;
+}
+
+.collage-tea .tea-crossfade {
+  grid-column: 1 / span 3;
+  margin: 0;
+}
+
+.collage-tea .tea-crossfade .tea-frame {
+  aspect-ratio: 3 / 4;
+}
+
+.collage-tea .tea-crossfade .tea-frame > img:nth-child(2) {
+  transform: none;
+}
+
+.collage-tea .tea-gif {
+  grid-column: 4 / span 4;
+  grid-row: 1;
+  align-self: end;
+  margin: 0 0 clamp(4px, 1vw, 14px);
+}
+
+.collage-tea .tea-gif .tea-frame {
+  aspect-ratio: 4 / 3;
+}
+
+.collage-tea .tea-gif-motion {
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.collage-tea[data-active='true'] .tea-gif-motion {
+  opacity: 1;
+}
+
+/* ===== 页脚说明：13px，只用纸白灰阶 ===== */
+
+.collage-tea .tea-source {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  margin: 0;
+  padding-top: clamp(6px, 1vw, 14px);
+  max-width: 72ch;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #8a7d72;
+}
+
+/* ===== 中等屏：比例收一档，细节仍压边 ===== */
+
+@media (max-width: 1120px) {
+  .collage-tea .tea-lede,
+  .collage-tea .tea-hint {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .collage-tea .tea-detail--cup {
+    margin-top: clamp(30px, 4vw, 52px);
+  }
+}
+
+/* ===== 窄屏：单栏，但保留宽窄与左右交替，不退成卡片 ===== */
+
+@media (max-width: 900px) {
+  .collage-panel.collage-tea {
+    /* 窄屏也要保住上留白，否则标题会缩进顶栏下面 */
+    padding: clamp(72px, 9vh, 112px) 18px 44px;
+  }
+
+  .collage-tea .tea-layout {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 26px;
+  }
+
+  .collage-tea .tea-copy {
+    grid-column: 1;
+    grid-row: 1;
+    padding-top: 0;
+  }
+
+  .collage-tea .tea-lede,
+  .collage-tea .tea-hint {
+    max-width: 34ch;
+  }
+
+  .collage-tea .tea-main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .collage-tea .tea-main .tea-frame {
+    aspect-ratio: 4 / 3;
+    max-height: 520px;
+  }
+
+  .collage-tea .tea-main .tea-frame > img {
+    object-position: 58% 52%;
+  }
+
+  .collage-tea .tea-steam {
+    clip-path: inset(4% 40% 34% 38%);
+  }
+
+  .collage-tea .tea-evidence {
+    grid-column: 1;
+    grid-row: 3;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .collage-tea .tea-crossfade {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+  }
+
+  .collage-tea .tea-gif {
+    grid-column: 7 / span 6;
+    grid-row: 1;
+    margin-top: 56px;
+  }
+
+  .collage-tea .tea-details {
+    grid-column: 1;
+    grid-row: 4;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .collage-tea .tea-detail--pot {
+    grid-column: 1 / span 5;
+    grid-row: 1;
+  }
+
+  .collage-tea .tea-detail--cup {
+    grid-column: 8 / span 5;
+    grid-row: 1;
+    margin-top: 40px;
+  }
+
+  .collage-tea .tea-detail--tray {
+    grid-column: 1 / span 9;
+    grid-row: 2;
+    margin-top: 0;
+  }
+
+  .collage-tea .tea-source {
+    grid-column: 1;
+    grid-row: 5;
+  }
+}
+
+@media (max-width: 520px) {
+  .collage-tea .tea-gif {
+    margin-top: 64px;
+  }
+
+  .collage-tea .tea-detail--pot {
+    grid-column: 1 / span 6;
+  }
+
+  .collage-tea .tea-detail--cup {
+    grid-column: 7 / span 6;
+    margin-top: 32px;
+  }
+}
+
+/* ===== 减少动态：内容全部静态可读 ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .collage-tea .tea-steam img {
+    animation: none;
+  }
+
+  .collage-tea .tea-frame > .tea-gif-motion {
+    display: none;
+  }
+
+  .collage-tea .collage-cta {
+    transition: none;
+  }
+
+  .collage-tea .tea-detail--pot .tea-frame::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .collage-tea [data-cue],
+  .collage-tea .clue-pill {
+    transition: none;
+  }
+}

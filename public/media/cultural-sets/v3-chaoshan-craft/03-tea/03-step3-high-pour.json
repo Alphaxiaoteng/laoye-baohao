@@ -1,0 +1,12 @@
+{
+  "version": "v3-chaoshan-craft",
+  "versionTitle": "版本三：潮汕金漆木雕·屋脊嵌瓷·佛山潮州木版年画在地非遗风 (Chaoshan Gilded Woodcarving, Porcelain Inlay & Folk Woodcut)",
+  "folder": "03-tea",
+  "id": "03-step3-high-pour",
+  "title": "五步之三·提壶高冲一注水线",
+  "model": "gpt-image-2.6",
+  "size": "1024x1024",
+  "referenceImage": "public/media/home/hero/panel-tea.webp",
+  "prompt": "Authentic Chaoshan intangible cultural heritage craft aesthetic: a synthesis of Chaozhou多层镂空 gilded woodcarving (潮州金漆木雕), iridescent Chaoshan rooftop porcelain-shard inlay (嵌瓷), and traditional Teochew polychrome woodblock printmaking (木版年画). Color harmony anchored in South China Sea indigo (#1B2A32), auspicious Chaoshan vermilion (#B63B2A), pure 24k gold leaf (#E0AE4E), and shell-lime white (#F2ECE1). Crisp carved relief edges, tactile ceramic and woodgrain textures, curated 1:1 square gallery framing with generous clean breathing room, strictly no text, no letters, no watermark. Subject: Gongfu Tea Step 3 (高冲注水): a kettle held high pouring a long, unbroken amber-clear arc of hot water into a tiny clay teapot.",
+  "generatedAt": "2026-11-06T13:39:52.619Z"
+}

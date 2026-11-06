@@ -31,7 +31,7 @@ LAOYE_BASE="http://127.0.0.1:7860"   # 或 https://你的部署域名
 | `story` | 故事线 | `/story`、`/story/:chapter` | 5 章（原创虚构串联，标注 `fiction`） |
 | `listen` | 听潮 | `/listen` | 21 条潮州话词条（问候、礼貌、茶食、文化四类，含读音与释义） |
 | `guide` | 潮汕攻略 | `/guide` | 49 条小红书图文清洗稿（行程攻略 30 / 美食合集 9 / 家常做法 10，均为 `reference-only`） |
-| 文献 | 文献汇总 | `/docs`、`/sources` | 全站文本集中页 + 来源表 99 条 |
+| 文献 | 历史介绍 | `/docs`、`/sources` | 按主题读站内正文（/docs）+ 完整来源表 99 条（/sources） |
 
 健康检查里的实际计数：
 

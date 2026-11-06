@@ -102,7 +102,7 @@ export default function FoodStepPager({
     return map
   }, [ingredients, factor])
 
-  const image = stepImage(position.index)
+  const image = stepImage(position.index, recipeId)
   const stepPlaceholder = isPlaceholderText(step?.text)
 
   function goTo(next: number) {
@@ -252,11 +252,11 @@ export default function FoodStepPager({
             <img
               src={image.src}
               alt={image.alt}
-              width={480}
-              height={300}
+              width={1024}
+              height={1024}
               loading="lazy"
               decoding="async"
-              className="w-full rounded-xl border border-line bg-cream object-cover"
+              className="aspect-square w-full rounded-xl border border-line bg-white object-contain"
             />
           ) : null}
 

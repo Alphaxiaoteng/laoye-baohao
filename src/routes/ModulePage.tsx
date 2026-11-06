@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { entryHref, recipes, resolveModule, sourcesOfModule } from '../lib/content'
+import { entryHref, recipes, resolveModule } from '../lib/content'
 import { useProgressStore } from '../store/progress'
 import VerifyBadge from '../components/VerifyBadge'
-import { SourceList } from '../components/SourceBadge'
 import ProcessionDiagram from '../components/figures/ProcessionDiagram'
 import { BeatTap, FormationExplorer } from '../components/interactions/YinggeInteractive'
 import TeaPour from '../components/interactions/TeaPour'
@@ -23,7 +22,6 @@ export default function ModulePage() {
 
   const recommended = list.slice(0, 3)
   const rest = list.slice(3)
-  const modSources = sourcesOfModule(config.id)
   const isFood = config.id === 'food'
   const isYingge = config.id === 'yingge'
   const isTea = config.id === 'tea'
@@ -47,7 +45,7 @@ export default function ModulePage() {
         <p className="text-[15px] leading-7 text-ink-soft">{config.intro}</p>
         <p className="text-xs text-muted">
           {list.length > 0
-            ? `本模块共 ${list.length} 条内容，全部标注来源与核验状态。`
+            ? `本模块共 ${list.length} 条内容。`
             : '本模块的条目还在整理中。'}
         </p>
       </header>
@@ -58,8 +56,8 @@ export default function ModulePage() {
             这个模块还没有可展示的条目（content/entries.json 里没有对应 module 的内容）。
           </p>
           <div className="mt-4">
-            <Link to="/sources" className="btn-secondary">
-              先看资料来源
+            <Link to="/docs" className="btn-secondary">
+              阅读历史介绍
             </Link>
           </div>
         </div>
@@ -162,7 +160,7 @@ export default function ModulePage() {
                     </ul>
                   )}
                   <p className="text-xs text-muted">
-                    地名、主体与年份以来源原文表述为准；旧日期不能当作今年的日程。
+                    旧日期不能当作今年的日程。
                   </p>
                 </div>
               </div>
@@ -203,21 +201,6 @@ export default function ModulePage() {
         </>
       )}
 
-      <section aria-labelledby="sources-title" className="space-y-3">
-        <h2 id="sources-title" className="section-title">
-          本模块来源
-        </h2>
-        <div className="card">
-          <SourceList ids={modSources.map((s) => s.id)} />
-          <p className="mt-3 text-xs text-muted">
-            完整来源表与核验状态见
-            <Link to="/sources" className="link-inline mx-1">
-              资料来源
-            </Link>
-            页。
-          </p>
-        </div>
-      </section>
     </div>
   )
 }

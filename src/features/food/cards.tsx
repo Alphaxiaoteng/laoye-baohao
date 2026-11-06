@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Entry, Recipe } from '../../types/content'
+import type { GuideItem } from '../guide/guideData'
 import { entryHref, normalizeSteps } from '../../lib/content'
 import { dishImage } from './assets'
 import { shortDescription } from './lib/copy'
@@ -7,8 +8,8 @@ import { shortDescription } from './lib/copy'
 const CARD =
   'group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-white/[0.05] transition duration-200 ease-exhibit'
 
-const PHOTO = 'aspect-[16/10] w-full overflow-hidden bg-white/5'
-const PHOTO_IMG = 'h-full w-full object-cover transition duration-500 ease-exhibit group-hover:scale-[1.04]'
+const PHOTO = 'aspect-square w-full overflow-hidden bg-white'
+const PHOTO_IMG = 'h-full w-full object-contain'
 
 interface RecipeCardProps {
   recipe: Recipe
@@ -84,5 +85,39 @@ export function DishCard({ entry }: { entry: Entry }) {
         </span>
       </div>
     </Link>
+  )
+}
+
+/** 攻略里的家常做法：封面和摘录，点开仍去原帖 */
+export function HomeCookCard({ item }: { item: GuideItem }) {
+  return (
+    <article className={CARD}>
+      {item.cover ? (
+        <div className={PHOTO}>
+          <img
+            src={item.cover}
+            alt=""
+            width={640}
+            height={400}
+            loading="lazy"
+            className={PHOTO_IMG}
+          />
+        </div>
+      ) : null}
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <h3 className="font-serif text-lg leading-snug text-ink">{item.title}</h3>
+        {item.excerpt ? (
+          <p className="line-clamp-2 text-xs leading-5 text-muted">{item.excerpt}</p>
+        ) : null}
+        <a
+          href={item.noteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-auto inline-flex min-h-[44px] items-center text-sm text-coral no-underline hover:underline"
+        >
+          看原帖
+        </a>
+      </div>
+    </article>
   )
 }

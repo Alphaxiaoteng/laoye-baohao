@@ -25,8 +25,8 @@ export default function Footer() {
             <p className="exhibit-no">内容与边界</p>
             <ul className="mt-3 space-y-1.5 leading-7">
               <li>故事为原创虚构串联，不对应某地完整仪式流程。</li>
-              <li>站内内容与图示全部本地托管；外部链接只作来源署名与核对入口，不是内容终点。</li>
-              <li>条目均标注来源与核验状态，未核验内容会注明待补充。</li>
+              <li>站内内容、图示、照片与方言录音均自托管，不热链外部媒体。</li>
+              <li>条目保留核验状态，未核验内容会注明待补充。</li>
               <li>站内图示与互动都是示意，非某地标准。</li>
             </ul>
           </div>
@@ -47,11 +47,6 @@ export default function Footer() {
               <li>
                 <Link className="link-inline" to="/story">
                   故事线
-                </Link>
-              </li>
-              <li>
-                <Link className="link-inline" to="/sources">
-                  资料来源与核验状态
                 </Link>
               </li>
               <li>

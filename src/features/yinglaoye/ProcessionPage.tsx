@@ -109,7 +109,7 @@ export default function ProcessionPage() {
           </h2>
           <p className="text-sm leading-7 text-ink-soft">{part?.blurb}</p>
 
-          <h3 className="pt-1 text-sm font-semibold text-ink">来源里对应的条目</h3>
+          <h3 className="pt-1 text-sm font-semibold text-ink">相关条目</h3>
           {partEntries.length === 0 ? (
             <p className="text-sm text-muted">这一部分还没有已登记来源的条目，暂时只保留示意。</p>
           ) : (
@@ -135,7 +135,6 @@ export default function ProcessionPage() {
 
           {partSourceIds.length > 0 ? (
             <div className="space-y-2 border-t border-line pt-3">
-              <p className="text-xs text-muted">这一部分用到的来源</p>
               <SourceBadges ids={partSourceIds} />
             </div>
           ) : null}

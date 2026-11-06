@@ -4,26 +4,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 8787 深墨青空间：deep 主背景 / deep2 次级 / green 章节底 / coral 行动 / brown 标签
-        deep: '#243229',
-        deep2: '#2d3d31',
-        green: '#3f503b',
+        // 暖纸底：主背景 / 次级 / 强调绿可作章节点缀 / coral 行动 / brown 标签
+        deep: '#f4e8d8',
+        deep2: '#efe4d4',
+        green: '#4a5c42',
         coral: '#f04a3a',
         brown: '#de7622',
-        // 旧命名保留为深色主题别名，模块页不必逐个改类名
-        paper: '#243229',
-        cream: '#f2f1ea',
-        'cream-dark': '#2d3d31',
-        surface: '#2d3d31',
-        ink: '#f2f1ea',
-        'ink-soft': '#d3dbcf',
-        muted: '#bec8bb',
-        faint: '#9fae9c',
-        line: 'rgba(255,255,255,0.16)',
-        hover: 'rgba(255,255,255,0.08)',
-        pressed: 'rgba(255,255,255,0.14)',
+        paper: '#f4e8d8',
+        cream: '#fffdf8',
+        'cream-dark': '#e8dcc8',
+        surface: '#efe4d4',
+        ink: '#241c17',
+        'ink-soft': '#3d3129',
+        muted: '#4a3f36',
+        faint: '#6b5f54',
+        line: 'rgba(61,47,38,0.14)',
+        hover: 'rgba(61,47,38,0.08)',
+        pressed: 'rgba(61,47,38,0.12)',
         focus: '#f04a3a',
-        // 品牌行动色：主按钮、印章、当前步骤
         brick: '#f04a3a',
         'brick-dark': '#d63c2d',
       },

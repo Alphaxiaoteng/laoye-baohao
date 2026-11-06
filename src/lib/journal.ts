@@ -122,7 +122,7 @@ export function buildJournal(input: JournalInput): JournalReport {
   lines.push(
     '',
     '说明：本手记只记录你在本站的真实操作，不代表实地经历，也不代表已掌握某项技艺。',
-    '内容来源与核验状态见「资料来源」页。',
+    '内容核验状态以条目页展示为准。',
   )
 
   const isEmpty =

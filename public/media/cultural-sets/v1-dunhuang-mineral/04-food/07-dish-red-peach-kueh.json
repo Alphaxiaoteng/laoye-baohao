@@ -1,0 +1,12 @@
+{
+  "version": "v1-dunhuang-mineral",
+  "versionTitle": "版本一：敦煌藏经洞矿物重彩 × 宋刻本古籍留白风 (Dunhuang Mineral Pigment & Song Woodblock Print)",
+  "folder": "04-food",
+  "id": "07-dish-red-peach-kueh",
+  "title": "时节粿品·红桃粿与雕花木粿印",
+  "model": "gpt-image-2.6",
+  "size": "1024x1024",
+  "referenceImage": "public/media/home/hero/panel-food.webp",
+  "prompt": "Masterpiece traditional Chinese mineral pigment illustration on aged Dunhuang hemp-mulberry paper (#D9CBAF warm sand parchment texture), inspired by cave17.e-dunhuang.com and Song Dynasty fine woodblock book art (Lü Jingren editorial aesthetic). Natural ground mineral palette: cinnabar vermilion (#824239), azurite mineral blue-green (#536B66), raw ochre (#9A6B46), and delicate gold-leaf hairlines (#C8A464). Fine iron-wire ink linework (铁线描) with weathered mural patina, museum-grade editorial composition, 1:1 square aspect ratio, at least 45% negative parchment space around a single iconic subject, flat diffused archival lighting, strictly no text, no letters, no watermark, no modern UI. Subject: Three blush-pink Chaoshan Red Peach Rice Cakes (红桃粿) embossed with auspicious longevity patterns, placed beside a hand-carved wooden kueh mold.",
+  "generatedAt": "2026-11-06T13:45:03.683Z"
+}

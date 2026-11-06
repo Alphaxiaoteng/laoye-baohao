@@ -136,13 +136,11 @@ export default function FoodRecipePage() {
           <img
             src={image.src}
             alt={image.alt}
-            width={480}
-            height={300}
-            className="max-h-[420px] w-full rounded-2xl border border-line object-cover"
+            width={1024}
+            height={1024}
+            className="aspect-square w-full max-w-[480px] rounded-2xl border border-line bg-white object-contain"
           />
-          <figcaption className="text-xs text-muted">
-            实拍照片，作者与许可见 ASSETS.md；用料与步骤以文末来源为准。
-          </figcaption>
+          <figcaption className="text-xs text-muted">白底食物图，依据馆内实拍改绘。</figcaption>
         </figure>
       ) : null}
 
@@ -265,16 +263,10 @@ export default function FoodRecipePage() {
         </section>
       ) : null}
 
-      <section aria-labelledby="recipe-sources" className="space-y-3">
-        <h2 id="recipe-sources" className="section-title">
-          这份食谱的来源
-        </h2>
-        <div className="card">
-          <SourceList ids={recipe.sourceIds} />
-          <p className="mt-3 text-xs leading-5 text-muted">
-            用量与工序按来源逐条整理，未标注的营养成分本站不填。
-          </p>
-        </div>
+      <section className="card">
+        <p className="text-xs leading-5 text-muted">
+          用量与工序按内容库整理，未标注的营养成分本站不填。
+        </p>
       </section>
 
       <div className="flex flex-wrap items-center gap-3 border-t border-line pt-5">

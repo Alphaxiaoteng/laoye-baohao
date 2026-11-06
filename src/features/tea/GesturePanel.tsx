@@ -116,10 +116,7 @@ export default function GesturePanel({
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="chip text-brown">实验功能</span>
-        <span className="text-xs text-muted">可选增强，不影响点击流程</span>
-      </div>
+      <p className="text-xs text-muted">点按钮就能翻步。要改用手势，先开摄像头。</p>
 
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-line bg-deep">
         <video
@@ -169,7 +166,7 @@ export default function GesturePanel({
       <div className="flex flex-wrap items-center gap-3">
         {!enabled ? (
           <button type="button" className="btn-secondary" onClick={() => onEnabledChange(true)}>
-            开启摄像头（实验功能）
+            开启摄像头
           </button>
         ) : (
           <>

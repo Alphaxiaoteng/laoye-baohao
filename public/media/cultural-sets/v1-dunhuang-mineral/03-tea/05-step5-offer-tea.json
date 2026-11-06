@@ -1,0 +1,12 @@
+{
+  "version": "v1-dunhuang-mineral",
+  "versionTitle": "版本一：敦煌藏经洞矿物重彩 × 宋刻本古籍留白风 (Dunhuang Mineral Pigment & Song Woodblock Print)",
+  "folder": "03-tea",
+  "id": "05-step5-offer-tea",
+  "title": "五步之五·双手奉茶闻香品茗",
+  "model": "gpt-image-2.6",
+  "size": "1024x1024",
+  "referenceImage": "public/media/home/gdstwhg/tea-salon.webp",
+  "prompt": "Masterpiece traditional Chinese mineral pigment illustration on aged Dunhuang hemp-mulberry paper (#D9CBAF warm sand parchment texture), inspired by cave17.e-dunhuang.com and Song Dynasty fine woodblock book art (Lü Jingren editorial aesthetic). Natural ground mineral palette: cinnabar vermilion (#824239), azurite mineral blue-green (#536B66), raw ochre (#9A6B46), and delicate gold-leaf hairlines (#C8A464). Fine iron-wire ink linework (铁线描) with weathered mural patina, museum-grade editorial composition, 1:1 square aspect ratio, at least 45% negative parchment space around a single iconic subject, flat diffused archival lighting, strictly no text, no letters, no watermark, no modern UI. Subject: Gongfu Tea Step 5 (敬茶闻香): a single tiny white porcelain cup filled with luminous amber tea resting on a brass saucer, fragrant steam curling upward.",
+  "generatedAt": "2026-11-06T13:40:25.666Z"
+}

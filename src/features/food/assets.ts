@@ -1,9 +1,9 @@
 /**
  * 美食模块素材映射。
  *
- * 菜品图一律用 `public/media/photos/` 里的实拍照片（Wikimedia Commons，CC 授权），
- * 不再用自绘 SVG 冒充菜品照片。作者、许可与原始页面逐张登记在 ASSETS.md。
- * 分步图仍是本站自绘 SVG，只用来指示动作，不当成成品照片。
+ * 页面上的食物图在 `public/media/food/white/`：白底、1:1，按馆内实拍改绘。
+ * 原实拍仍留在 `public/media/photos/`，作者与许可登记在 ASSETS.md。
+ * `illus-*.webp` 与 `dish-*.svg`、`step-*.svg` 不再给页面用。
  */
 
 export interface FoodImage {
@@ -11,37 +11,44 @@ export interface FoodImage {
   alt: string
 }
 
-/** 菜品卡片图：真实照片 */
+/** 菜品卡片图：白底食物图 */
 export const DISH_IMAGES: Record<string, FoodImage> = {
   'food-beef-ball': {
-    src: '/media/photos/food-beef-ball-soup.jpg',
-    alt: '实拍：一碗牛肉丸汤，汤面浮着几颗牛肉丸',
+    src: '/media/food/white/food-beef-ball.webp',
+    alt: '白底：一碗牛肉丸汤',
   },
   'food-kway-teow': {
-    src: '/media/photos/food-kway-teow.jpg',
-    alt: '实拍：一碗粿条汤，粿条配肉料与青菜',
+    src: '/media/food/white/food-kway-teow.webp',
+    alt: '白底：一叠粿条',
   },
   'food-braised-goose': {
-    src: '/media/photos/food-braised-goose.jpg',
-    alt: '实拍：切件装盘的潮州卤鹅',
+    src: '/media/food/white/recipe-chaozhou-braised-goose/step-07.webp',
+    alt: '白底：切件卤鹅与蒜泥醋',
   },
   'recipe-beef-kway-teow-soup': {
-    src: '/media/photos/food-beef-kway-teow.jpg',
-    alt: '实拍：潮汕牛肉丸粿条汤，牛肉丸与粿条浸在清汤里',
+    src: '/media/food/white/recipe-beef-kway-teow-soup/step-06.webp',
+    alt: '白底：一碗牛肉粿条汤',
   },
   'recipe-chaozhou-beef-ball': {
-    src: '/media/photos/food-beef-ball-soup.jpg',
-    alt: '实拍：一碗牛肉丸汤，汤面浮着几颗牛肉丸',
+    src: '/media/food/white/recipe-chaozhou-beef-ball/step-08.webp',
+    alt: '白底：凉在架子上的牛肉丸',
   },
   'recipe-chaoshan-hao-lao': {
-    src: '/media/photos/food-oyster-omelette.jpg',
-    alt: '实拍：一盘蚝烙，表面煎得金黄，蚝粒嵌在蛋饼里',
+    src: '/media/food/white/recipe-chaoshan-hao-lao/step-07.webp',
+    alt: '白底：装盘的蚝烙',
   },
   'recipe-chaozhou-braised-goose': {
-    src: '/media/photos/food-braised-goose.jpg',
-    alt: '实拍：切件装盘的潮州卤鹅',
+    src: '/media/food/white/recipe-chaozhou-braised-goose/step-07.webp',
+    alt: '白底：切件卤鹅与蒜泥醋',
   },
 }
+
+const STEP_DIRS = new Set([
+  'recipe-beef-kway-teow-soup',
+  'recipe-chaozhou-beef-ball',
+  'recipe-chaoshan-hao-lao',
+  'recipe-chaozhou-braised-goose',
+])
 
 /** 分步示意图，下标与步骤序号对应（自绘 SVG，只指示动作） */
 export const STEP_IMAGES: FoodImage[] = [
@@ -76,7 +83,14 @@ export function dishImage(id: string | undefined): FoodImage | undefined {
   return DISH_IMAGES[id]
 }
 
-export function stepImage(index: number): FoodImage | undefined {
+export function stepImage(index: number, recipeId?: string): FoodImage | undefined {
   if (!Number.isInteger(index) || index < 0) return undefined
+  if (recipeId && STEP_DIRS.has(recipeId)) {
+    const n = String(index + 1).padStart(2, '0')
+    return {
+      src: `/media/food/white/${recipeId}/step-${n}.webp`,
+      alt: `白底步骤图 ${n}`,
+    }
+  }
   return STEP_IMAGES[index]
 }
