@@ -12,6 +12,7 @@ const LINKS = [
   { to: '/guide', label: '攻略' },
   { to: '/docs', label: '历史介绍' },
   { to: '/skill', label: 'Skill' },
+  { to: '/admin', label: '后台' },
 ]
 
 export default function Nav() {
@@ -69,6 +70,7 @@ export default function Nav() {
                 [
                   'site-nav-link',
                   link.to === '/skill' ? 'site-nav-link-en' : 'site-nav-link-cn',
+                  link.to === '/admin' ? 'site-nav-admin' : '',
                   isActive ? 'is-active' : '',
                 ].join(' ')
               }

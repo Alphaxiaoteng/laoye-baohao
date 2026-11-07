@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { usePageContext, usePageTitle } from '../../../lib/usePageContext'
-import { sourcesOfModule } from '../../../lib/content'
-import { SourceList } from '../../../components/SourceBadge'
 import { FormationStage } from '../components/FormationStage'
 import { TEAM_ROLES } from '../data'
 import './yingge-home.css'

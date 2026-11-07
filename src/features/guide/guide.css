@@ -680,6 +680,62 @@
   }
 }
 
+/* ---------- 微动效（只动 transform / opacity / stroke-dashoffset） ---------- */
+
+@keyframes guide-track-flow {
+  to { stroke-dashoffset: -24; }
+}
+
+.guide-route-track {
+  animation: guide-track-flow 6s linear infinite;
+}
+
+@keyframes guide-stop-in {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.guide-route-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: guide-stop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: var(--stop-delay, 0s);
+}
+
+@keyframes guide-flag-sway {
+  0%,
+  100% { transform: rotate(0deg); }
+  50% { transform: rotate(-5deg); }
+}
+
+.guide-route-flag {
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  animation: guide-flag-sway 2.8s ease-in-out infinite;
+}
+
+/* 美食线稿：悬停时描边重绘一次，同时轻微弹跳 */
+.guide-food-glyph {
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.guide-food-item:hover .guide-food-glyph {
+  transform: translateY(-1.5px) scale(1.06);
+}
+
+.guide-food-glyph :is(path, circle, rect) {
+  stroke-dasharray: 200;
+}
+
+@keyframes guide-glyph-redraw {
+  from { stroke-dashoffset: 200; }
+  to { stroke-dashoffset: 0; }
+}
+
+.guide-food-item:hover .guide-food-glyph :is(path, circle, rect) {
+  animation: guide-glyph-redraw 0.85s ease-out both;
+}
+
 /* 尊重系统减少动效设置 */
 @media (prefers-reduced-motion: reduce) {
   .guide-page,

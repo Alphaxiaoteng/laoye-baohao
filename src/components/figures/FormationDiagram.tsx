@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 interface Props {
   variant?: 'square' | 'double' | 'ring'
   className?: string
@@ -48,11 +50,13 @@ export default function FormationDiagram({ variant = 'square', className = '' }:
               [0, 1, 2, 3].map((col) => (
                 <circle
                   key={`${row}-${col}`}
+                  className="figure-dot"
                   cx={84 + col * 44}
                   cy={48 + row * 34}
                   r="9"
                   fill="#A63A2B"
                   opacity={0.8}
+                  style={{ '--dot-delay': `${((row * 4 + col) * 0.045).toFixed(2)}s` } as CSSProperties}
                 />
               )),
             )
@@ -61,8 +65,24 @@ export default function FormationDiagram({ variant = 'square', className = '' }:
         {variant === 'double'
           ? [0, 1, 2, 3, 4].map((i) => (
               <g key={i}>
-                <circle cx={90 + i * 30} cy={64} r="9" fill="#A63A2B" opacity={0.8} />
-                <circle cx={90 + i * 30} cy={112} r="9" fill="#2F4A3A" opacity={0.8} />
+                <circle
+                  className="figure-dot"
+                  cx={90 + i * 30}
+                  cy={64}
+                  r="9"
+                  fill="#A63A2B"
+                  opacity={0.8}
+                  style={{ '--dot-delay': `${(i * 0.09).toFixed(2)}s` } as CSSProperties}
+                />
+                <circle
+                  className="figure-dot"
+                  cx={90 + i * 30}
+                  cy={112}
+                  r="9"
+                  fill="#2F4A3A"
+                  opacity={0.8}
+                  style={{ '--dot-delay': `${(0.05 + i * 0.09).toFixed(2)}s` } as CSSProperties}
+                />
               </g>
             ))
           : null}
@@ -73,11 +93,13 @@ export default function FormationDiagram({ variant = 'square', className = '' }:
               return (
                 <circle
                   key={i}
+                  className="figure-dot"
                   cx={160 + Math.cos(angle) * 74}
                   cy={96 + Math.sin(angle) * 56}
                   r="8"
                   fill={i % 3 === 0 ? '#2F4A3A' : '#A63A2B'}
                   opacity={0.8}
+                  style={{ '--dot-delay': `${(i * 0.045).toFixed(2)}s` } as CSSProperties}
                 />
               )
             })

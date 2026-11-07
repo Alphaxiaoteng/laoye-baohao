@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 /**
  * 听潮四类的结构图：每个圆点代表一条词条。
  * 只表达「分类」与「数量」，不画声波、不表示时长——录音授权状态按词条内容标注。
@@ -46,13 +48,23 @@ export default function ListenMap({ groups, total }: { groups: ListenGroupView[]
                     cx={cx - 36 + (dot % COLUMNS) * 24}
                     cy={96 + Math.floor(dot / COLUMNS) * 18}
                     r="5"
+                    style={
+                      {
+                        '--dot-delay': `${(index * 0.06 + dot * 0.045).toFixed(3)}s`,
+                      } as CSSProperties
+                    }
                   />
                 ))
               )}
               <text className="dl-count" x={cx} y={countY} textAnchor="middle">
                 {group.count} 条
               </text>
-              <path className="dl-leader" d={`M${cx} ${countY + 10} V206`} />
+              <path
+                className="dl-leader"
+                pathLength={1}
+                d={`M${cx} ${countY + 10} V206`}
+                style={{ '--leader-delay': `${(0.25 + index * 0.08).toFixed(2)}s` } as CSSProperties}
+              />
             </g>
           )
         })}

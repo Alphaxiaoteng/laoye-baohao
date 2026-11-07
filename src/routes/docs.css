@@ -542,7 +542,6 @@
   stroke: var(--line);
   stroke-width: 1.2;
 }
-
 .dt-arrow {
   fill: var(--faint);
 }
@@ -1397,5 +1396,295 @@
 
   .docs-phrase-text {
     font-size: 1.55rem;
+  }
+}
+/* ---------- 微动效（只动 transform / opacity / stroke-dashoffset） ---------- */
+
+@keyframes dg-dot-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* SVG 里做缩放必须按自身包围盒定原点，否则会绕整个画布缩放 */
+.dg-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dg-dot-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+/* 英歌鼓点：按板内序号错拍点亮 */
+@keyframes dg-beat-pulse {
+  0%,
+  54%,
+  100% { transform: scale(1); opacity: var(--dg-beat-opacity, 0.85); }
+  16% { transform: scale(1.36); opacity: 1; }
+}
+
+.dg-beat {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dg-beat-pulse 2.2s ease-in-out infinite;
+  animation-delay: var(--beat-delay, 0s);
+}
+
+.dg-beat.is-accent {
+  --dg-beat-opacity: 1;
+}
+
+/* 双槌：两臂各绕自己的柄端微幅对击 */
+@keyframes dg-club-a {
+  0%,
+  100% { transform: rotate(0deg); }
+  45% { transform: rotate(-6deg); }
+}
+
+@keyframes dg-club-b {
+  0%,
+  100% { transform: rotate(0deg); }
+  45% { transform: rotate(6deg); }
+}
+
+.dg-club-arm {
+  transform-box: fill-box;
+}
+
+.dg-club-arm.is-a {
+  transform-origin: 0% 100%;
+  animation: dg-club-a 1.9s ease-in-out infinite;
+}
+
+.dg-club-arm.is-b {
+  transform-origin: 100% 100%;
+  animation: dg-club-b 1.9s ease-in-out infinite;
+}
+
+/* 英歌阵形：点位只换 transform，切换时弹性过渡 */
+.dg-dot-slot {
+  transition:
+    transform 460ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 200ms ease;
+}
+
+@keyframes dg-ground-flow {
+  to { stroke-dashoffset: -20; }
+}
+
+.dg-ground {
+  animation: dg-ground-flow 5.5s linear infinite;
+}
+
+@keyframes dg-arrow-breathe {
+  0%,
+  100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+.dg-drill-arrow {
+  animation: dg-arrow-breathe 2.8s ease-in-out infinite;
+}
+
+/* 鼓位扩散波纹 */
+@keyframes dg-ripple-out {
+  0% { transform: scale(1); opacity: 0.55; }
+  70% { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+.dg-ripple {
+  fill: none;
+  stroke: var(--brown);
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dg-ripple-out 2.4s ease-out infinite;
+}
+
+.dg-ripple.is-late {
+  animation-delay: 1.2s;
+}
+
+/* 工夫茶：七环依次淡入上浮，glyph 柔和浮动 */
+@keyframes dt-step-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dt-step {
+  animation: dt-step-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: var(--step-delay, 0s);
+}
+
+@keyframes dt-glyph-float {
+  0%,
+  100% { transform: translateY(0); }
+  50% { transform: translateY(-2.5px); }
+}
+
+.dt-glyph-inner {
+  animation: dt-glyph-float 4.4s ease-in-out infinite;
+  animation-delay: var(--glyph-delay, 0s);
+}
+
+@keyframes dt-steam-flow {
+  to { stroke-dashoffset: -8; }
+}
+
+.dt-steam {
+  animation: dt-steam-flow 2.4s linear infinite;
+}
+
+@keyframes dt-link-flow {
+  to { stroke-dashoffset: -16; }
+}
+
+.dt-link {
+  stroke-dasharray: 4 4;
+  animation: dt-link-flow 3s linear infinite;
+}
+
+/* 美食关系图：悬停微抬升 + 连线流动光点 */
+.df-col {
+  transition: transform 180ms ease;
+}
+
+.df-col:hover {
+  transform: translateY(-3px);
+}
+
+@keyframes df-link-flow {
+  to { stroke-dashoffset: -20; }
+}
+
+.df-link {
+  stroke-dasharray: 5 5;
+  animation: df-link-flow 1.9s linear infinite;
+}
+
+/* 营老爷队伍：节点周期性行进浮动，旗与灯轻摆，案例胶囊悬停高亮 */
+@keyframes dp-float {
+  0%,
+  100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.dp-float {
+  animation: dp-float 5.2s ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
+.dp-sway {
+  transform-box: fill-box;
+}
+
+@keyframes dp-sway-flag {
+  0%,
+  100% { transform: rotate(0deg); }
+  50% { transform: rotate(-4deg); }
+}
+
+@keyframes dp-sway-lantern {
+  0%,
+  100% { transform: rotate(0deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.dp-sway.is-flag {
+  transform-origin: 0% 100%;
+  animation: dp-sway-flag 3.4s ease-in-out infinite;
+}
+
+.dp-sway.is-lantern {
+  transform-origin: 50% 0%;
+  animation: dp-sway-lantern 3.8s ease-in-out infinite;
+}
+
+.dp-ornament {
+  fill: none;
+  stroke: var(--brown);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.dp-ornament-fill {
+  fill: var(--coral);
+  opacity: 0.55;
+  stroke: none;
+}
+
+.dp-case {
+  transition: fill 180ms ease, stroke 180ms ease;
+}
+
+.dp-case-item:hover .dp-case,
+.dp-case-item:focus-within .dp-case {
+  fill: rgba(240, 74, 58, 0.1);
+  stroke: var(--coral);
+}
+
+/* 听潮：圆点错落生长入场，引导线平滑延伸 */
+@keyframes dl-dot-in {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 0.78; }
+}
+
+.dl-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dl-dot-in 0.46s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: var(--dot-delay, 0s);
+}
+
+@keyframes dl-leader-grow {
+  to { stroke-dashoffset: 0; }
+}
+
+.dl-leader {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: dl-leader-grow 0.7s ease-out forwards;
+  animation-delay: var(--leader-delay, 0.2s);
+}
+
+/* 章节头淡入 */
+@keyframes docs-chapter-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.docs-chapter-head {
+  animation: docs-chapter-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dg-dot,
+  .dg-beat,
+  .dg-club-arm,
+  .dg-dot-slot,
+  .dg-ground,
+  .dg-drill-arrow,
+  .dg-ripple,
+  .dt-step,
+  .dt-glyph-inner,
+  .dt-steam,
+  .dt-link,
+  .df-col,
+  .df-link,
+  .dp-float,
+  .dp-sway,
+  .dp-case,
+  .dl-dot,
+  .dl-leader,
+  .docs-chapter-head {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .dl-leader {
+    stroke-dashoffset: 0;
+  }
+
+  .df-col:hover {
+    transform: none;
   }
 }

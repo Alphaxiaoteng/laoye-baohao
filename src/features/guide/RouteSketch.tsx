@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { GuideRouteSegment } from './knowledge'
 
 /**
@@ -72,7 +73,11 @@ export default function RouteSketch({
             const x = stopX(i)
             const last = i === segment.stops.length - 1
             return (
-              <g key={`${stop.label}-${i}`} className="guide-route-stop">
+              <g
+                key={`${stop.label}-${i}`}
+                className="guide-route-stop"
+                style={{ '--stop-delay': `${(i * 0.09).toFixed(2)}s` } as CSSProperties}
+              >
                 <circle className="guide-route-dot" cx={x} cy={AXIS_Y} r={NODE_R} />
                 <text className="guide-route-no" x={x} y={AXIS_Y + 5} textAnchor="middle">
                   {i + 1}

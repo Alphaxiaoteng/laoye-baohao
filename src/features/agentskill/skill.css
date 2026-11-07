@@ -45,9 +45,20 @@
   font: 600 14px/1.2 inherit;
   cursor: pointer;
   appearance: none;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 200ms ease;
 }
 
-.skill-agent:hover { color: var(--ink); background: var(--hover); }
+.skill-agent:hover {
+  color: var(--ink);
+  background: var(--hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(36, 28, 23, 0.08);
+}
 .skill-agent.is-active { border-color: var(--coral); color: var(--ink); background: #fff; }
 .skill-agent:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
 .skill-agent-logo { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
@@ -100,6 +111,25 @@
   font: 400 15px/1.75 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 .skill-command > span { flex: none; color: #7dcea0; font-weight: 700; }
+
+/* $ 旁边的柔和闪烁光标 */
+.skill-caret {
+  flex: none;
+  width: 7px;
+  height: 1.1em;
+  margin-right: 1px;
+  border-radius: 1px;
+  background: #f6efe6;
+  animation: skill-caret-blink 1.15s steps(1, end) infinite;
+}
+
+@keyframes skill-caret-blink {
+  0%,
+  54% { opacity: 1; }
+  55%,
+  100% { opacity: 0.12; }
+}
+
 .skill-caption { margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 
 .skill-cases { margin-top: 56px; }
@@ -114,7 +144,16 @@
 .skill-cases-head > p { max-width: 36rem; margin: 10px 0 0; color: var(--ink-soft); font-size: 15px; line-height: 1.7; }
 
 .skill-thread { display: flex; flex-direction: column; gap: 28px; margin-top: 28px; }
-.skill-exchange { display: flex; flex-direction: column; gap: 10px; }
+.skill-exchange {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.skill-exchange:hover {
+  transform: translateY(-2px);
+}
 
 .skill-user {
   margin: 0 0 0 auto;
@@ -138,6 +177,12 @@
   background: var(--paper);
   padding: 12px 14px;
   color: var(--ink);
+  transition: border-color 180ms ease, box-shadow 220ms ease;
+}
+
+.skill-exchange:hover .skill-reply {
+  border-color: var(--coral);
+  box-shadow: 0 12px 26px rgba(240, 74, 58, 0.12);
 }
 .skill-reply p { margin: 0; font-size: 14px; line-height: 1.75; }
 .skill-reply-link { display: inline-block; margin-top: 8px; font-size: 13px; }
@@ -148,4 +193,23 @@
   .skill-command { font-size: 13px; }
   .skill-user,
   .skill-reply { max-width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-caret,
+  .skill-agent,
+  .skill-exchange,
+  .skill-reply {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .skill-caret {
+    opacity: 1;
+  }
+
+  .skill-agent:hover,
+  .skill-exchange:hover {
+    transform: none;
+  }
 }

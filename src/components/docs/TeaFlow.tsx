@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 /**
  * 工夫茶冲泡环节的关系示意。
@@ -56,7 +56,7 @@ const STEPS: BrewStep[] = [
         <path d="M4 12.6h9.2l-1.4 5.6H5.6z" />
         <path d="M13 13.4h2.6l2.4-5.2" />
         <path d="M6.2 12.4V9.8" />
-        <path d="M17.6 5.6c1.6 1.8 2.2 3.6 2 5.4" strokeDasharray="2 2" />
+        <path d="M17.6 5.6c1.6 1.8 2.2 3.6 2 5.4" strokeDasharray="2 2" className="dt-steam" />
       </g>
     ),
   },
@@ -68,7 +68,7 @@ const STEPS: BrewStep[] = [
         <path d="M6.4 13.6c.7 3.8 2.5 6.2 5.6 6.2s4.9-2.4 5.6-6.2" />
         <path d="M9 10.6c2-1.6 4.2-2.2 6.4-2" />
         <path d="M17.6 9.2l2.6-1.8" />
-        <path d="M19.2 13.8c0-1.6.6-2.8 1.6-3.6" strokeDasharray="2 2" />
+        <path d="M19.2 13.8c0-1.6.6-2.8 1.6-3.6" strokeDasharray="2 2" className="dt-steam" />
       </g>
     ),
   },
@@ -119,10 +119,19 @@ export default function TeaFlow() {
           const y = 26
           const sub = index + 1
           return (
-            <g key={step.name}>
+            <g
+              key={step.name}
+              className="dt-step"
+              style={{ '--step-delay': `${(index * 0.09).toFixed(2)}s` } as CSSProperties}
+            >
               <rect className="dt-node" x={x} y={y} width={158} height={66} rx="10" />
               <g transform={`translate(${x + 12} ${y + 21})`} className="dt-glyph">
-                {step.glyph}
+                <g
+                  className="dt-glyph-inner"
+                  style={{ '--glyph-delay': `${(index * 0.35).toFixed(2)}s` } as CSSProperties}
+                >
+                  {step.glyph}
+                </g>
               </g>
               <text className="dt-index" x={x + 12} y={y + 58}>
                 {String(sub).padStart(2, '0')}
@@ -131,11 +140,7 @@ export default function TeaFlow() {
                 {step.name}
               </text>
               {index < ROW_ONE.length - 1 ? (
-                <path
-                  className="dt-link"
-                  d={`M${x + 162} ${y + 33} H${x + 172}`}
-                  markerEnd="url(#tea-arrow)"
-                />
+                <path className="dt-link" d={`M${x + 162} ${y + 33} H${x + 172}`} markerEnd="url(#tea-arrow)" />
               ) : null}
             </g>
           )
@@ -149,10 +154,19 @@ export default function TeaFlow() {
           const y = 152
           const sub = index + 5
           return (
-            <g key={step.name}>
+            <g
+              key={step.name}
+              className="dt-step"
+              style={{ '--step-delay': `${(0.4 + index * 0.09).toFixed(2)}s` } as CSSProperties}
+            >
               <rect className="dt-node" x={x} y={y} width={158} height={66} rx="10" />
               <g transform={`translate(${x + 12} ${y + 21})`} className="dt-glyph">
-                {step.glyph}
+                <g
+                  className="dt-glyph-inner"
+                  style={{ '--glyph-delay': `${(index * 0.35).toFixed(2)}s` } as CSSProperties}
+                >
+                  {step.glyph}
+                </g>
               </g>
               <text className="dt-index" x={x + 12} y={y + 58}>
                 {String(sub).padStart(2, '0')}
@@ -161,11 +175,7 @@ export default function TeaFlow() {
                 {step.name}
               </text>
               {index < ROW_TWO.length - 1 ? (
-                <path
-                  className="dt-link"
-                  d={`M${x + 162} ${y + 33} H${x + 172}`}
-                  markerEnd="url(#tea-arrow)"
-                />
+                <path className="dt-link" d={`M${x + 162} ${y + 33} H${x + 172}`} markerEnd="url(#tea-arrow)" />
               ) : null}
             </g>
           )

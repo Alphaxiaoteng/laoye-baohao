@@ -106,7 +106,7 @@ export default function SkillPage() {
               {copied ? <IconCheck /> : <IconCopy />}<span>{copied ? '已复制' : '复制这句话'}</span>
             </button>
           </div>
-          <code className="skill-command"><span aria-hidden="true">$</span>{command}</code>
+          <code className="skill-command"><span aria-hidden="true">$</span><i className="skill-caret" aria-hidden="true" />{command}</code>
         </div>
         <p className="skill-caption">复制后贴到 {agent.label}。目标文件夹会跟着上面的选择变。</p>
       </section>

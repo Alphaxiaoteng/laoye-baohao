@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 /**
  * 英歌鼓点循环示意。
  * 循环数与槌数取自 content/entries.yingge.json 的「慢板、中板、快板：节奏怎么分」条目；
@@ -16,6 +18,9 @@ const CYCLES: Cycle[] = [
   { name: '快板', beats: 7, detail: '7 下鼓点一循环 · 分对打套式、南山文派与南山武派' },
 ]
 
+/** 每个圆点按「板内序号」延迟点亮，同一板里形成一次循环脉冲 */
+const beatDelay = (row: number, index: number) => `${(index * 0.22 + row * 0.11).toFixed(2)}s`
+
 export default function YinggeBeat() {
   return (
     <div className="docs-svg-scroll is-wide">
@@ -23,11 +28,15 @@ export default function YinggeBeat() {
         <title id="beat-title">英歌鼓点循环示意：慢板三下、中板五下、快板七下</title>
         <rect className="dg-frame" x="0" y="0" width="560" height="250" rx="12" />
 
-        {/* 双槌互击的小图示 */}
+        {/* 双槌互击的小图示：两只槌各绕自己的柄端微幅对击 */}
         <g transform="translate(474 28)">
           <g className="dg-club">
-            <path d="M6 38 L34 6" />
-            <path d="M34 38 L6 6" />
+            <g className="dg-club-arm is-a">
+              <path d="M6 38 L34 6" />
+            </g>
+            <g className="dg-club-arm is-b">
+              <path d="M34 38 L6 6" />
+            </g>
           </g>
           <circle className="dg-dot" cx="6" cy="38" r="4" />
           <circle className="dg-dot" cx="34" cy="6" r="4" />
@@ -48,10 +57,11 @@ export default function YinggeBeat() {
               {Array.from({ length: cycle.beats }, (_, index) => (
                 <circle
                   key={index}
-                  className={index === 0 ? 'dg-dot is-accent' : 'dg-dot'}
+                  className={index === 0 ? 'dg-dot dg-beat is-accent' : 'dg-dot dg-beat'}
                   cx={100 + index * 26}
                   cy={y}
                   r="8"
+                  style={{ '--beat-delay': beatDelay(row, index) } as CSSProperties}
                 />
               ))}
               <text className="dg-caption" x="100" y={y + 26}>

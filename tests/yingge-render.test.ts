@@ -57,7 +57,7 @@ describe('英歌模块页面可以渲染', () => {
     expect(html).toContain('后退')
     expect(html).toContain('前进')
     expect(html).toContain('返回')
-    expect(html).toContain('本页依据')
+    expect(html).toContain('继续探索')
     expect(html).not.toContain('进入第二页')
     expect(html).not.toContain('id="story"')
     expect(html).not.toContain('从「捣珍」到广场')

@@ -93,6 +93,9 @@ const FORMATIONS: Formation[] = [
   },
 ]
 
+/** 点位槽位固定为最多点数的阵形，切换阵形时同一批 DOM 只换 transform，才能平滑过渡 */
+const MAX_POINTS = FORMATIONS.reduce((max, item) => Math.max(max, item.points.length), 0)
+
 export default function YinggeDrill() {
   const [activeId, setActiveId] = useState(FORMATIONS[0].id)
   const active = FORMATIONS.find((item) => item.id === activeId) ?? FORMATIONS[0]
@@ -119,16 +122,39 @@ export default function YinggeDrill() {
             <title id="drill-title">英歌阵形点位示意：{active.name}</title>
             <rect className="dg-frame" x="0" y="0" width="360" height="270" rx="12" />
             <path className="dg-ground" d="M24 244 H336" />
-            <text className="dg-axis" x="24" y="260">
-              前进方向 →
-            </text>
-            {active.points.map((point, index) => (
-              <circle key={`${active.id}-${index}`} className="dg-dot" cx={point.x} cy={point.y} r="7" />
-            ))}
+            <g className="dg-drill-arrow">
+              <text className="dg-axis" x="24" y="260">
+                前进方向 →
+              </text>
+            </g>
+            {Array.from({ length: MAX_POINTS }, (_, index) => {
+              const point = active.points[index]
+              // 多余槽位停在最后一个点位上缩起来，避免从原点飞入
+              const anchor = point ?? active.points[active.points.length - 1]
+              return (
+                <g
+                  key={index}
+                  className="dg-dot-slot"
+                  style={{
+                    transform: `translate(${anchor.x.toFixed(2)}px, ${anchor.y.toFixed(2)}px)`,
+                    opacity: point ? 1 : 0,
+                  }}
+                >
+                  <circle className="dg-dot" r="7" />
+                </g>
+              )
+            })}
             {active.drum ? (
-              <g>
-                <circle className="dg-drum" cx={active.drum.x} cy={active.drum.y} r="12" />
-                <text className="dg-drum-label" x={active.drum.x} y={active.drum.y + 4}>
+              <g
+                className="dg-drum-group"
+                style={{
+                  transform: `translate(${active.drum.x.toFixed(2)}px, ${active.drum.y.toFixed(2)}px)`,
+                }}
+              >
+                <circle className="dg-ripple" r="12" />
+                <circle className="dg-ripple is-late" r="12" />
+                <circle className="dg-drum" r="12" />
+                <text className="dg-drum-label" x="0" y="4">
                   鼓
                 </text>
               </g>

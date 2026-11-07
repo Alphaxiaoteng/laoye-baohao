@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 interface Props {
   className?: string
 }
@@ -22,13 +24,23 @@ export default function ProcessionDiagram({ className = '' }: Props) {
         className="h-auto w-full rounded-xl border border-line bg-cream-dark/40"
       >
         <path d="M16 118 H304" stroke="#D9CFBF" strokeWidth="2" strokeDasharray="6 6" />
-        <path d="M272 118 l12 0 m-6 -4 l6 4 l-6 4" stroke="#6B6156" strokeWidth="2" fill="none" />
+        <path
+          className="figure-flow"
+          d="M272 118 l12 0 m-6 -4 l6 4 l-6 4"
+          stroke="#6B6156"
+          strokeWidth="2"
+          fill="none"
+        />
         <text x="16" y="138" fontSize="10" fill="#6B6156">
           行进方向（示意）
         </text>
 
-        {blocks.map((b) => (
-          <g key={b.label}>
+        {blocks.map((b, index) => (
+          <g
+            key={b.label}
+            className="figure-block"
+            style={{ '--block-delay': `${(index * 0.35).toFixed(2)}s` } as CSSProperties}
+          >
             <rect
               x={b.x}
               y={48}

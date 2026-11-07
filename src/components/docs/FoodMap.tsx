@@ -68,33 +68,39 @@ export default function FoodMap({ recipes }: { recipes: Recipe[] }) {
           const y = 60 + row.index * 84
           return (
             <g key={row.id}>
-              <rect className="df-node" x="16" y={y} width="232" height="66" rx="10" />
-              <text className="df-main" x="30" y={y + 27}>
-                {row.foodList}
-              </text>
-              <text className="df-sub" x="30" y={y + 50}>
-                共 {row.total} 种
-              </text>
+              <g className="df-col">
+                <rect className="df-node" x="16" y={y} width="232" height="66" rx="10" />
+                <text className="df-main" x="30" y={y + 27}>
+                  {row.foodList}
+                </text>
+                <text className="df-sub" x="30" y={y + 50}>
+                  共 {row.total} 种
+                </text>
+              </g>
 
               <path className="df-link" d={`M252 ${y + 33} H288`} markerEnd="url(#food-arrow)" />
 
-              <rect className="df-node is-mid" x="292" y={y} width="196" height="66" rx="10" />
-              <text className="df-main" x="306" y={y + 27}>
-                {row.action}
-              </text>
-              <text className="df-sub" x="306" y={y + 50}>
-                {row.steps} 步
-              </text>
+              <g className="df-col">
+                <rect className="df-node is-mid" x="292" y={y} width="196" height="66" rx="10" />
+                <text className="df-main" x="306" y={y + 27}>
+                  {row.action}
+                </text>
+                <text className="df-sub" x="306" y={y + 50}>
+                  {row.steps} 步
+                </text>
+              </g>
 
               <path className="df-link" d={`M492 ${y + 33} H528`} markerEnd="url(#food-arrow)" />
 
-              <rect className="df-node is-dish" x="532" y={y} width="212" height="66" rx="10" />
-              <text className="df-dish" x="546" y={y + 28}>
-                {row.name}
-              </text>
-              <text className="df-sub" x="546" y={y + 50}>
-                {row.region}
-              </text>
+              <g className="df-col">
+                <rect className="df-node is-dish" x="532" y={y} width="212" height="66" rx="10" />
+                <text className="df-dish" x="546" y={y + 28}>
+                  {row.name}
+                </text>
+                <text className="df-sub" x="546" y={y + 50}>
+                  {row.region}
+                </text>
+              </g>
             </g>
           )
         })}

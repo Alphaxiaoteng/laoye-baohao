@@ -70,9 +70,10 @@ export function BeatTap() {
           <span
             key={i}
             className={[
-              'h-6 w-6 rounded-full border',
+              'beat-pip h-6 w-6 rounded-full border',
               i < hits ? 'border-brick bg-brick/70' : 'border-line bg-white/70',
             ].join(' ')}
+            data-lit={i < hits ? 'true' : 'false'}
           />
         ))}
       </div>

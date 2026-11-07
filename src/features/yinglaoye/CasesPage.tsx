@@ -118,9 +118,6 @@ export default function CasesPage() {
                           条目全文与说明 →
                         </Link>
                       </td>
-                      <td className="px-4 py-4">
-                        <SourceBadges ids={meta.sourceIds} className="flex-col items-start" />
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -149,12 +146,6 @@ export default function CasesPage() {
                             <li key={point}>{point}</li>
                           ))}
                         </ul>
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="text-xs font-medium text-muted">来源</dt>
-                      <dd className="mt-1">
-                        <SourceBadges ids={meta.sourceIds} />
                       </dd>
                     </div>
                   </dl>
