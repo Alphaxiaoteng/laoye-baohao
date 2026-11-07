@@ -1,9 +1,9 @@
 .admin-shell {
-  --admin-bg: #f4e8d8;
-  --admin-panel: #fcf9f2;
-  --admin-line: rgba(36, 28, 23, 0.14);
+  --admin-bg: #fdfaf6;
+  --admin-panel: #ffffff;
+  --admin-line: rgba(36, 28, 23, 0.08);
   --admin-text: #241c17;
-  --admin-muted: #6b5f54;
+  --admin-muted: #786e66;
   --admin-accent: #de7622;
   display: grid;
   grid-template-columns: 248px minmax(0, 1fr);
@@ -13,7 +13,7 @@
   color: var(--admin-text);
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
 }
-.admin-rail { position: sticky; top: calc(var(--nav-h) + 1rem); display: flex; height: calc(100dvh - var(--nav-h) - 1rem); flex-direction: column; padding: 30px 16px 24px; border-right: 1px solid var(--admin-line); background: #efe4d4; }
+.admin-rail { position: sticky; top: calc(var(--nav-h) + 1rem); display: flex; height: calc(100dvh - var(--nav-h) - 1rem); flex-direction: column; padding: 30px 16px 24px; border-right: 1px solid var(--admin-line); background: #fcf9f2; }
 .admin-brand { display: flex; align-items: center; gap: 12px; padding: 0 12px 30px; }
 .admin-brand-mark { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(222, 118, 34, .45); border-radius: 11px; color: var(--admin-accent); font: 700 13px/1 monospace; }
 .admin-brand strong { display: block; font-family: 'Source Han Serif CN', serif; font-size: 17px; }
@@ -49,7 +49,7 @@
 .admin-panel-head h2 { margin: 0; font-size: 17px; font-weight: 620; letter-spacing: -.01em; }
 .admin-panel-head p { margin: 6px 0 0; color: var(--admin-muted); font-size: 11px; line-height: 1.5; }
 .admin-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-.admin-metric { display: flex; min-height: 140px; flex-direction: column; padding: 24px; border: 1px solid var(--admin-line); border-radius: 14px; background: rgba(36,28,23,.02); }
+.admin-metric { display: flex; min-height: 140px; flex-direction: column; padding: 24px; border: 1px solid var(--admin-line); border-radius: 14px; background: rgba(36,28,23,.03); }
 .admin-metric > span { color: var(--admin-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
 .admin-metric strong { margin-top: 12px; font-family: 'Source Han Serif CN', serif; font-size: 32px; font-weight: 550; line-height: 1; }
 .admin-metric small { margin-top: auto; padding-top: 12px; color: var(--admin-muted); font-size: 10px; }
@@ -140,7 +140,7 @@
 .admin-success { padding: 20px; border: 1px solid rgba(135, 177, 140, .35); border-radius: 9px; background: rgba(135, 177, 140, .06); }
 .admin-success strong { color: #a8c9a7; }
 .admin-success p { margin: 10px 0 0; color: var(--admin-muted); font-size: 11px; line-height: 1.7; }
-.admin-savebar { position: fixed; z-index: 10; right: 0; bottom: 0; left: 248px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px clamp(22px, 3vw, 52px); border-top: 1px solid var(--admin-line); background: rgba(244, 232, 216, .9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.admin-savebar { position: fixed; z-index: 10; right: 0; bottom: 0; left: 248px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px clamp(22px, 3vw, 52px); border-top: 1px solid var(--admin-line); background: rgba(253, 250, 246, .92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 .admin-savebar > span { color: var(--admin-muted); font-size: 11px; }
 .admin-savebar > div { display: flex; gap: 8px; }
 
