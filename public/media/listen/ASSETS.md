@@ -118,3 +118,37 @@
 | audio-commons-mog8ceng5 | `commons-mog8ceng5.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_mog8_cêng5.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.97s |
 | audio-commons-pou2leng5 | `commons-pou2leng5.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_pou2_lêng5.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.96s |
 | audio-commons-si3suan3dan3 | `commons-si3suan3dan3.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_si3_suan3_dan3.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.93s |
+
+## 2026-11-07 继续补充（17 条）
+
+| 词条 ID | 本地文件 | 原始文件页 | 录音者 | 许可 | 时长 |
+|---|---|---|---|---|---|
+| audio-commons-more-1-加拿大 | `commons-more-1-加拿大.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_加拿大.ogg | Austin Zhang | CC BY-SA 4.0 | 0.91s |
+| audio-commons-more-2-廣州 | `commons-more-2-廣州.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_廣州.ogg | Austin Zhang | CC BY-SA 4.0 | 0.64s |
+| audio-commons-more-3-新加坡 | `commons-more-3-新加坡.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_新加坡.ogg | Austin Zhang | CC BY-SA 4.0 | 0.91s |
+| audio-commons-more-4-馬來西亞 | `commons-more-4-馬來西亞.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_馬來西亞.ogg | Austin Zhang | CC BY-SA 4.0 | 1.18s |
+| audio-commons-more-5-肉骨茶 | `commons-more-5-肉骨茶.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-肉骨茶.wav | Assassas77 | CC BY-SA 4.0 | 1.22s |
+| audio-commons-more-6-雞卵粿 | `commons-more-6-雞卵粿.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-雞卵粿.wav | Assassas77 | CC BY-SA 4.0 | 1.14s |
+| audio-commons-more-7-麥粉粿 | `commons-more-7-麥粉粿.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-麥粉粿.wav | Assassas77 | CC BY-SA 4.0 | 1.14s |
+| audio-commons-more-8-火雞 | `commons-more-8-火雞.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-火雞.wav | Assassas77 | CC BY-SA 4.0 | 1.14s |
+| audio-commons-more-9-火腿 | `commons-more-9-火腿.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-火腿.wav | Assassas77 | CC BY-SA 4.0 | 1.05s |
+| audio-commons-more-10-海鲜醬 | `commons-more-10-海鲜醬.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-hai2(6)_chin1_jion3_海鲜醬_-sauce_hoisin_(utilisée_notamment_pour_laquer_les_aliments)-.wav | Assassas77 | CC BY-SA 4.0 | 1.41s |
+| audio-commons-more-11-旅行 | `commons-more-11-旅行.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Apsaltini-li2(6)_gian5_旅行_-voyage-.wav | Apsaltini | CC BY-SA 4.0 | 1.13s |
+| audio-commons-more-12-地圖 | `commons-more-12-地圖.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Apsaltini-di7_dou5_地圖_-carte-.wav | Apsaltini | CC BY-SA 4.0 | 1.04s |
+| audio-commons-more-13-去 | `commons-more-13-去.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Apsaltini-keu3_去_-aller,_partir-.wav | Apsaltini | CC BY-SA 4.0 | 0.85s |
+| audio-commons-more-14-來 | `commons-more-14-來.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-lai5_來_-to_come-.wav | Assassas77 | CC BY-SA 4.0 | 0.55s |
+| audio-commons-more-15-行逷迌 | `commons-more-15-行逷迌.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Apsaltini-gian5(7)_tik4(8)_to5_行逷迌_-faire_une_promenade,_faire_une_balade-.wav | Apsaltini | CC BY-SA 4.0 | 1.41s |
+| audio-commons-more-16-泅水 | `commons-more-16-泅水.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Apsaltini-siu5(7)_jui2_泅水_-nager_(à_la_surface_de_l'eau)-.wav | Apsaltini | CC BY-SA 4.0 | 1.22s |
+| audio-commons-more-17-盛水 | `commons-more-17-盛水.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Ah_Mean_(Kitkatmaw)-seng5(7)_jui2_盛水_-remplir_(un_récipient)_d'eau-.wav | Ah Mean (Kitkatmaw) | CC BY-SA 4.0 | 1.91s |
+
+## 2026-11-07 最后补录（7 条）
+
+| 词条 ID | 本地文件 | 原始文件页 | 录音者 | 许可 | 时长 |
+|---|---|---|---|---|---|
+| audio-commons-final-無偌久 | `commons-final-無偌久.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_Bho5_rioh8_gu2.ogg | Austin Zhang | CC BY-SA 4.0 | 2.38s |
+| audio-commons-final-淒慘 | `commons-final-淒慘.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_ci1_cam2.ogg | Austin Zhang | CC BY-SA 4.0 | 1.17s |
+| audio-commons-final-臺灣 | `commons-final-臺灣.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_tai5_uang1.ogg | Austin Zhang | CC BY-SA 4.0 | 0.77s |
+| audio-commons-final-有所不知 | `commons-final-有所不知.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_U6_so2_bug4_zai1.ogg | Austin Zhang | CC BY-SA 4.0 | 2.28s |
+| audio-commons-final-查某 | `commons-final-查某.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_za1_bhou2.ogg | Austin Zhang | CC BY-SA 4.0 | 0.80s |
+| audio-commons-final-走囝 | `commons-final-走囝.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_zao2_gian2.ogg | Austin Zhang | CC BY-SA 4.0 | 1.00s |
+| audio-commons-final-諸娘 | `commons-final-諸娘.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_zu1_nio5.ogg | Austin Zhang | CC BY-SA 4.0 | 0.87s |

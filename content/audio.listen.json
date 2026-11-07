@@ -628,5 +628,365 @@
       "S541"
     ],
     "durationSec": 0.93
+  },
+  {
+    "id": "audio-commons-more-1-加拿大",
+    "category": "culture",
+    "text": "加拿大",
+    "meaning": "加拿大",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-1-加拿大.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S542"
+    ],
+    "durationSec": 0.91
+  },
+  {
+    "id": "audio-commons-more-2-廣州",
+    "category": "culture",
+    "text": "廣州",
+    "meaning": "广州",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-2-廣州.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S543"
+    ],
+    "durationSec": 0.64
+  },
+  {
+    "id": "audio-commons-more-3-新加坡",
+    "category": "culture",
+    "text": "新加坡",
+    "meaning": "新加坡",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-3-新加坡.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S544"
+    ],
+    "durationSec": 0.91
+  },
+  {
+    "id": "audio-commons-more-4-馬來西亞",
+    "category": "culture",
+    "text": "馬來西亞",
+    "meaning": "马来西亚",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-4-馬來西亞.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S545"
+    ],
+    "durationSec": 1.18
+  },
+  {
+    "id": "audio-commons-more-5-肉骨茶",
+    "category": "tea-food",
+    "text": "肉骨茶",
+    "meaning": "肉骨茶",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-5-肉骨茶.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S546"
+    ],
+    "durationSec": 1.22
+  },
+  {
+    "id": "audio-commons-more-6-雞卵粿",
+    "category": "tea-food",
+    "text": "雞卵粿",
+    "meaning": "鸡卵粿",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-6-雞卵粿.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S547"
+    ],
+    "durationSec": 1.14
+  },
+  {
+    "id": "audio-commons-more-7-麥粉粿",
+    "category": "tea-food",
+    "text": "麥粉粿",
+    "meaning": "麦粉粿",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-7-麥粉粿.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S548"
+    ],
+    "durationSec": 1.14
+  },
+  {
+    "id": "audio-commons-more-8-火雞",
+    "category": "tea-food",
+    "text": "火雞",
+    "meaning": "火鸡",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-8-火雞.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S549"
+    ],
+    "durationSec": 1.14
+  },
+  {
+    "id": "audio-commons-more-9-火腿",
+    "category": "tea-food",
+    "text": "火腿",
+    "meaning": "火腿",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-9-火腿.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S550"
+    ],
+    "durationSec": 1.05
+  },
+  {
+    "id": "audio-commons-more-10-海鲜醬",
+    "category": "culture",
+    "text": "海鲜醬",
+    "meaning": "原录音页标注「海鲜醬」",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-10-海鲜醬.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S551"
+    ],
+    "durationSec": 1.41
+  },
+  {
+    "id": "audio-commons-more-11-旅行",
+    "category": "culture",
+    "text": "旅行",
+    "meaning": "旅行",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Apsaltini）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-11-旅行.mp3",
+    "recorder": "Apsaltini",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S552"
+    ],
+    "durationSec": 1.13
+  },
+  {
+    "id": "audio-commons-more-12-地圖",
+    "category": "culture",
+    "text": "地圖",
+    "meaning": "地图",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Apsaltini）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-12-地圖.mp3",
+    "recorder": "Apsaltini",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S553"
+    ],
+    "durationSec": 1.04
+  },
+  {
+    "id": "audio-commons-more-13-去",
+    "category": "courtesy",
+    "text": "去",
+    "meaning": "去、前往",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Apsaltini）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-13-去.mp3",
+    "recorder": "Apsaltini",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S554"
+    ],
+    "durationSec": 0.85
+  },
+  {
+    "id": "audio-commons-more-14-來",
+    "category": "courtesy",
+    "text": "來",
+    "meaning": "来",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-14-來.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S555"
+    ],
+    "durationSec": 0.55
+  },
+  {
+    "id": "audio-commons-more-15-行逷迌",
+    "category": "culture",
+    "text": "行逷迌",
+    "meaning": "散步、游玩",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Apsaltini）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-15-行逷迌.mp3",
+    "recorder": "Apsaltini",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S556"
+    ],
+    "durationSec": 1.41
+  },
+  {
+    "id": "audio-commons-more-16-泅水",
+    "category": "culture",
+    "text": "泅水",
+    "meaning": "游泳",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Apsaltini）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-16-泅水.mp3",
+    "recorder": "Apsaltini",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S557"
+    ],
+    "durationSec": 1.22
+  },
+  {
+    "id": "audio-commons-more-17-盛水",
+    "category": "tea-food",
+    "text": "盛水",
+    "meaning": "盛水、装水",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Ah Mean (Kitkatmaw)）",
+    "pinyin": "",
+    "file": "/media/listen/commons-more-17-盛水.mp3",
+    "recorder": "Ah Mean (Kitkatmaw)",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S558"
+    ],
+    "durationSec": 1.91
+  },
+  {
+    "id": "audio-commons-final-無偌久",
+    "category": "culture",
+    "text": "無偌久",
+    "meaning": "没有多久、不久",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "Bho5 rioh8 gu2",
+    "file": "/media/listen/commons-final-無偌久.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S559"
+    ],
+    "durationSec": 2.38
+  },
+  {
+    "id": "audio-commons-final-淒慘",
+    "category": "culture",
+    "text": "淒慘",
+    "meaning": "凄惨、悲惨",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "ci1 cam2",
+    "file": "/media/listen/commons-final-淒慘.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S560"
+    ],
+    "durationSec": 1.17
+  },
+  {
+    "id": "audio-commons-final-臺灣",
+    "category": "culture",
+    "text": "臺灣",
+    "meaning": "台湾",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "tai5 uang1",
+    "file": "/media/listen/commons-final-臺灣.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S561"
+    ],
+    "durationSec": 0.77
+  },
+  {
+    "id": "audio-commons-final-有所不知",
+    "category": "culture",
+    "text": "有所不知",
+    "meaning": "有所不知",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "U6 so2 bug4 zai1",
+    "file": "/media/listen/commons-final-有所不知.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S562"
+    ],
+    "durationSec": 2.28
+  },
+  {
+    "id": "audio-commons-final-查某",
+    "category": "culture",
+    "text": "查某",
+    "meaning": "女性",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "za1 bhou2",
+    "file": "/media/listen/commons-final-查某.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S563"
+    ],
+    "durationSec": 0.8
+  },
+  {
+    "id": "audio-commons-final-走囝",
+    "category": "culture",
+    "text": "走囝",
+    "meaning": "原录音页标注「走囝」",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "zao2 gian2",
+    "file": "/media/listen/commons-final-走囝.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S564"
+    ],
+    "durationSec": 1
+  },
+  {
+    "id": "audio-commons-final-諸娘",
+    "category": "culture",
+    "text": "諸娘",
+    "meaning": "女性、妇女",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "zu1 nio5",
+    "file": "/media/listen/commons-final-諸娘.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S565"
+    ],
+    "durationSec": 0.87
   }
 ]
