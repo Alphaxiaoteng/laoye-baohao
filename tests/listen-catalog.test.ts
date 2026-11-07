@@ -132,7 +132,7 @@ describe('听潮真实内容（content/audio.listen.json）', () => {
         const note = source?.note ?? ''
         expect(note).toContain('CC BY-SA 4.0')
         expect(note).toContain('creativecommons.org/licenses/by-sa/4.0')
-        expect(note).toContain(source?.org?.includes('Austin Zhang') ? 'Austin Zhang' : 'Oh! Tea')
+        expect(note).toContain(entry.recorder ?? '')
       }
     }
   })

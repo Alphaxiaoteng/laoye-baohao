@@ -38,9 +38,7 @@ export default function FoodMap({ recipes }: { recipes: Recipe[] }) {
   return (
     <div className="docs-svg-scroll is-wide">
       <svg className="docs-svg" viewBox="0 0 760 400" role="img" aria-labelledby="food-map-title">
-        <title id="food-map-title">
-          潮汕食谱的食材、处理与成菜关系示意，共 {rows.length} 道
-        </title>
+        <title id="food-map-title">{`潮汕食谱的食材、处理与成菜关系示意，共 ${rows.length} 道`}</title>
         <defs>
           <marker id="food-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
             <path className="df-arrow" d="M0 0 L8 4 L0 8 z" />

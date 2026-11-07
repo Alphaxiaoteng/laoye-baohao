@@ -19,9 +19,7 @@ export default function ListenMap({ groups, total }: { groups: ListenGroupView[]
   return (
     <div className="docs-svg-scroll is-wide">
       <svg className="docs-svg" viewBox="0 0 720 300" role="img" aria-labelledby="listen-map-title">
-        <title id="listen-map-title">
-          听潮四类词条数量结构：{columns.map((group) => `${group.label} ${group.count} 条`).join('，')}
-        </title>
+        <title id="listen-map-title">{`听潮四类词条数量结构：${columns.map((group) => `${group.label} ${group.count} 条`).join('，')}`}</title>
         <rect className="dg-frame" x="0" y="0" width="720" height="300" rx="12" />
 
         {columns.map((group, index) => {

@@ -92,3 +92,29 @@
 - 释义只按来源页给出的汉字与英文描述直译，标「字面」的仅解释汉字对应关系，
   不据此断言完整语用；来源页没给汉字的文件一律不上线（见下节）。
 - 这些录音尚未请潮汕母语者逐条复核，页面已如实提示。若复核发现不符，应下线对应文件。
+
+## 2026-11-07 补充：Lingua Libre / Wikimedia Commons 真人发音（21 条）
+
+| 词条 ID | 本地文件 | 原始文件页 | 录音者 | 许可 | 口音 | 时长 |
+|---|---|---|---|---|---|---|
+| audio-commons-buygoose | `commons-buygoose.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_bhoi2_gho5_lai7_ziah8.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 1.15s |
+| audio-commons-ceng1ki3 | `commons-ceng1ki3.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_cêng1_ki3.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 1s |
+| audio-commons-china | `commons-china.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_Dong1-gog4.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 1.47s |
+| audio-commons-diam7 | `commons-diam7.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_Diam7_diam7.ogg | Austin Zhang | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 1.77s |
+| audio-commons-gang1dang1 | `commons-gang1dang1.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_gang1_dang1.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.87s |
+| audio-commons-geng2dang1 | `commons-geng2dang1.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_geng2_dang1.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 1.07s |
+| audio-commons-gig4ion5 | `commons-gig4ion5.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_gig4_ion5.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.84s |
+| audio-commons-ll-beef | `commons-ll-beef.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-牛肉.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.8s |
+| audio-commons-ll-big | `commons-ll-big.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_加拿大.ogg | Austin Zhang | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.88s |
+| audio-commons-ll-congee | `commons-ll-congee.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-粥.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.88s |
+| audio-commons-ll-eat | `commons-ll-eat.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-食.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.8s |
+| audio-commons-ll-good | `commons-ll-good.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-好.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.88s |
+| audio-commons-ll-kueh | `commons-ll-kueh.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-粿.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.8s |
+| audio-commons-ll-me | `commons-ll-me.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-我.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.8s |
+| audio-commons-ll-rice | `commons-ll-rice.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-飯.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.88s |
+| audio-commons-ll-tea | `commons-ll-tea.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-茶米.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.97s |
+| audio-commons-ll-water | `commons-ll-water.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-水.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.8s |
+| audio-commons-ll-you | `commons-ll-you.mp3` | https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-你.wav | Assassas77 | CC BY-SA 4.0 | 潮州话 · Lingua Libre 母语者录音（Assassas77） | 0.8s |
+| audio-commons-mog8ceng5 | `commons-mog8ceng5.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_mog8_cêng5.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.97s |
+| audio-commons-pou2leng5 | `commons-pou2leng5.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_pou2_lêng5.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.96s |
+| audio-commons-si3suan3dan3 | `commons-si3suan3dan3.mp3` | https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_si3_suan3_dan3.ogg | Wikimedia Commons | CC BY-SA 4.0 | 潮州话 · 普宁—潮阳混合口音（男声） | 0.93s |

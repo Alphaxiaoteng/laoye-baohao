@@ -44,9 +44,8 @@ export default function SkillPage() {
   const timer = useRef<number | null>(null)
   const agent = AGENTS.find((item) => item.id === agentId) ?? AGENTS[0]
   const command = useMemo(() => {
-    const file = `${origin}/skill/laoye-baohao/SKILL.md`
-    const dir = `${agent.folder}/skills/laoye-baohao/`
-    return `帮我安装潮汕文化 Skill。文件在 ${file}，请单独放进 ${dir}，不要和其他 Skill 放在一起。`
+    const dir = `${agent.folder}/skills/laoye-baohao`
+    return `mkdir -p ${dir} && curl -fsSL ${origin}/skill/laoye-baohao/SKILL.md -o ${dir}/SKILL.md`
   }, [agent.folder, origin])
 
   useEffect(() => {
@@ -85,8 +84,8 @@ export default function SkillPage() {
   return (
     <div className="skill-page">
       <section className="skill-connect" aria-labelledby="skill-title">
-        <h1 id="skill-title" className="skill-h1">把潮汕文化交给你的 Agent</h1>
-        <p className="skill-lead">选一个 Agent，复制下面这句话，贴进它的对话。</p>
+        <h1 id="skill-title" className="skill-h1">一句话接入你的 Agent</h1>
+        <p className="skill-lead">复制安装命令，在项目根目录执行，Skill 会装进对应目录。</p>
         <div className="skill-agents" role="tablist" aria-label="选择 Agent">
           {AGENTS.map((entry) => {
             const Logo = entry.Logo
@@ -99,16 +98,16 @@ export default function SkillPage() {
           })}
         </div>
 
-        <div className="skill-terminal" aria-label={`${agent.label} 安装请求`}>
+        <div className="skill-terminal" aria-label={`${agent.label} 安装命令`}>
           <div className="skill-terminal-bar">
             <div className="skill-traffic" aria-hidden="true"><i /><i /><i /></div>
-            <button type="button" className="skill-copy" onClick={() => void copy()} aria-label={copied ? '已复制安装请求' : '复制安装请求'}>
-              {copied ? <IconCheck /> : <IconCopy />}<span>{copied ? '已复制' : '复制这句话'}</span>
+            <button type="button" className="skill-copy" onClick={() => void copy()} aria-label={copied ? '已复制安装命令' : '复制安装命令'}>
+              {copied ? <IconCheck /> : <IconCopy />}<span>{copied ? '已复制' : '复制安装命令'}</span>
             </button>
           </div>
           <code className="skill-command"><span aria-hidden="true">$</span><i className="skill-caret" aria-hidden="true" />{command}</code>
         </div>
-        <p className="skill-caption">复制后贴到 {agent.label}。目标文件夹会跟着上面的选择变。</p>
+        <p className="skill-caption">在 {agent.label} 的项目终端执行。地址使用当前站点域名，部署后无需修改。</p>
       </section>
 
       <section className="skill-cases" aria-labelledby="skill-cases-title">

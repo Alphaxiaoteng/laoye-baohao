@@ -16,6 +16,7 @@ import AboutPage from './routes/About'
 import DocsPage from './routes/Docs'
 import HomeHero from './features/home/HomeHero'
 import SkillPage from './features/agentskill/SkillPage'
+import AdminPage from './features/admin/AdminPage'
 import { featureRoutes } from './features/registry'
 
 function ScrollToTop() {
@@ -95,6 +96,7 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/docs" element={<DocsPage />} />
           <Route path="/skill" element={<SkillPage />} />
+          <Route path="/admin" element={<AdminPage />} />
 
           {/* ===== 模块扩展位（每个模块一行，按模块分组） =====
               后续在 src/features/<module>/ 下新增页面后，只在这里加一行即可，例如：

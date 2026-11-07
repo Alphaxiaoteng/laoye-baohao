@@ -119,7 +119,7 @@ export default function YinggeDrill() {
       <div className="docs-drill-body">
         <div className="docs-svg-scroll is-narrow">
           <svg className="docs-svg" viewBox="0 0 360 270" role="img" aria-labelledby="drill-title">
-            <title id="drill-title">英歌阵形点位示意：{active.name}</title>
+            <title id="drill-title">{`英歌阵形点位示意：${active.name}`}</title>
             <rect className="dg-frame" x="0" y="0" width="360" height="270" rx="12" />
             <path className="dg-ground" d="M24 244 H336" />
             <g className="dg-drill-arrow">

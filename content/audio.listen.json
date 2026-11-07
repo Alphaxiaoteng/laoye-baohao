@@ -9,7 +9,9 @@
     "file": "/media/listen/greeting-sih-pa-bui.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S500"],
+    "sourceIds": [
+      "S500"
+    ],
     "durationSec": 1.05
   },
   {
@@ -22,7 +24,9 @@
     "file": "/media/listen/greeting-sing-ni-kuai-lak.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S501"],
+    "sourceIds": [
+      "S501"
+    ],
     "durationSec": 2.87
   },
   {
@@ -35,7 +39,9 @@
     "file": "/media/listen/greeting-sing-ti-giang-kang.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S508"],
+    "sourceIds": [
+      "S508"
+    ],
     "durationSec": 2.71
   },
   {
@@ -48,7 +54,9 @@
     "file": "/media/listen/tea-food-ziah-menhng.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S502"],
+    "sourceIds": [
+      "S502"
+    ],
     "durationSec": 0.79
   },
   {
@@ -61,7 +69,9 @@
     "file": "/media/listen/tea-food-meicai-pei-mue.mp3",
     "recorder": "Oh! Tea",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S503"],
+    "sourceIds": [
+      "S503"
+    ],
     "durationSec": 1.51
   },
   {
@@ -74,7 +84,9 @@
     "file": "/media/listen/tea-food-dou-iao.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S509"],
+    "sourceIds": [
+      "S509"
+    ],
     "durationSec": 0.67
   },
   {
@@ -87,7 +99,9 @@
     "file": "/media/listen/tea-food-uan-gian-min.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S510"],
+    "sourceIds": [
+      "S510"
+    ],
     "durationSec": 0.8
   },
   {
@@ -100,7 +114,9 @@
     "file": "/media/listen/tea-food-goi-zab-min.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S511"],
+    "sourceIds": [
+      "S511"
+    ],
     "durationSec": 1.08
   },
   {
@@ -113,7 +129,9 @@
     "file": "/media/listen/courtesy-zoi-sia.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S504"],
+    "sourceIds": [
+      "S504"
+    ],
     "durationSec": 0.92
   },
   {
@@ -126,7 +144,9 @@
     "file": "/media/listen/courtesy-mai-kheh-khi.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S505"],
+    "sourceIds": [
+      "S505"
+    ],
     "durationSec": 1.04
   },
   {
@@ -139,7 +159,9 @@
     "file": "/media/listen/courtesy-bho-iao-ging.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S512"],
+    "sourceIds": [
+      "S512"
+    ],
     "durationSec": 0.98
   },
   {
@@ -152,7 +174,9 @@
     "file": "/media/listen/courtesy-mo-i-su.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S513"],
+    "sourceIds": [
+      "S513"
+    ],
     "durationSec": 1.03
   },
   {
@@ -165,7 +189,9 @@
     "file": "/media/listen/courtesy-bho-biang.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S514"],
+    "sourceIds": [
+      "S514"
+    ],
     "durationSec": 1.88
   },
   {
@@ -178,7 +204,9 @@
     "file": "/media/listen/culture-dio-ziu.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S506"],
+    "sourceIds": [
+      "S506"
+    ],
     "durationSec": 0.95
   },
   {
@@ -191,7 +219,9 @@
     "file": "/media/listen/culture-dio-suan-ue.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S507"],
+    "sourceIds": [
+      "S507"
+    ],
     "durationSec": 1.2
   },
   {
@@ -204,7 +234,9 @@
     "file": "/media/listen/culture-ghueh-nio.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S515"],
+    "sourceIds": [
+      "S515"
+    ],
     "durationSec": 1.11
   },
   {
@@ -217,7 +249,9 @@
     "file": "/media/listen/culture-nou-gian.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S516"],
+    "sourceIds": [
+      "S516"
+    ],
     "durationSec": 0.87
   },
   {
@@ -230,7 +264,9 @@
     "file": "/media/listen/culture-bag-nang.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S517"],
+    "sourceIds": [
+      "S517"
+    ],
     "durationSec": 1
   },
   {
@@ -243,7 +279,9 @@
     "file": "/media/listen/culture-zo-ni-mueh.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S518"],
+    "sourceIds": [
+      "S518"
+    ],
     "durationSec": 2
   },
   {
@@ -256,7 +294,9 @@
     "file": "/media/listen/culture-dan-m-tian.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S519"],
+    "sourceIds": [
+      "S519"
+    ],
     "durationSec": 2.21
   },
   {
@@ -269,7 +309,324 @@
     "file": "/media/listen/culture-suan-tao.mp3",
     "recorder": "Austin Zhang",
     "license": "CC BY-SA 4.0",
-    "sourceIds": ["S520"],
+    "sourceIds": [
+      "S520"
+    ],
     "durationSec": 1.08
+  },
+  {
+    "id": "audio-commons-buygoose",
+    "category": "tea-food",
+    "text": "買鵝來食",
+    "meaning": "买鹅来吃",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "bhoi2 gho5 lai7 ziah8",
+    "file": "/media/listen/commons-buygoose.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S521"
+    ],
+    "durationSec": 1.15
+  },
+  {
+    "id": "audio-commons-ceng1ki3",
+    "category": "culture",
+    "text": "清氣",
+    "meaning": "清爽、干净",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "cêng1 ki3",
+    "file": "/media/listen/commons-ceng1ki3.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S522"
+    ],
+    "durationSec": 1
+  },
+  {
+    "id": "audio-commons-china",
+    "category": "culture",
+    "text": "中國",
+    "meaning": "中国",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "Dong1-gog4",
+    "file": "/media/listen/commons-china.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S523"
+    ],
+    "durationSec": 1.47
+  },
+  {
+    "id": "audio-commons-diam7",
+    "category": "culture",
+    "text": "惦惦",
+    "meaning": "安静地、静静地",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "Diam7 diam7",
+    "file": "/media/listen/commons-diam7.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S524"
+    ],
+    "durationSec": 1.77
+  },
+  {
+    "id": "audio-commons-gang1dang1",
+    "category": "culture",
+    "text": "共同",
+    "meaning": "共同、一起",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "gang1 dang1",
+    "file": "/media/listen/commons-gang1dang1.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S525"
+    ],
+    "durationSec": 0.87
+  },
+  {
+    "id": "audio-commons-geng2dang1",
+    "category": "culture",
+    "text": "廣東",
+    "meaning": "广东",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "geng2 dang1",
+    "file": "/media/listen/commons-geng2dang1.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S526"
+    ],
+    "durationSec": 1.07
+  },
+  {
+    "id": "audio-commons-gig4ion5",
+    "category": "culture",
+    "text": "揭陽",
+    "meaning": "揭阳",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "gig4 ion5",
+    "file": "/media/listen/commons-gig4ion5.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S527"
+    ],
+    "durationSec": 0.84
+  },
+  {
+    "id": "audio-commons-ll-beef",
+    "category": "tea-food",
+    "text": "牛肉",
+    "meaning": "牛肉",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-beef.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S528"
+    ],
+    "durationSec": 0.8
+  },
+  {
+    "id": "audio-commons-ll-big",
+    "category": "culture",
+    "text": "大",
+    "meaning": "大",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-big.mp3",
+    "recorder": "Austin Zhang",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S529"
+    ],
+    "durationSec": 0.88
+  },
+  {
+    "id": "audio-commons-ll-congee",
+    "category": "tea-food",
+    "text": "粥",
+    "meaning": "粥",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-congee.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S530"
+    ],
+    "durationSec": 0.88
+  },
+  {
+    "id": "audio-commons-ll-eat",
+    "category": "tea-food",
+    "text": "食",
+    "meaning": "吃、食",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-eat.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S531"
+    ],
+    "durationSec": 0.8
+  },
+  {
+    "id": "audio-commons-ll-good",
+    "category": "courtesy",
+    "text": "好",
+    "meaning": "好",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-good.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S532"
+    ],
+    "durationSec": 0.88
+  },
+  {
+    "id": "audio-commons-ll-kueh",
+    "category": "tea-food",
+    "text": "粿",
+    "meaning": "粿（米制粿品）",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-kueh.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S533"
+    ],
+    "durationSec": 0.8
+  },
+  {
+    "id": "audio-commons-ll-me",
+    "category": "courtesy",
+    "text": "我",
+    "meaning": "我",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-me.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S534"
+    ],
+    "durationSec": 0.8
+  },
+  {
+    "id": "audio-commons-ll-rice",
+    "category": "tea-food",
+    "text": "飯",
+    "meaning": "饭",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-rice.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S535"
+    ],
+    "durationSec": 0.88
+  },
+  {
+    "id": "audio-commons-ll-tea",
+    "category": "tea-food",
+    "text": "茶米",
+    "meaning": "茶叶",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-tea.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S536"
+    ],
+    "durationSec": 0.97
+  },
+  {
+    "id": "audio-commons-ll-water",
+    "category": "tea-food",
+    "text": "水",
+    "meaning": "水",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-water.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S537"
+    ],
+    "durationSec": 0.8
+  },
+  {
+    "id": "audio-commons-ll-you",
+    "category": "courtesy",
+    "text": "你",
+    "meaning": "你",
+    "accent": "潮州话 · Lingua Libre 母语者录音（Assassas77）",
+    "pinyin": "",
+    "file": "/media/listen/commons-ll-you.mp3",
+    "recorder": "Assassas77",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S538"
+    ],
+    "durationSec": 0.8
+  },
+  {
+    "id": "audio-commons-mog8ceng5",
+    "category": "culture",
+    "text": "疫情",
+    "meaning": "疫情",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "mog8 cêng5",
+    "file": "/media/listen/commons-mog8ceng5.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S539"
+    ],
+    "durationSec": 0.97
+  },
+  {
+    "id": "audio-commons-pou2leng5",
+    "category": "culture",
+    "text": "普寧",
+    "meaning": "普宁",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "pou2 lêng5",
+    "file": "/media/listen/commons-pou2leng5.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S540"
+    ],
+    "durationSec": 0.96
+  },
+  {
+    "id": "audio-commons-si3suan3dan3",
+    "category": "culture",
+    "text": "四散呾",
+    "meaning": "随口说、乱说",
+    "accent": "潮州话 · 普宁—潮阳混合口音（男声）",
+    "pinyin": "si3 suan3 dan3",
+    "file": "/media/listen/commons-si3suan3dan3.mp3",
+    "recorder": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceIds": [
+      "S541"
+    ],
+    "durationSec": 0.93
   }
 ]

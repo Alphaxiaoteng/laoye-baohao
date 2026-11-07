@@ -7,7 +7,8 @@
     "region": "页面标注潮州音、汕头音、揭阳音",
     "accessDate": "2026-11-05",
     "verify": "reference-only",
-    "module": "tingchao"
+    "module": "tingchao",
+    "note": "\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：chaofayin.com, CC BY-SA 4.0, via Wikimedia Commons。"
   },
   {
     "id": "S10",
@@ -17,7 +18,8 @@
     "region": "未标注",
     "accessDate": "2026-11-05",
     "verify": "index-only",
-    "module": "tingchao"
+    "module": "tingchao",
+    "note": "\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：czyzd.com, CC BY-SA 4.0, via Wikimedia Commons。"
   },
   {
     "id": "S11",
@@ -27,7 +29,8 @@
     "region": "站点自述覆盖潮州、汕头、揭阳等方言点",
     "accessDate": "2026-11-05",
     "verify": "reference-only",
-    "module": "tingchao"
+    "module": "tingchao",
+    "note": "\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Mogher.com, CC BY-SA 4.0, via Wikimedia Commons。"
   },
   {
     "id": "S12",
@@ -37,7 +40,8 @@
     "region": "潮州音、汕头音、澄海音、饶平音、揭阳音、潮阳音（拼音方案分列）",
     "accessDate": "2026-11-05",
     "verify": "reference-only",
-    "module": "tingchao"
+    "module": "tingchao",
+    "note": "\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：gatian（GitHub Pages 站点）, CC BY-SA 4.0, via Wikimedia Commons。"
   },
   {
     "id": "S13",
@@ -47,7 +51,8 @@
     "region": "未获取（页面停留在 “Just a moment...” 验证页）",
     "accessDate": "2026-11-05",
     "verify": "fetch-failed",
-    "module": "tingchao"
+    "module": "tingchao",
+    "note": "\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：pujdict.sourceforge.io, CC BY-SA 4.0, via Wikimedia Commons。"
   },
   {
     "id": "S500",
@@ -279,5 +284,236 @@
     "verify": "fetched",
     "module": "tingchao",
     "note": "许可 CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/）。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。本站仅转码为 MP3，未改动读音。"
+  },
+  {
+    "id": "S521",
+    "title": "Wikimedia Commons 真人发音：買鵝來食",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_bhoi2_gho5_lai7_ziah8.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S522",
+    "title": "Wikimedia Commons 真人发音：清氣",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_cêng1_ki3.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S523",
+    "title": "Wikimedia Commons 真人发音：中國",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_Dong1-gog4.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S524",
+    "title": "Wikimedia Commons 真人发音：惦惦",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_Diam7_diam7.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S525",
+    "title": "Wikimedia Commons 真人发音：共同",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_gang1_dang1.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S526",
+    "title": "Wikimedia Commons 真人发音：廣東",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_geng2_dang1.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S527",
+    "title": "Wikimedia Commons 真人发音：揭陽",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_gig4_ion5.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S528",
+    "title": "Wikimedia Commons 真人发音：牛肉",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-牛肉.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S529",
+    "title": "Wikimedia Commons 真人发音：大",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_加拿大.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S530",
+    "title": "Wikimedia Commons 真人发音：粥",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-粥.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S531",
+    "title": "Wikimedia Commons 真人发音：食",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-食.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S532",
+    "title": "Wikimedia Commons 真人发音：好",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-好.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S533",
+    "title": "Wikimedia Commons 真人发音：粿",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-粿.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S534",
+    "title": "Wikimedia Commons 真人发音：我",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-我.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S535",
+    "title": "Wikimedia Commons 真人发音：飯",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-飯.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S536",
+    "title": "Wikimedia Commons 真人发音：茶米",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-茶米.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S537",
+    "title": "Wikimedia Commons 真人发音：水",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-水.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S538",
+    "title": "Wikimedia Commons 真人发音：你",
+    "org": "Wikimedia Commons · Assassas77",
+    "url": "https://commons.wikimedia.org/wiki/File:LL-Q36759-Assassas77-你.wav",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Assassas77, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S539",
+    "title": "Wikimedia Commons 真人发音：疫情",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_mog8_cêng5.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S540",
+    "title": "Wikimedia Commons 真人发音：普寧",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_pou2_lêng5.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
+  },
+  {
+    "id": "S541",
+    "title": "Wikimedia Commons 真人发音：四散呾",
+    "org": "Wikimedia Commons · Austin Zhang",
+    "url": "https://commons.wikimedia.org/wiki/File:Zh-nan-czhu,_si3_suan3_dan3.ogg",
+    "region": "潮州话（Teochew）",
+    "accessDate": "2026-11-07",
+    "verify": "fetched",
+    "module": "tingchao",
+    "note": "许可 CC BY-SA 4.0。本站仅转码为单声道 MP3，未合成、未改动读音。\n许可全文：https://creativecommons.org/licenses/by-sa/4.0/。署名：Austin Zhang, CC BY-SA 4.0, via Wikimedia Commons。"
   }
 ]

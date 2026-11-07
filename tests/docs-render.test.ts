@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import DocsPage from '../src/routes/Docs'
+import audioJson from '../content/audio.listen.json'
 
 function render(): string {
   const html = renderToString(
@@ -38,7 +39,7 @@ describe('历史介绍', () => {
     expect(html).toContain('食暝昏')
     expect(html).toContain('㩼謝')
     expect(html).toContain('汕頭')
-    expect(html.match(/class="docs-phrase"/g)?.length).toBe(21)
+    expect(html.match(/class="docs-phrase"/g)?.length).toBe(audioJson.length)
 
     expect(html).toContain('/media/home/yingge-dance-1.webp')
     expect(html).toContain('/media/home/teochew-kanghu-tea.webp')
